@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "./client"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./db/clippy.db"
+}
+
+model Clipboard {
+  id          Int      @id @default(autoincrement())
+  type        String
+  content     String?
+  width       Int?
+  height      Int?
+  size        String?
+  blob        Bytes?
+  star        Boolean  @default(false)
+  createdDate DateTime @default(now())
+}

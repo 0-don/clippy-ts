@@ -1,0 +1,17 @@
+{
+  "name": "clippy",
+  "version": "0.0.1",
+  "description": "Clipboard Manager",
+  "main": "./dist/main/main.js",
+  "author": {
+    "name": "Don Crypus",
+    "email": "don.cryptus@gmail.com",
+    "url": "https://github.com/Don-Cryptus/clippy"
+  },
+  "scripts": {
+    "electron-rebuild": "node -r ts-node/register ../../.erb/scripts/electron-rebuild.js",
+    "link-modules": "node -r ts-node/register ../../.erb/scripts/link-modules.ts",
+    "postinstall": "npm run electron-rebuild && npm run link-modules"
+  },
+  "license": "MIT"
+}
