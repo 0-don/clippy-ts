@@ -13,6 +13,8 @@ declare global {
       starClipboard: (arg: number) => Promise<boolean>;
       switchClipboard: (arg: Clipboard) => Promise<boolean>;
       exit: () => Promise<boolean>;
+      createAboutWindow: () => Promise<boolean>;
+      version: () => Promise<string>;
     };
   }
 }

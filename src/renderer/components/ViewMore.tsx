@@ -38,7 +38,13 @@ const ViewMore: React.FC = () => {
       </div>
 
       {/* About */}
-      <div className="px-3 w-full hover:bg-neutral-700 cursor-pointer">
+      <div
+        role="button"
+        tabIndex={-3}
+        onKeyDown={() => {}}
+        className="px-3 w-full hover:bg-neutral-700 cursor-pointer"
+        onClick={() => window.electron.createAboutWindow()}
+      >
         <div className="flex items-center py-4">
           <FontAwesomeIcon icon="info-circle" className="text-2xl" />
           <p className="px-4 text-base font-semibold">About</p>
@@ -49,7 +55,7 @@ const ViewMore: React.FC = () => {
       {/* Exit */}
       <div
         role="button"
-        tabIndex={-1}
+        tabIndex={-4}
         onKeyDown={() => {}}
         className="px-3 w-full hover:bg-neutral-700 cursor-pointer"
         onClick={() => window.electron.exit()}

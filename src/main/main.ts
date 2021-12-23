@@ -2,7 +2,6 @@
 /* eslint global-require: off, no-console: off, promise/always-return: off, */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import './events';
 import path from 'path';
 import { app, BrowserWindow, shell, nativeTheme } from 'electron';
 import clipboard from 'electron-clipboard-extended';
@@ -10,6 +9,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './etc/util';
+import './events';
 
 export default class AppUpdater {
   constructor() {

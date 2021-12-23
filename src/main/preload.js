@@ -26,4 +26,6 @@ contextBridge.exposeInMainWorld('electron', {
   starClipboard: (arg) => ipcRenderer.invoke('starClipboard', arg),
   switchClipboard: (arg) => ipcRenderer.invoke('switchClipboard', arg),
   exit: (arg) => ipcRenderer.invoke('exit', arg),
+  createAboutWindow: (arg) => ipcRenderer.invoke('createAboutWindow', arg),
+  version: (arg) => ipcRenderer.invoke('version', arg),
 });
