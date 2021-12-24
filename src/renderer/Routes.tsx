@@ -1,17 +1,17 @@
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter, Switch, Route, BrowserRouter } from 'react-router-dom';
 import About from './pages/About';
 import App from './pages/App';
 import Settings from './pages/Settings';
 
 const Routes = () => {
   return (
-    <Router hashType="hashbang">
+    <HashRouter>
       <Switch>
-        <Route path="/settings" component={Settings} />
-        <Route path="/about" component={About} />
-        <Route path="/" exact component={App} />
+        <Route exact path="/settings" component={Settings} />
+        <Route exact path="/about" component={About} />
+        <Route exact path="/" component={App} />
       </Switch>
-    </Router>
+    </HashRouter>
   );
 };
 

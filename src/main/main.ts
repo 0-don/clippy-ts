@@ -2,14 +2,12 @@
 /* eslint global-require: off, no-console: off, promise/always-return: off, */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import path from 'path';
-import { app, BrowserWindow, shell, nativeTheme } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import clipboard from 'electron-clipboard-extended';
-import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import MenuBuilder from './menu';
-import { resolveHtmlPath } from './etc/util';
-import './events';
+import { autoUpdater } from 'electron-updater';
+import windowTemplate from './electron/window';
+import './electron/events';
 
 export default class AppUpdater {
   constructor() {
@@ -46,72 +44,9 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
-const createWindow = async () => {
-  if (isDevelopment) {
-    await installExtensions();
-  }
-
-  const RESOURCES_PATH = app.isPackaged
-    ? path.join(process.resourcesPath, 'assets')
-    : path.join(__dirname, '../../assets');
-
-  const getAssetPath = (...paths: string[]): string => {
-    return path.join(RESOURCES_PATH, ...paths);
-  };
-
-  const widthHeight = app.isPackaged
-    ? {
-        height: 600,
-        width: 375,
-      }
-    : {
-        height: 820,
-        width: 728,
-      };
-
-  mainWindow = new BrowserWindow({
-    ...widthHeight,
-    show: false,
-    // frame: false,
-    backgroundColor: nativeTheme.shouldUseDarkColors ? '#1c1c1c' : '#ffffff',
-    icon: getAssetPath('icon.png'),
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-    },
-  });
-
-  process.env.MAIN_WINDOW_ID = `${mainWindow.id}`;
-
-  // mainWindow.loadURL(resolveHtmlPath('index.html#/settings'));
-  mainWindow.loadURL(resolveHtmlPath('index.html'));
-
-  mainWindow.on('ready-to-show', () => {
-    if (!mainWindow) {
-      throw new Error('"mainWindow" is not defined');
-    }
-    if (process.env.START_MINIMIZED) {
-      mainWindow.minimize();
-    } else {
-      mainWindow.show();
-    }
-  });
-
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
-
-  const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
-
-  // Open urls in the user's browser
-  mainWindow.webContents.on('new-window', (event, url) => {
-    event.preventDefault();
-    shell.openExternal(url);
-  });
-
-  // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-  new AppUpdater();
+const createMainWindow = () => {
+  mainWindow = windowTemplate('MAIN_WINDOW_ID');
+  console.log(mainWindow);
 };
 
 /**
@@ -130,12 +65,21 @@ app.on('window-all-closed', () => {
 
 app
   .whenReady()
-  .then(() => {
-    createWindow();
-    app.on('activate', () => {
+  .then(async () => {
+    if (isDevelopment) {
+      await installExtensions();
+    }
+    createMainWindow();
+    app.on('activate', async () => {
+      if (isDevelopment) {
+        await installExtensions();
+      }
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
-      if (mainWindow === null) createWindow();
+      if (mainWindow === null) createMainWindow();
     });
+    // Remove this if your app does not use auto updates
+    // eslint-disable-next-line
+    new AppUpdater();
   })
   .catch(console.log);

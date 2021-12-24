@@ -1,4 +1,4 @@
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 import { useEffect } from 'react';
 import './index.css';
 import './utils/icons';
@@ -26,4 +26,4 @@ const Index = () => {
   return <Routes />;
 };
 
-render(<Index />, document.getElementById('root'));
+ReactDOM.render(<Index />, document.getElementById('root'));

@@ -6,6 +6,7 @@ import RecentClipboards from '../components/RecentClipboards';
 import History from '../components/History';
 import ViewMore from '../components/ViewMore';
 import useSettingsStore from '../store/SettingsStore';
+import icon from '../../../assets/icon.svg';
 
 const App = () => {
   const { tab } = useAppStore();
@@ -13,6 +14,7 @@ const App = () => {
 
   return (
     <div className="absolute w-full h-full dark:bg-dark bg-white dark:text-white text-black flex overflow-hidden ">
+      <img src={icon} width={100} alt="" />
       <div className="dark:bg-dark-light bg-gray-200 flex flex-col items-center space-y-7 pt-3 px-1">
         <AppSidebar />
       </div>
