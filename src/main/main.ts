@@ -2,11 +2,11 @@
 /* eslint global-require: off, no-console: off, promise/always-return: off, */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import clipboard from 'electron-clipboard-extended';
 import log from 'electron-log';
-import { autoUpdater } from 'electron-updater';
-import windowTemplate from './electron/window';
+import createWindow from './window';
 import './electron/events';
 
 export default class AppUpdater {
@@ -44,11 +44,21 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
-const createMainWindow = () => {
-  mainWindow = windowTemplate('MAIN_WINDOW_ID');
-  console.log(mainWindow);
+const createMainWindow = async () => {
+  if (isDevelopment) {
+    await installExtensions();
+  }
+
+  mainWindow = createWindow('MAIN_WINDOW_ID');
+
+  // Remove this if your app does not use auto updates
+  // eslint-disable-next-line
+  new AppUpdater();
 };
 
+ipcMain.handle('createAboutWindow', () =>
+  createWindow('ABOUT_WINDOW_ID', 'about')
+);
 /**
  * Add event listeners...
  */
@@ -56,6 +66,7 @@ const createMainWindow = () => {
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
+
   if (process.platform !== 'darwin') {
     app.quit();
   }
@@ -65,15 +76,9 @@ app.on('window-all-closed', () => {
 
 app
   .whenReady()
-  .then(async () => {
-    if (isDevelopment) {
-      await installExtensions();
-    }
+  .then(() => {
     createMainWindow();
-    app.on('activate', async () => {
-      if (isDevelopment) {
-        await installExtensions();
-      }
+    app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
       if (mainWindow === null) createMainWindow();

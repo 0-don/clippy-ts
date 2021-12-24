@@ -4,8 +4,8 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { app, ipcMain, nativeImage } from 'electron';
 import clipboard from 'electron-clipboard-extended';
 import { getMainWindow } from '../utils/constants';
-import { Clipboard, PrismaClient } from '../prisma/client/index';
 import { formatBytes } from '../utils/util';
+import { Clipboard, PrismaClient } from '../prisma/client/index';
 
 export type GetClipboards = {
   cursor?: number;
@@ -18,7 +18,9 @@ dayjs.extend(customParseFormat);
 const prisma = new PrismaClient();
 let addClipboard = true;
 
+// CLIPBOARD EVENT LISTENER
 clipboard
+  // TEXT CHANGED
   .on('text-changed', async () => {
     const mainWindow = getMainWindow();
     const content = clipboard.readText();
@@ -37,6 +39,7 @@ clipboard
     }
     addClipboard = true;
   })
+  // IMAGE CHANGED
   .on('image-changed', async () => {
     console.log('Image Detected', dayjs().format('H:mm:ss'));
 
@@ -60,10 +63,10 @@ clipboard
   })
   .startWatching();
 
-ipcMain.on('ipc-example', async (event, arg) => {
+ipcMain.on('ping', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
   console.log(msgTemplate(arg));
-  event.reply('ipc-example', 'Ping');
+  event.reply('ping', msgTemplate('pong'));
 });
 
 // GET CLIPBOARDS
