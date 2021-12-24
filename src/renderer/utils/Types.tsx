@@ -1,5 +1,5 @@
 import { Clipboard } from '../../main/prisma/client/index';
-import { GetClipboards } from '../../main/events';
+import { GetClipboards } from '../../main/electron/events';
 
 declare global {
   interface Window {

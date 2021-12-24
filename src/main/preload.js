@@ -3,7 +3,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electron', {
   on(channel, func) {
-    const validChannels = ['ipc-example', 'addClipboard'];
+    const validChannels = ['addClipboard'];
     if (validChannels.includes(channel)) {
       // Deliberately strip event as it includes `sender`
       const subscription = (event, ...args) => func(...args);
@@ -14,13 +14,13 @@ contextBridge.exposeInMainWorld('electron', {
     }
   },
   once(channel, func) {
-    const validChannels = ['ipc-example'];
+    const validChannels = ['ping'];
     if (validChannels.includes(channel)) {
       // Deliberately strip event as it includes `sender`
       ipcRenderer.once(channel, (event, ...args) => func(...args));
     }
   },
-  myPing: () => ipcRenderer.send('ipc-example', 'ping'),
+  myPing: () => ipcRenderer.send('ping', 'ping'),
   getClipboards: (arg) => ipcRenderer.invoke('getClipboards', arg),
   deleteClipboard: (arg) => ipcRenderer.invoke('deleteClipboard', arg),
   starClipboard: (arg) => ipcRenderer.invoke('starClipboard', arg),

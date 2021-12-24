@@ -1,20 +1,11 @@
 /* eslint-disable no-console */
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import {
-  ipcMain,
-  nativeImage,
-  app,
-  BrowserWindow,
-  nativeTheme,
-  shell,
-} from 'electron';
+import { app, ipcMain, nativeImage } from 'electron';
 import clipboard from 'electron-clipboard-extended';
-import path from 'path';
-import { getMainWindow } from './etc/constants';
-import { formatBytes, resolveHtmlPath } from './etc/util';
-import MenuBuilder from './menu';
-import { PrismaClient, Clipboard } from './prisma/client/index';
+import { getMainWindow } from '../utils/constants';
+import { formatBytes } from '../utils/util';
+import { Clipboard, PrismaClient } from '../prisma/client/index';
 
 export type GetClipboards = {
   cursor?: number;
@@ -27,7 +18,9 @@ dayjs.extend(customParseFormat);
 const prisma = new PrismaClient();
 let addClipboard = true;
 
+// CLIPBOARD EVENT LISTENER
 clipboard
+  // TEXT CHANGED
   .on('text-changed', async () => {
     const mainWindow = getMainWindow();
     const content = clipboard.readText();
@@ -46,6 +39,7 @@ clipboard
     }
     addClipboard = true;
   })
+  // IMAGE CHANGED
   .on('image-changed', async () => {
     console.log('Image Detected', dayjs().format('H:mm:ss'));
 
@@ -69,10 +63,10 @@ clipboard
   })
   .startWatching();
 
-ipcMain.on('ipc-example', async (event, arg) => {
+ipcMain.on('ping', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
   console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
+  event.reply('ping', msgTemplate('pong'));
 });
 
 // GET CLIPBOARDS
@@ -140,69 +134,6 @@ ipcMain.handle('starClipboard', async (_, id: number) => {
 // EXIT
 ipcMain.handle('exit', async () => {
   app.quit();
-  return true;
-});
-
-// OPEN ABOUT PAGE WINDOW
-ipcMain.handle('createAboutWindow', async () => {
-  const RESOURCES_PATH = app.isPackaged
-    ? path.join(process.resourcesPath, 'assets')
-    : path.join(__dirname, '../../assets');
-
-  const getAssetPath = (...paths: string[]): string => {
-    return path.join(RESOURCES_PATH, ...paths);
-  };
-
-  const widthHeight = app.isPackaged
-    ? {
-        height: 600,
-        width: 375,
-      }
-    : {
-        height: 820,
-        width: 728,
-      };
-
-  let aboutWindow: BrowserWindow | null = new BrowserWindow({
-    ...widthHeight,
-    show: false,
-    // frame: false,
-    backgroundColor: nativeTheme.shouldUseDarkColors ? '#1c1c1c' : '#ffffff',
-    icon: getAssetPath('icon.png'),
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-    },
-  });
-
-  process.env.ABOUT_WINDOW_ID = `${aboutWindow.id}`;
-
-  // mainWindow.loadURL(resolveHtmlPath('index.html#/settings'));
-  aboutWindow.loadURL(resolveHtmlPath('index.html#/about'));
-
-  aboutWindow.on('ready-to-show', () => {
-    if (!aboutWindow) {
-      throw new Error('"mainWindow" is not defined');
-    }
-    if (process.env.START_MINIMIZED) {
-      aboutWindow.minimize();
-    } else {
-      aboutWindow.show();
-    }
-  });
-
-  aboutWindow.on('closed', () => {
-    aboutWindow = null;
-  });
-
-  const menuBuilder = new MenuBuilder(aboutWindow);
-  menuBuilder.buildMenu();
-
-  // Open urls in the user's browser
-  aboutWindow.webContents.on('new-window', (event, url) => {
-    event.preventDefault();
-    shell.openExternal(url);
-  });
-
   return true;
 });
 

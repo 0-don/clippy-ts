@@ -11,11 +11,7 @@ const Index = () => {
   const { startTheme } = useDarkModeStore();
 
   useEffect(() => {
-    window.electron.once('ipc-example', (arg: unknown) => {
-      console.log(arg);
-    });
-
-    window.electron.on('asynchronous-message', (arg: unknown) => {
+    window.electron.once('ping', (arg: unknown) => {
       console.log(arg);
     });
 
