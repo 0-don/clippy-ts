@@ -1,20 +1,40 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { persist } from 'zustand/middleware';
 import create from 'zustand';
 import immer from '../utils/immer';
 
+type SettingsTabName = 'General' | 'Account' | 'History';
+
+type SettingsTab = {
+  name: SettingsTabName;
+  icon: IconProp;
+  current: boolean;
+};
+
 type Settings = {
   sync: 'offline' | 'online';
+  tabs: SettingsTab[];
   hasHydrated: boolean;
   theme: boolean;
   changeTheme: () => void;
   startTheme: () => void;
   setSync: () => void;
+  setCurrentTab: (tabName: SettingsTabName) => void;
 };
 
 const useSettingsStore = create<Settings>(
   persist(
     immer(
       (set): Settings => ({
+        tabs: [
+          { name: 'General', icon: 'cog', current: false },
+          { name: 'Account', icon: 'user', current: false },
+          {
+            name: 'History',
+            icon: ['fas', 'history'],
+            current: true,
+          },
+        ],
         sync: 'offline',
         hasHydrated: false,
         theme: true,
@@ -41,7 +61,14 @@ const useSettingsStore = create<Settings>(
         setSync: () =>
           set((state) => {
             state.sync = state.sync === 'online' ? 'offline' : 'online';
-            console.log(state.sync);
+          }),
+        setCurrentTab: (tabName) =>
+          set((state) => {
+            state.tabs = state.tabs.map((tab) =>
+              tab.name === tabName
+                ? { ...tab, current: true }
+                : { ...tab, current: false }
+            );
           }),
       })
     ),

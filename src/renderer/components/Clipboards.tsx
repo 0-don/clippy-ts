@@ -79,8 +79,8 @@ function Clipboards({ star, search }: ClipboardProps) {
             key={id}
             role="button"
             tabIndex={i}
-            className="px-3 group hover:bg-neutral-700 cursor-pointer"
             onKeyDown={(e) => e.stopPropagation()}
+            className="px-3 group hover:bg-neutral-700 cursor-pointer"
             onClick={(e) => {
               e.stopPropagation();
               window.electron.switchClipboard(clipboard);

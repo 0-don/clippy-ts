@@ -4,11 +4,11 @@ import './index.css';
 import './utils/icons';
 import './utils/Types';
 import Routes from './Routes';
-import useDarkModeStore from './store/SettingsStore';
+import useSettingsStore from './store/SettingsStore';
 // import icon from '../../assets/icon.svg';
 
 const Index = () => {
-  const { startTheme } = useDarkModeStore();
+  const { startTheme } = useSettingsStore();
 
   useEffect(() => {
     window.electron.once('ping', (arg: unknown) => {
