@@ -76,6 +76,7 @@ function Clipboards({ star, search }: ClipboardProps) {
           clipboard;
         return (
           <div
+            key={id}
             role="button"
             tabIndex={i}
             className="px-3 group hover:bg-neutral-700 cursor-pointer"

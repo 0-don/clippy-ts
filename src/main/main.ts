@@ -18,6 +18,8 @@ export default class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
+let aboutWindow: BrowserWindow | null = null;
+let settingsWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -56,9 +58,19 @@ const createMainWindow = async () => {
   new AppUpdater();
 };
 
-ipcMain.handle('createAboutWindow', () =>
-  createWindow('ABOUT_WINDOW_ID', 'about')
-);
+ipcMain.handle('createAboutWindow', () => {
+  aboutWindow = createWindow('ABOUT_WINDOW_ID', 'about');
+  aboutWindow.on('close', () => {
+    aboutWindow = null;
+  });
+});
+
+ipcMain.handle('createSettingsWindow', () => {
+  settingsWindow = createWindow('SETTINGS_WINDOW_ID', 'settings');
+  settingsWindow.on('close', () => {
+    settingsWindow = null;
+  });
+});
 /**
  * Add event listeners...
  */

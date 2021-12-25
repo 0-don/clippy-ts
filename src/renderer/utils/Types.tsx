@@ -14,6 +14,7 @@ declare global {
       switchClipboard: (arg: Clipboard) => Promise<boolean>;
       exit: () => Promise<boolean>;
       createAboutWindow: () => Promise<boolean>;
+      createSettingsWindow: () => Promise<boolean>;
       version: () => Promise<string>;
     };
   }

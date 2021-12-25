@@ -29,7 +29,13 @@ const ViewMore: React.FC = () => {
       </div>
 
       {/* Preferences */}
-      <div className="px-3 w-full hover:bg-neutral-700 cursor-pointer">
+      <div
+        role="button"
+        tabIndex={-2}
+        onKeyDown={() => {}}
+        className="px-3 w-full hover:bg-neutral-700 cursor-pointer"
+        onClick={() => window.electron.createSettingsWindow()}
+      >
         <div className="flex items-center py-4">
           <FontAwesomeIcon icon="cog" className="text-2xl" />
           <p className="px-4 text-base font-semibold">Preferences</p>

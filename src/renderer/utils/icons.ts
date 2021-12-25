@@ -15,10 +15,12 @@ import {
   faCog,
   faInfoCircle,
   faSignOutAlt,
+  faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { faClock, faHdd, faSave } from '@fortawesome/free-regular-svg-icons';
 
 library.add(
+  faUser,
   faSignOutAlt,
   faInfoCircle,
   faCog,

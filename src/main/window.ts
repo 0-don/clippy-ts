@@ -3,9 +3,21 @@ import path from 'path';
 import MenuBuilder from './electron/menu';
 import { resolveHtmlPath } from './utils/util';
 
+const devWindowSize = {
+  height: 820,
+  width: 728,
+};
+
 const createWindow = (
-  env: 'MAIN_WINDOW_ID' | 'ABOUT_WINDOW_ID',
-  urlPath: 'about' | undefined = undefined
+  env: 'MAIN_WINDOW_ID' | 'ABOUT_WINDOW_ID' | 'SETTINGS_WINDOW_ID',
+  urlPath: 'about' | 'settings' | undefined = undefined,
+  size: {
+    height: number;
+    width: number;
+  } = {
+    height: 600,
+    width: 375,
+  }
 ) => {
   const RESOURCES_PATH = app.isPackaged
     ? path.join(process.resourcesPath, 'assets')
@@ -15,15 +27,7 @@ const createWindow = (
     return path.join(RESOURCES_PATH, ...paths);
   };
 
-  const widthHeight = app.isPackaged
-    ? {
-        height: 600,
-        width: 375,
-      }
-    : {
-        height: 820,
-        width: 728,
-      };
+  const widthHeight = app.isPackaged ? size : devWindowSize;
 
   let window: null | BrowserWindow = new BrowserWindow({
     ...widthHeight,
