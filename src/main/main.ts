@@ -1,6 +1,7 @@
 /*  eslint global-require: off,
     no-console: off */
 import path from 'path';
+import fs from 'fs';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import {
@@ -9,7 +10,7 @@ import {
   ipcMain,
   Tray,
   nativeImage,
-  Notification,
+  dialog,
 } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import clipboard from 'electron-clipboard-extended';
@@ -18,6 +19,8 @@ import createWindow from './window';
 import './electron/events';
 import clippyTray from './electron/clippyTray';
 
+// fs.writeFileSync('./sd/asdyx/test.txt', 'asdsda');
+
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -25,6 +28,7 @@ export default class AppUpdater {
     autoUpdater.checkForUpdatesAndNotify();
   }
 }
+
 let tray: Tray | null = null;
 let mainWindow: BrowserWindow | null = null;
 let aboutWindow: BrowserWindow | null = null;
@@ -67,13 +71,13 @@ const createMainWindow = async () => {
   mainWindow = createWindow('MAIN_WINDOW_ID');
 
   const img = nativeImage.createFromPath(
-    path.resolve(RESOURCES_PATH, 'icon.png')
+    path.resolve(RESOURCES_PATH, 'onclip.png')
   );
 
-  new Notification({
-    title: path.resolve(RESOURCES_PATH, 'icon.png'),
-    body: path.resolve(RESOURCES_PATH, 'icon.png'),
-  }).show();
+  // new Notification({
+  //   title: path.resolve(RESOURCES_PATH, 'icon.png'),
+  //   body: path.resolve(RESOURCES_PATH, 'icon.png'),
+  // }).show();
 
   tray = clippyTray(img, mainWindow);
   tray.on('click', () => {});
@@ -113,9 +117,13 @@ app.on('window-all-closed', () => {
 
 app
   .whenReady()
-  .then(() => {
+  .then(async () => {
     createMainWindow();
-
+    console.log(
+      await dialog.showOpenDialog({
+        properties: ['openFile', 'multiSelections'],
+      })
+    );
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.

@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { app, ipcMain, nativeImage } from 'electron';
+import { app, dialog, ipcMain, nativeImage } from 'electron';
 import clipboard from 'electron-clipboard-extended';
 import { getWindow } from '../utils/constants';
 import { formatBytes } from '../utils/util';
@@ -15,7 +15,11 @@ export type GetClipboards = {
 };
 
 dayjs.extend(customParseFormat);
-const prisma = new PrismaClient();
+console.log(__dirname);
+
+const prisma = new PrismaClient({
+  datasources: { db: { url: 'file:/Users/don/clippy/db/clippy.db' } },
+});
 let addClipboard = true;
 
 // CLIPBOARD EVENT LISTENER
@@ -137,5 +141,5 @@ ipcMain.handle('exit', async () => {
   return true;
 });
 
-// EXIT
+// VERSION
 ipcMain.handle('version', async () => app.getVersion());

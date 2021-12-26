@@ -1,5 +1,13 @@
-import { Tray, app, BrowserWindow, Menu, screen, NativeImage } from 'electron';
-import { getWindow } from '../utils/constants';
+import {
+  Tray,
+  app,
+  BrowserWindow,
+  Menu,
+  screen,
+  NativeImage,
+  globalShortcut,
+} from 'electron';
+import { displayWindowNearTray } from '../utils/util';
 
 const clippyTray = (iconPath: NativeImage, window: BrowserWindow): Tray => {
   const tray = new Tray(iconPath.resize({ width: 16, height: 16 }));
@@ -18,33 +26,19 @@ const clippyTray = (iconPath: NativeImage, window: BrowserWindow): Tray => {
   tray.setToolTip('Clippy');
 
   tray.on('click', (_, bounds) => {
-    const { x, y } = bounds;
-    const { height, width } = window.getBounds();
-
-    if (window.isVisible()) {
-      window.hide();
-    } else {
-      const yPosition = process.platform === 'darwin' ? y : y - height;
-      window.setBounds({
-        x: Math.floor(x - width / 2),
-        y: Math.floor(yPosition),
-        height,
-        width,
-      });
-      window.show();
-    }
+    displayWindowNearTray(tray, window);
   });
 
   window.on('blur', () => {
     const mousePos = screen.getCursorScreenPoint();
-    const bounds = tray.getBounds();
-    const onElement =
-      mousePos.x > bounds.x &&
-      mousePos.x < bounds.x + bounds.width &&
-      mousePos.y > bounds.y &&
-      mousePos.y < bounds.y + bounds.height;
+    const trayBounds = tray.getBounds();
+    const mouseOnTrayIcon =
+      mousePos.x > trayBounds.x &&
+      mousePos.x < trayBounds.x + trayBounds.width &&
+      mousePos.y > trayBounds.y &&
+      mousePos.y < trayBounds.y + trayBounds.height;
 
-    if (!onElement) {
+    if (!mouseOnTrayIcon) {
       window.hide();
     }
   });
@@ -59,6 +53,18 @@ const clippyTray = (iconPath: NativeImage, window: BrowserWindow): Tray => {
 
     tray.popUpContextMenu(menuConfig);
   });
+
+  // Register a 'CommandOrControl+D' shortcut listener.
+  const ret = globalShortcut.register('CommandOrControl+D', () => {
+    displayWindowNearTray(tray, window);
+  });
+
+  // if (!ret) {
+  //   console.log('registration failed');
+  // }
+
+  // // Check whether a shortcut is registered.
+  // console.log(globalShortcut.isRegistered('CommandOrControl+D'));
 
   return tray;
 };
