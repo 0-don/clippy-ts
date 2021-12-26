@@ -18,7 +18,7 @@ dayjs.extend(customParseFormat);
 console.log(__dirname);
 
 const prisma = new PrismaClient({
-  datasources: { db: { url: 'file:/Users/don/clippy/db/clippy.db' } },
+  // datasources: { db: { url: 'file:/Users/don/clippy/db/clippy.db' } },
 });
 let addClipboard = true;
 
