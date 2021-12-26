@@ -1,13 +1,16 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint global-require: off, no-console: off, promise/always-return: off, */
+/*  eslint global-require: off,
+    no-console: off,
+    promise/always-return: off, */
+import path from 'path';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, Tray } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import clipboard from 'electron-clipboard-extended';
 import log from 'electron-log';
 import createWindow from './window';
 import './electron/events';
+import clippyTray from './electron/clippyTray';
 
 export default class AppUpdater {
   constructor() {
@@ -16,7 +19,7 @@ export default class AppUpdater {
     autoUpdater.checkForUpdatesAndNotify();
   }
 }
-
+let tray: Tray | null = null;
 let mainWindow: BrowserWindow | null = null;
 let aboutWindow: BrowserWindow | null = null;
 let settingsWindow: BrowserWindow | null = null;
@@ -32,6 +35,10 @@ const isDevelopment =
 if (isDevelopment) {
   require('electron-debug')();
 }
+
+const RESOURCES_PATH = app.isPackaged
+  ? path.join(process.resourcesPath, 'assets')
+  : path.join(__dirname, '../../assets');
 
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
@@ -88,8 +95,11 @@ app.on('window-all-closed', () => {
 
 app
   .whenReady()
-  .then(() => {
-    createMainWindow();
+  .then(async () => {
+    await createMainWindow();
+    tray = clippyTray(path.resolve(RESOURCES_PATH, 'icon.ico'));
+    tray.on('click', () => {});
+
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.

@@ -1,6 +1,7 @@
 import { app, BrowserWindow, nativeTheme, shell } from 'electron';
 import path from 'path';
 import MenuBuilder from './electron/menu';
+import { ENV } from './utils/constants';
 import { resolveHtmlPath } from './utils/util';
 
 const devWindowSize = {
@@ -9,7 +10,7 @@ const devWindowSize = {
 };
 
 const createWindow = (
-  env: 'MAIN_WINDOW_ID' | 'ABOUT_WINDOW_ID' | 'SETTINGS_WINDOW_ID',
+  env: ENV,
   urlPath: 'about' | 'settings' | undefined = undefined,
   size: {
     height: number;
@@ -49,10 +50,12 @@ const createWindow = (
     if (!window) {
       throw new Error('"mainWindow" is not defined');
     }
-    if (process.env.START_MINIMIZED) {
-      window.minimize();
-    } else {
-      window.show();
+    if (urlPath) {
+      if (process.env.START_MINIMIZED) {
+        window.minimize();
+      } else {
+        window.show();
+      }
     }
   });
 

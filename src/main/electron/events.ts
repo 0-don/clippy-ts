@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { app, ipcMain, nativeImage } from 'electron';
 import clipboard from 'electron-clipboard-extended';
-import { getMainWindow } from '../utils/constants';
+import { getWindow } from '../utils/constants';
 import { formatBytes } from '../utils/util';
 import { Clipboard, PrismaClient } from '../prisma/client/index';
 
@@ -22,7 +22,7 @@ let addClipboard = true;
 clipboard
   // TEXT CHANGED
   .on('text-changed', async () => {
-    const mainWindow = getMainWindow();
+    const mainWindow = getWindow('MAIN_WINDOW_ID');
     const content = clipboard.readText();
 
     const re = /^(?:[0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/;
@@ -43,7 +43,7 @@ clipboard
   .on('image-changed', async () => {
     console.log('Image Detected', dayjs().format('H:mm:ss'));
 
-    const mainWindow = getMainWindow();
+    const mainWindow = getWindow('MAIN_WINDOW_ID');
     const image = clipboard.readImage();
 
     if (addClipboard) {
