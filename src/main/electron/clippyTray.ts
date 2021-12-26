@@ -1,9 +1,13 @@
-import { Tray, app, BrowserWindow, Menu, screen } from 'electron';
+import { Tray, app, BrowserWindow, Menu, screen, NativeImage } from 'electron';
 import { getWindow } from '../utils/constants';
 
-const clippyTray = (iconPath: string): Tray => {
-  const tray = new Tray(iconPath);
-  const window = getWindow('MAIN_WINDOW_ID') as BrowserWindow;
+const clippyTray = (iconPath: NativeImage, window: BrowserWindow): Tray => {
+  const tray = new Tray(iconPath.resize({ width: 16, height: 16 }));
+  // const window = getWindow('MAIN_WINDOW_ID');
+
+  if (!window) {
+    process.exit();
+  }
 
   if (process.platform === 'win32') {
     window?.setSkipTaskbar(true);
@@ -22,8 +26,8 @@ const clippyTray = (iconPath: string): Tray => {
     } else {
       const yPosition = process.platform === 'darwin' ? y : y - height;
       window.setBounds({
-        x: x - width / 2,
-        y: yPosition,
+        x: Math.floor(x - width / 2),
+        y: Math.floor(yPosition),
         height,
         width,
       });

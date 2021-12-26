@@ -1,10 +1,16 @@
 /*  eslint global-require: off,
-    no-console: off,
-    promise/always-return: off, */
+    no-console: off */
 import path from 'path';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import { app, BrowserWindow, ipcMain, Tray } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  Tray,
+  nativeImage,
+  Notification,
+} from 'electron';
 import { autoUpdater } from 'electron-updater';
 import clipboard from 'electron-clipboard-extended';
 import log from 'electron-log';
@@ -60,6 +66,18 @@ const createMainWindow = async () => {
 
   mainWindow = createWindow('MAIN_WINDOW_ID');
 
+  const img = nativeImage.createFromPath(
+    path.resolve(RESOURCES_PATH, 'icon.png')
+  );
+
+  new Notification({
+    title: path.resolve(RESOURCES_PATH, 'icon.png'),
+    body: path.resolve(RESOURCES_PATH, 'icon.png'),
+  }).show();
+
+  tray = clippyTray(img, mainWindow);
+  tray.on('click', () => {});
+
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();
@@ -95,10 +113,8 @@ app.on('window-all-closed', () => {
 
 app
   .whenReady()
-  .then(async () => {
-    await createMainWindow();
-    tray = clippyTray(path.resolve(RESOURCES_PATH, 'icon.ico'));
-    tray.on('click', () => {});
+  .then(() => {
+    createMainWindow();
 
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
@@ -108,5 +124,6 @@ app
     // Remove this if your app does not use auto updates
     // eslint-disable-next-line
     new AppUpdater();
+    return null;
   })
   .catch(console.log);
