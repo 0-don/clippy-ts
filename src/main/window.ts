@@ -50,12 +50,12 @@ const createWindow = (
     if (!window) {
       throw new Error('"mainWindow" is not defined');
     }
-    if (urlPath) {
-      if (process.env.START_MINIMIZED) {
-        window.minimize();
-      } else {
-        window.show();
-      }
+    // if (urlPath) {
+    if (process.env.START_MINIMIZED) {
+      window.minimize();
+    } else {
+      window.show();
+      // }
     }
   });
 

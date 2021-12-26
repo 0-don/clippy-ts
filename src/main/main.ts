@@ -29,7 +29,7 @@ export default class AppUpdater {
   }
 }
 
-let tray: Tray | null = null;
+// let tray: Tray | null = null;
 let mainWindow: BrowserWindow | null = null;
 let aboutWindow: BrowserWindow | null = null;
 let settingsWindow: BrowserWindow | null = null;
@@ -70,17 +70,17 @@ const createMainWindow = async () => {
 
   mainWindow = createWindow('MAIN_WINDOW_ID');
 
-  const img = nativeImage.createFromPath(
-    path.resolve(RESOURCES_PATH, 'onclip.png')
-  );
+  // const img = nativeImage.createFromPath(
+  //   path.resolve(RESOURCES_PATH, 'onclip.png')
+  // );
 
   // new Notification({
   //   title: path.resolve(RESOURCES_PATH, 'icon.png'),
   //   body: path.resolve(RESOURCES_PATH, 'icon.png'),
   // }).show();
 
-  tray = clippyTray(img, mainWindow);
-  tray.on('click', () => {});
+  // tray = clippyTray(img, mainWindow);
+  // tray.on('click', () => {});
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
