@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import useAppStore from '../store/AppStore';
+import useAppStore from '../../store/AppStore';
 import Clipboards from './Clipboards';
-import SwitchField from '../elements/SwitchField';
+import SwitchField from '../../elements/SwitchField';
 
 const History: React.FC = () => {
   const [search, setSearch] = useState('');

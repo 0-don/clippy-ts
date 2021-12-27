@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import StarredClipboards from '../components/StarredClipboards';
-import AppSidebar from '../components/AppSidebar';
+import StarredClipboards from '../components/app/StarredClipboards';
+import AppSidebar from '../components/app/AppSidebar';
 import useAppStore from '../store/AppStore';
-import RecentClipboards from '../components/RecentClipboards';
-import History from '../components/History';
-import ViewMore from '../components/ViewMore';
+import RecentClipboards from '../components/app/RecentClipboards';
+import History from '../components/app/History';
+import ViewMore from '../components/app/ViewMore';
 import useSettingsStore from '../store/SettingsStore';
 // import icon from '../../../assets/icon.svg';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import useSettingsStore from '../store/SettingsStore';
-import SwitchField from '../elements/SwitchField';
+import useSettingsStore from '../../store/SettingsStore';
+import SwitchField from '../../elements/SwitchField';
 
 const ViewMore: React.FC = () => {
   const { sync, setSync } = useSettingsStore();

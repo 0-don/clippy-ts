@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import useAppStore from '../store/AppStore';
+import useAppStore from '../../store/AppStore';
 import Clipboards from './Clipboards';
 
 const StarredClipboards: React.FC = () => {

@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import DarkMode from '../elements/DarkMode';
-import useAppStore from '../store/AppStore';
+import DarkMode from '../../elements/DarkMode';
+import useAppStore from '../../store/AppStore';
 
 const AppSidebar: React.FC = () => {
   const { tab, setTab } = useAppStore();

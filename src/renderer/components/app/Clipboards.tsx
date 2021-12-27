@@ -3,8 +3,8 @@ import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import useAppStore from '../store/AppStore';
-import { Clipboard } from '../../main/prisma/client/index';
+import useAppStore from '../../store/AppStore';
+import { Clipboard } from '../../../main/prisma/client/index';
 
 dayjs.extend(relativeTime);
 

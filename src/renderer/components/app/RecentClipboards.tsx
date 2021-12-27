@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import useAppStore from '../store/AppStore';
-import { Clipboard } from '../../main/prisma/client/index';
+import useAppStore from '../../store/AppStore';
+import { Clipboard } from '../../../main/prisma/client/index';
 import Clipboards from './Clipboards';
 
 const RecentClipboards = () => {
