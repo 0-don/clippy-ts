@@ -1,5 +1,5 @@
 import { Clipboard } from '../../main/prisma/client/index';
-import { GetClipboards } from '../../main/electron/events';
+import { GetClipboards } from '../../main/utils/constants';
 
 declare global {
   interface Window {
@@ -16,6 +16,8 @@ declare global {
       createAboutWindow: () => Promise<boolean>;
       createSettingsWindow: () => Promise<boolean>;
       version: () => Promise<string>;
+      getDatbasePath: () => Promise<string>;
+      selectDatabasePath: () => Promise<string>;
     };
   }
 }

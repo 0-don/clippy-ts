@@ -11,9 +11,11 @@ const Settings = () => {
   return (
     <>
       <Tabs />
-      {currentTab === 'Account' && <Account />}
-      {currentTab === 'General' && <General />}
-      {currentTab === 'History' && <History />}
+      <div className="p-5">
+        {currentTab === 'General' && <General />}
+        {currentTab === 'Account' && <Account />}
+        {currentTab === 'History' && <History />}
+      </div>
     </>
   );
 };

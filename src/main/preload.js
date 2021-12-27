@@ -30,4 +30,6 @@ contextBridge.exposeInMainWorld('electron', {
   createSettingsWindow: (arg) =>
     ipcRenderer.invoke('createSettingsWindow', arg),
   version: (arg) => ipcRenderer.invoke('version', arg),
+  getDatbasePath: (arg) => ipcRenderer.invoke('getDatbasePath', arg),
+  selectDatabasePath: (arg) => ipcRenderer.invoke('selectDatabasePath', arg),
 });

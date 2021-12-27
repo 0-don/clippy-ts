@@ -1,14 +1,18 @@
 /* eslint-disable no-console */
 import dayjs from 'dayjs';
+import path from 'path';
 import fs from 'fs';
 import { log } from 'console';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { app, ipcMain, nativeImage } from 'electron';
+import { app, dialog, ipcMain, nativeImage } from 'electron';
 import clipboard from 'electron-clipboard-extended';
 import {
   DEFAULT_DB_CONFIG_PATH,
+  DEFAULT_DB_DIRECTORY,
+  DEFAULT_DB_PATH,
   GetClipboards,
   getWindow,
+  isDevelopment,
   prismaClientConfig,
 } from '../utils/constants';
 import { formatBytes } from '../utils/util';
@@ -142,6 +146,34 @@ ipcMain.handle('exit', async () => {
 ipcMain.handle('version', async () => app.getVersion());
 
 // READ DATABASE URL
-ipcMain.handle('getDatbaseUrl', () =>
+ipcMain.handle('getDatbasePath', () =>
   fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8')
 );
+
+ipcMain.handle('selectDatabasePath', async () => {
+  const currentPath = fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8');
+  const dialogResult = await dialog.showOpenDialog({
+    properties: ['openDirectory'],
+  });
+
+  if (dialogResult.canceled) {
+    return currentPath;
+  }
+  const dialogPath = path.join(dialogResult.filePaths[0], 'clippy.db');
+
+  console.log(currentPath, dialogPath, DEFAULT_DB_CONFIG_PATH);
+  fs.copyFileSync(currentPath, dialogPath);
+  if (dialogPath !== currentPath && currentPath !== DEFAULT_DB_PATH) {
+    fs.unlinkSync(currentPath);
+  }
+  fs.writeFileSync(DEFAULT_DB_CONFIG_PATH, dialogPath);
+
+  if (isDevelopment) {
+    process.exit();
+  } else {
+    app.exit();
+    app.relaunch();
+  }
+
+  return dialogPath;
+});
