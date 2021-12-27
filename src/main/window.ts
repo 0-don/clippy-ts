@@ -33,6 +33,7 @@ const createWindow = (
   let window: null | BrowserWindow = new BrowserWindow({
     ...widthHeight,
     show: false,
+    frame: !!urlPath,
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#1c1c1c' : '#ffffff',
     icon: getAssetPath('icon.png'),
     webPreferences: {

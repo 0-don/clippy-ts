@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import icon from '../../../assets/icon.svg';
-
+import icon from '../../../assets/clippy.png';
+// import icon from '../../assets/clippy.png';
 const About: React.FC = () => {
   const [version, setVersion] = useState<string | number>();
 
@@ -11,7 +11,7 @@ const About: React.FC = () => {
 
   return (
     <div className="space-y-2 absolute w-full h-full dark:bg-dark bg-white dark:text-white text-black flex flex-col items-center justify-center ">
-      <img src={icon} alt="logo" width="25%" />
+      <img src={icon} alt="logo" width="300px" />
       <h1 className="text-xl font-bold">{version}</h1>
       <h2 className="text-base">No updates currently available</h2>
       <a

@@ -6,7 +6,7 @@ import './utils/icons';
 import './utils/Types';
 import Routes from './Routes';
 import useSettingsStore from './store/SettingsStore';
-// import icon from '../../assets/icon.svg';
+// import icon from '../../assets/clippy.png';
 
 const Index = () => {
   const { startTheme } = useSettingsStore();

@@ -51,3 +51,7 @@ export function displayWindowNearTray(tray: Tray, window: BrowserWindow) {
     window.show();
   }
 }
+
+// export function getDefaultSqlLiteUrl() {
+//   RESOURCES_PATH;
+// }

@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 import dayjs from 'dayjs';
+import path from 'path';
+import fs from 'fs';
 import { log } from 'console';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { app, ipcMain, nativeImage } from 'electron';
@@ -17,8 +19,16 @@ export type GetClipboards = {
 
 dayjs.extend(customParseFormat);
 
+const url = path.join(app.getPath('home'), '/clippy/db/');
+
+if (!fs.existsSync(url)) {
+  fs.mkdirSync(url, { recursive: true });
+}
+
+console.log(`file:${url}clippy.db`);
+
 const prisma = new PrismaClient({
-  // datasources: { db: { url: 'file:/Users/don/clippy/db/clippy.db' } },
+  datasources: { db: { url: `file:${url}clippy.db` } },
 });
 let addClipboard = true;
 
