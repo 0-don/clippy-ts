@@ -1,34 +1,38 @@
-import { log } from 'console';
 import {
   Tray,
   app,
-  BrowserWindow,
   Menu,
   screen,
-  NativeImage,
   globalShortcut,
+  BrowserWindow,
+  nativeImage,
 } from 'electron';
+import path from 'path';
+import { getWindow, RESOURCES_PATH } from '../utils/constants';
 import { displayWindowNearTray } from '../utils/util';
 
-const clippyTray = (iconPath: NativeImage, window: BrowserWindow): Tray => {
-  const tray = new Tray(iconPath.resize({ width: 16, height: 16 }));
-  // const window = getWindow('MAIN_WINDOW_ID');
+const clippyTray = (): Tray => {
+  const img = nativeImage.createFromPath(
+    path.resolve(RESOURCES_PATH, 'onclip.png')
+  );
+  const tray = new Tray(img.resize({ width: 16, height: 16 }));
+  const window = getWindow('MAIN_WINDOW_ID') as BrowserWindow;
 
-  if (!window) {
-    process.exit();
-  }
-
-  if (process.platform === 'win32') {
-    window?.setSkipTaskbar(true);
-  } else if (process.platform === 'darwin') {
-    app.dock.hide();
-  }
-  window?.setSkipTaskbar(true);
   tray.setToolTip('Clippy');
+  if (process.platform === 'darwin') {
+    app.dock.hide();
+  } else {
+    window?.setSkipTaskbar(true);
+  }
 
-  tray.on('click', () => {
-    log(screen.getCursorScreenPoint(), tray.getBounds());
-    displayWindowNearTray(tray, window);
+  tray.on('click', () => displayWindowNearTray(tray, window));
+
+  tray.on('right-click', () => {
+    const menuConfig = Menu.buildFromTemplate([
+      { label: 'Quit', click: () => app.quit() },
+    ]);
+
+    tray.popUpContextMenu(menuConfig);
   });
 
   window.on('blur', () => {
@@ -43,17 +47,6 @@ const clippyTray = (iconPath: NativeImage, window: BrowserWindow): Tray => {
     if (!mouseOnTrayIcon) {
       window.hide();
     }
-  });
-
-  tray.on('right-click', () => {
-    const menuConfig = Menu.buildFromTemplate([
-      {
-        label: 'Quit',
-        click: () => app.quit(),
-      },
-    ]);
-
-    tray.popUpContextMenu(menuConfig);
   });
 
   // Register a 'CommandOrControl+D' shortcut listener.

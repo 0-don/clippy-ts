@@ -33,7 +33,6 @@ const createWindow = (
   let window: null | BrowserWindow = new BrowserWindow({
     ...widthHeight,
     show: false,
-    // frame: false,
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#1c1c1c' : '#ffffff',
     icon: getAssetPath('icon.png'),
     webPreferences: {
@@ -43,19 +42,18 @@ const createWindow = (
 
   process.env[env] = `${window.id}`;
 
-  // mainWindow.loadURL(resolveHtmlPath('index.html#/settings'));
   window.loadURL(resolveHtmlPath(`index.html${urlPath ? `#${urlPath}` : ''}`));
 
   window.on('ready-to-show', () => {
     if (!window) {
       throw new Error('"mainWindow" is not defined');
     }
-    // if (urlPath) {
-    if (process.env.START_MINIMIZED) {
-      window.minimize();
-    } else {
-      window.show();
-      // }
+    if (urlPath) {
+      if (process.env.START_MINIMIZED) {
+        window.minimize();
+      } else {
+        window.show();
+      }
     }
   });
 

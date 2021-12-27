@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 import dayjs from 'dayjs';
+import { log } from 'console';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { app, dialog, ipcMain, nativeImage } from 'electron';
+import { app, ipcMain, nativeImage } from 'electron';
 import clipboard from 'electron-clipboard-extended';
 import { getWindow } from '../utils/constants';
 import { formatBytes } from '../utils/util';
@@ -15,7 +16,6 @@ export type GetClipboards = {
 };
 
 dayjs.extend(customParseFormat);
-console.log(__dirname);
 
 const prisma = new PrismaClient({
   // datasources: { db: { url: 'file:/Users/don/clippy/db/clippy.db' } },
@@ -33,7 +33,7 @@ clipboard
     const type = re.test(content) ? 'palette' : 'file';
     const typeName = re.test(content) ? 'Color Detected' : 'Text Detected';
 
-    console.log(typeName, dayjs().format('H:mm:ss'));
+    log(typeName, dayjs().format('H:mm:ss'));
 
     if (addClipboard && content.replace(' ', '').length > 0) {
       const clip = await prisma.clipboard.create({
@@ -45,7 +45,7 @@ clipboard
   })
   // IMAGE CHANGED
   .on('image-changed', async () => {
-    console.log('Image Detected', dayjs().format('H:mm:ss'));
+    log('Image Detected', dayjs().format('H:mm:ss'));
 
     const mainWindow = getWindow('MAIN_WINDOW_ID');
     const image = clipboard.readImage();
@@ -69,7 +69,7 @@ clipboard
 
 ipcMain.on('ping', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
+  log(msgTemplate(arg));
   event.reply('ping', msgTemplate('pong'));
 });
 
@@ -79,7 +79,7 @@ ipcMain.handle(
   async (_, { cursor, star, search, showImages }: GetClipboards) => {
     const take = 16;
 
-    // console.log('cursor:', cursor, 'star:', star, 'search:', search);
+    // log('cursor:', cursor, 'star:', star, 'search:', search);
 
     const clipboards = await prisma.clipboard.findMany({
       take: take * (cursor ? -1 : 1),
@@ -101,7 +101,7 @@ ipcMain.handle(
 ipcMain.handle(
   'switchClipboard',
   async (_, { type, blob, content }: Clipboard) => {
-    console.log('Switch', dayjs().format('H:mm:ss'));
+    log('Switch', dayjs().format('H:mm:ss'));
 
     addClipboard = false;
     if (type === 'file-image' && blob) {
