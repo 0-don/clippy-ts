@@ -1,17 +1,11 @@
 /*  eslint global-require: off,
     no-console: off */
+
 import path from 'path';
-import fs from 'fs';
+
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import {
-  app,
-  BrowserWindow,
-  ipcMain,
-  Tray,
-  nativeImage,
-  dialog,
-} from 'electron';
+import { app, BrowserWindow, ipcMain, Tray, nativeImage } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import clipboard from 'electron-clipboard-extended';
 import log from 'electron-log';
@@ -29,7 +23,7 @@ export default class AppUpdater {
   }
 }
 
-// let tray: Tray | null = null;
+let tray: Tray | null = null;
 let mainWindow: BrowserWindow | null = null;
 let aboutWindow: BrowserWindow | null = null;
 let settingsWindow: BrowserWindow | null = null;
@@ -41,6 +35,12 @@ if (process.env.NODE_ENV === 'production') {
 
 const isDevelopment =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
+
+process.env.APPIMAGE = path.join(
+  __dirname,
+  'dist',
+  `Installar_Mapeo_${app.getVersion()}_linux.AppImage`
+);
 
 if (isDevelopment) {
   require('electron-debug')();
@@ -70,17 +70,17 @@ const createMainWindow = async () => {
 
   mainWindow = createWindow('MAIN_WINDOW_ID');
 
-  // const img = nativeImage.createFromPath(
-  //   path.resolve(RESOURCES_PATH, 'onclip.png')
-  // );
+  const img = nativeImage.createFromPath(
+    path.resolve(RESOURCES_PATH, 'onclip.png')
+  );
 
   // new Notification({
   //   title: path.resolve(RESOURCES_PATH, 'icon.png'),
   //   body: path.resolve(RESOURCES_PATH, 'icon.png'),
   // }).show();
 
-  // tray = clippyTray(img, mainWindow);
-  // tray.on('click', () => {});
+  tray = clippyTray(img, mainWindow);
+  tray.on('click', () => {});
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line

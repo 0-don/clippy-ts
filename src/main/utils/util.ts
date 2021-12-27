@@ -1,7 +1,7 @@
 /* eslint import/no-mutable-exports: off, no-restricted-properties: off */
 import { URL } from 'url';
 import path from 'path';
-import { BrowserWindow, Tray } from 'electron';
+import { BrowserWindow, Tray, screen } from 'electron';
 
 export let resolveHtmlPath: (htmlFileName: string) => string;
 
@@ -33,14 +33,18 @@ export function formatBytes(bytes: number, decimals = 2) {
 export function displayWindowNearTray(tray: Tray, window: BrowserWindow) {
   const { x, y } = tray.getBounds();
   const { height, width } = window.getBounds();
+  const mousePos = screen.getCursorScreenPoint();
 
   if (window.isVisible()) {
     window.hide();
   } else {
-    const yPosition = process.platform === 'darwin' ? y : y - height;
+    const yPositionTray = process.platform === 'darwin' ? y : y - height;
+    const yPositionMouse =
+      process.platform !== 'darwin' ? mousePos.y : mousePos.y - height;
+
     window.setBounds({
-      x: Math.floor(x - width / 2),
-      y: Math.floor(yPosition + 8),
+      x: x ? Math.floor(x - width / 2) : Math.floor(mousePos.x - width / 2),
+      y: y ? Math.floor(yPositionTray + 8) : Math.floor(yPositionMouse + 8),
       height,
       width,
     });
