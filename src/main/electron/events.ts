@@ -1,38 +1,25 @@
 /* eslint-disable no-console */
 import dayjs from 'dayjs';
-import path from 'path';
 import fs from 'fs';
 import { log } from 'console';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { app, ipcMain, nativeImage } from 'electron';
 import clipboard from 'electron-clipboard-extended';
-import { getWindow } from '../utils/constants';
+import {
+  DEFAULT_DB_CONFIG_PATH,
+  GetClipboards,
+  getWindow,
+  prismaClientConfig,
+} from '../utils/constants';
 import { formatBytes } from '../utils/util';
 import { Clipboard, PrismaClient } from '../prisma/client/index';
 
-export type GetClipboards = {
-  cursor?: number;
-  star?: boolean;
-  search?: string;
-  showImages?: boolean;
-};
-
 dayjs.extend(customParseFormat);
 
-const url = path.join(app.getPath('home'), '/clippy/db/');
-
-if (!fs.existsSync(url)) {
-  fs.mkdirSync(url, { recursive: true });
-}
-
-console.log(`file:${url}clippy.db`);
-
-const prisma = new PrismaClient({
-  datasources: { db: { url: `file:${url}clippy.db` } },
-});
-let addClipboard = true;
+const prisma = new PrismaClient(prismaClientConfig());
 
 // CLIPBOARD EVENT LISTENER
+let addClipboard = true;
 clipboard
   // TEXT CHANGED
   .on('text-changed', async () => {
@@ -153,3 +140,8 @@ ipcMain.handle('exit', async () => {
 
 // VERSION
 ipcMain.handle('version', async () => app.getVersion());
+
+// READ DATABASE URL
+ipcMain.handle('getDatbaseUrl', () =>
+  fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8')
+);

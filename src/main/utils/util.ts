@@ -52,6 +52,9 @@ export function displayWindowNearTray(tray: Tray, window: BrowserWindow) {
   }
 }
 
-// export function getDefaultSqlLiteUrl() {
-//   RESOURCES_PATH;
-// }
+export function upsertDbConfig() {
+  // const url = path.join(app.getPath('home'), '/clippy/db/');
+  // if (!fs.existsSync(url)) {
+  //   fs.mkdirSync(url, { recursive: true });
+  // }
+}

@@ -93,6 +93,7 @@ app
   .whenReady()
   .then(async () => {
     createMainWindow();
+
     // console.log(
     //   await dialog.showOpenDialog({
     //     properties: ['openFile', 'multiSelections'],

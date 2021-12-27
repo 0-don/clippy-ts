@@ -1,7 +1,7 @@
 import { app, BrowserWindow, nativeTheme, shell } from 'electron';
 import path from 'path';
 import MenuBuilder from './electron/menu';
-import { ENV } from './utils/constants';
+import { ENV, RESOURCES_PATH } from './utils/constants';
 import { resolveHtmlPath } from './utils/util';
 
 const devWindowSize = {
@@ -20,10 +20,6 @@ const createWindow = (
     width: 375,
   }
 ) => {
-  const RESOURCES_PATH = app.isPackaged
-    ? path.join(process.resourcesPath, 'assets')
-    : path.join(__dirname, '../../assets');
-
   const getAssetPath = (...paths: string[]): string => {
     return path.join(RESOURCES_PATH, ...paths);
   };
