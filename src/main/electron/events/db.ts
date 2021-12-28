@@ -1,30 +1,30 @@
 import { ipcMain, dialog, app } from 'electron';
 import fs from 'fs';
 import path from 'path';
-import { Clipboard, PrismaClient } from '../../prisma/client/index';
+import { PrismaClient } from '../../prisma/client/index';
 import {
   DEFAULT_DB_CONFIG_PATH,
   isDevelopment,
   DEFAULT_DB_PATH,
   prismaClientConfig,
 } from '../../utils/constants';
-import { formatBytes } from '../../utils/util';
+import { localStorageHistory } from '../../utils/util';
 
 const prisma = new PrismaClient(prismaClientConfig());
+
 // READ DATABASE URL
 ipcMain.handle('getDatbasePath', () =>
   fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8')
 );
 
-// GET DATABASE URL
-ipcMain.handle('getDatabaseInfo', async () => {
-  const currentPath = fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8');
-  const { size } = fs.statSync(currentPath);
-  const count = await prisma.clipboard.count();
+// GET DATABASE INFO
+ipcMain.handle('getDatabaseInfo', async () => localStorageHistory());
 
-  return `${count} local item (${formatBytes(
-    size
-  )}) are saved on this computer`;
+// CLEAR DATABASE
+ipcMain.handle('clearDatabase', async () => {
+  await prisma.clipboard.deleteMany({ where: {} });
+  await prisma?.$disconnect();
+  return localStorageHistory();
 });
 
 // SAVE, LOAD OR OVERWRITE DB IN SPECIFIC PATH

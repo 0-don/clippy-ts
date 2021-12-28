@@ -40,4 +40,5 @@ contextBridge.exposeInMainWorld('electron', {
   getDatbasePath: (arg) => ipcRenderer.invoke('getDatbasePath', arg),
   selectDatabasePath: (arg) => ipcRenderer.invoke('selectDatabasePath', arg),
   getDatabaseInfo: (arg) => ipcRenderer.invoke('getDatabaseInfo', arg),
+  clearDatabase: (arg) => ipcRenderer.invoke('clearDatabase', arg),
 });

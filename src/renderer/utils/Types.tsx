@@ -19,6 +19,7 @@ declare global {
       getDatbasePath: () => Promise<string>;
       selectDatabasePath: () => Promise<string>;
       getDatabaseInfo: () => Promise<string>;
+      clearDatabase: () => Promise<string>;
     };
   }
 }

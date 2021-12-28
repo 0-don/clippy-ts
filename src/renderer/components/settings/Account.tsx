@@ -11,10 +11,13 @@ const Account: React.FC = () => {
 
   return (
     <>
-      <h2 className="font-semibold mb-2">Database Location</h2>
-      <div className="border border-solid rounded-md border-gray-400 p-5 flex w-full items-center space-x-3">
-        <FontAwesomeIcon icon="globe-europe" />
-        <div className="w-full">
+      <div className="border border-solid rounded-md border-zinc-700 shadow-2xl">
+        <div className="flex items-center space-x-2 bg-zinc-800 px-5 pt-5 pb-2.5">
+          <FontAwesomeIcon icon="globe-europe" />
+          <h2 className="font-semibold">Database Location</h2>
+        </div>
+
+        <div className="list-disc px-5 pb-5 pt-2.5">
           <button
             type="button"
             className="relative w-full group cursor-pointer"
@@ -22,7 +25,10 @@ const Account: React.FC = () => {
               setUrl(await window.electron.selectDatabasePath())
             }
           >
-            <div className="italic text-left text-sm border-gray-300 w-full px-3 py-0.5 dark:bg-dark-light dark:border-dark-light dark:text-white border rounded-md focus:outline-none dark:focus:bg-dark-dark">
+            <div
+              title={url}
+              className="italic text-left text-sm border-gray-300 w-full px-3 py-0.5 dark:bg-dark-light dark:border-dark-light dark:text-white border rounded-md focus:outline-none dark:focus:bg-dark-dark"
+            >
               {url}
             </div>
             <div className="my-1 absolute space-x-1 inset-y-0 right-1 flex items-center text-xs bg-gray-600 text-white group-hover:bg-gray-400 px-2 rounded group">

@@ -1,7 +1,12 @@
 /* eslint import/no-mutable-exports: off, no-restricted-properties: off */
 import { URL } from 'url';
+import fs from 'fs';
 import path from 'path';
 import { BrowserWindow, Tray, screen } from 'electron';
+import { PrismaClient } from '../prisma/client';
+import { DEFAULT_DB_CONFIG_PATH, prismaClientConfig } from './constants';
+
+const prisma = new PrismaClient(prismaClientConfig());
 
 export let resolveHtmlPath: (htmlFileName: string) => string;
 
@@ -52,9 +57,12 @@ export function displayWindowNearTray(tray: Tray, window: BrowserWindow) {
   }
 }
 
-export function upsertDbConfig() {
-  // const url = path.join(app.getPath('home'), '/clippy/db/');
-  // if (!fs.existsSync(url)) {
-  //   fs.mkdirSync(url, { recursive: true });
-  // }
+export async function localStorageHistory() {
+  const currentPath = fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8');
+  const { size } = fs.statSync(currentPath);
+  const count = await prisma.clipboard.count();
+
+  return `${count} local items (${formatBytes(
+    size
+  )}) are saved on this computer`;
 }
