@@ -8,7 +8,6 @@ import { app, dialog, ipcMain, nativeImage } from 'electron';
 import clipboard from 'electron-clipboard-extended';
 import {
   DEFAULT_DB_CONFIG_PATH,
-  DEFAULT_DB_DIRECTORY,
   DEFAULT_DB_PATH,
   GetClipboards,
   getWindow,
@@ -37,7 +36,7 @@ clipboard
     log(typeName, dayjs().format('H:mm:ss'));
 
     if (addClipboard && content.replace(' ', '').length > 0) {
-      const clip = await prisma.clipboard.create({
+      const clip = await prisma?.clipboard.create({
         data: { content, type },
       });
       mainWindow?.webContents.send('addClipboard', clip);
@@ -52,7 +51,7 @@ clipboard
     const image = clipboard.readImage();
 
     if (addClipboard) {
-      const clip = await prisma.clipboard.create({
+      const clip = await prisma?.clipboard.create({
         data: {
           width: image.getSize().width,
           height: image.getSize().height,
@@ -82,7 +81,7 @@ ipcMain.handle(
 
     // log('cursor:', cursor, 'star:', star, 'search:', search);
 
-    const clipboards = await prisma.clipboard.findMany({
+    const clipboards = await prisma?.clipboard.findMany({
       take: take * (cursor ? -1 : 1),
       skip: cursor ? 1 : undefined,
       where: {
@@ -94,7 +93,7 @@ ipcMain.handle(
       orderBy: cursor ? undefined : [{ id: 'desc' }],
     });
 
-    return cursor ? clipboards.sort((a, b) => b.id - a.id) : clipboards;
+    return cursor ? clipboards?.sort((a, b) => b.id - a.id) : clipboards;
   }
 );
 
@@ -118,7 +117,7 @@ ipcMain.handle(
 
 // DELETE CLIPBOARD
 ipcMain.handle('deleteClipboard', async (_, id: number) => {
-  await prisma.clipboard.delete({
+  await prisma?.clipboard.delete({
     where: { id },
   });
   return true;
@@ -126,10 +125,10 @@ ipcMain.handle('deleteClipboard', async (_, id: number) => {
 
 // STAR CLIPBOARD
 ipcMain.handle('starClipboard', async (_, id: number) => {
-  const clip = await prisma.clipboard.findFirst({
+  const clip = await prisma?.clipboard.findFirst({
     where: { id },
   });
-  await prisma.clipboard.update({
+  await prisma?.clipboard.update({
     where: { id },
     data: { star: !clip?.star },
   });
@@ -159,16 +158,52 @@ ipcMain.handle('selectDatabasePath', async () => {
   if (dialogResult.canceled) {
     return currentPath;
   }
+
   const dialogPath = path.join(dialogResult.filePaths[0], 'clippy.db');
 
-  console.log(currentPath, dialogPath, DEFAULT_DB_CONFIG_PATH);
+  if (dialogPath === currentPath) {
+    return currentPath;
+  }
+  const dbExists = fs.existsSync(dialogPath);
+  await prisma?.$disconnect();
+
+  const response =
+    dbExists &&
+    dialog.showMessageBoxSync({
+      type: 'question',
+      buttons: ['Load', 'Overwrite', 'Cancel'],
+      title: 'Confirm',
+      message: 'Clippy database already in the folder?',
+    });
+
+  // CANCEL
+  if (response === 2) {
+    return currentPath;
+  }
+
+  // LOAD
+  if (response === 0) {
+    fs.writeFileSync(DEFAULT_DB_CONFIG_PATH, dialogPath);
+    if (!isDevelopment) {
+      process.exit();
+    } else {
+      app.exit();
+      app.relaunch();
+    }
+    return dialogPath;
+  }
+
+  // OVERWRITE
+  // copy file to new location
   fs.copyFileSync(currentPath, dialogPath);
-  if (dialogPath !== currentPath && currentPath !== DEFAULT_DB_PATH) {
+  if (!(currentPath === DEFAULT_DB_PATH)) {
+    // delete old db
     fs.unlinkSync(currentPath);
   }
+  // Write current DB url in to storage
   fs.writeFileSync(DEFAULT_DB_CONFIG_PATH, dialogPath);
 
-  if (isDevelopment) {
+  if (!isDevelopment) {
     process.exit();
   } else {
     app.exit();
