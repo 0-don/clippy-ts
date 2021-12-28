@@ -9,11 +9,9 @@ const ViewMore: React.FC = () => {
   return (
     <>
       {/* Sync Clipboard Hitory  */}
-      <div
-        role="button"
-        tabIndex={-1}
-        onKeyDown={() => {}}
-        className="px-3 w-full hover:bg-neutral-700 cursor-pointer"
+      <button
+        type="button"
+        className="px-3 hover:bg-neutral-700 cursor-pointer w-full"
         onClick={setSync}
       >
         <div className="flex items-center justify-between py-4">
@@ -26,13 +24,11 @@ const ViewMore: React.FC = () => {
           <SwitchField checked={sync === 'online'} onChange={undefined} />
         </div>
         <hr className="text-zinc-600" />
-      </div>
+      </button>
 
       {/* Preferences */}
-      <div
-        role="button"
-        tabIndex={-2}
-        onKeyDown={() => {}}
+      <button
+        type="button"
         className="px-3 w-full hover:bg-neutral-700 cursor-pointer"
         onClick={() => window.electron.createSettingsWindow()}
       >
@@ -41,13 +37,11 @@ const ViewMore: React.FC = () => {
           <p className="px-4 text-base font-semibold">Preferences</p>
         </div>
         <hr className="text-zinc-600" />
-      </div>
+      </button>
 
       {/* About */}
-      <div
-        role="button"
-        tabIndex={-3}
-        onKeyDown={() => {}}
+      <button
+        type="button"
         className="px-3 w-full hover:bg-neutral-700 cursor-pointer"
         onClick={() => window.electron.createAboutWindow()}
       >
@@ -56,13 +50,11 @@ const ViewMore: React.FC = () => {
           <p className="px-4 text-base font-semibold">About</p>
         </div>
         <hr className="text-zinc-600" />
-      </div>
+      </button>
 
       {/* Exit */}
-      <div
-        role="button"
-        tabIndex={-4}
-        onKeyDown={() => {}}
+      <button
+        type="button"
         className="px-3 w-full hover:bg-neutral-700 cursor-pointer"
         onClick={() => window.electron.exit()}
       >
@@ -71,7 +63,7 @@ const ViewMore: React.FC = () => {
           <p className="px-4 text-base font-semibold">Exit</p>
         </div>
         <hr className="text-zinc-600" />
-      </div>
+      </button>
     </>
   );
 };

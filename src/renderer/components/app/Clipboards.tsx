@@ -71,16 +71,14 @@ function Clipboards({ star, search }: ClipboardProps) {
 
   return (
     <div ref={myRef} onScroll={onScroll} className="overflow-auto h-full pb-5">
-      {clipboards?.map((clipboard, i) => {
+      {clipboards?.map((clipboard) => {
         const { content, type, id, createdDate, blob, width, height, size } =
           clipboard;
         return (
-          <div
+          <button
             key={id}
-            role="button"
-            tabIndex={i}
-            onKeyDown={(e) => e.stopPropagation()}
-            className="px-3 group hover:bg-neutral-700 cursor-pointer"
+            type="button"
+            className="px-3 group hover:bg-neutral-700 cursor-pointer w-full"
             onClick={(e) => {
               e.stopPropagation();
               window.electron.switchClipboard(clipboard);
@@ -125,7 +123,7 @@ function Clipboards({ star, search }: ClipboardProps) {
               </div>
             </div>
             <hr className="text-zinc-600" />
-          </div>
+          </button>
         );
       })}
     </div>
