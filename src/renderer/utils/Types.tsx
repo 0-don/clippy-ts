@@ -18,6 +18,7 @@ declare global {
       version: () => Promise<string>;
       getDatbasePath: () => Promise<string>;
       selectDatabasePath: () => Promise<string>;
+      getDatabaseInfo: () => Promise<string>;
     };
   }
 }

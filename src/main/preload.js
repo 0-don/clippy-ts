@@ -20,16 +20,24 @@ contextBridge.exposeInMainWorld('electron', {
       ipcRenderer.once(channel, (event, ...args) => func(...args));
     }
   },
+  // UTIL
   myPing: () => ipcRenderer.send('ping', 'ping'),
+  exit: (arg) => ipcRenderer.invoke('exit', arg),
+  version: (arg) => ipcRenderer.invoke('version', arg),
+
+  // CLIPBOARD
   getClipboards: (arg) => ipcRenderer.invoke('getClipboards', arg),
   deleteClipboard: (arg) => ipcRenderer.invoke('deleteClipboard', arg),
   starClipboard: (arg) => ipcRenderer.invoke('starClipboard', arg),
   switchClipboard: (arg) => ipcRenderer.invoke('switchClipboard', arg),
-  exit: (arg) => ipcRenderer.invoke('exit', arg),
+
+  // WINDOW
   createAboutWindow: (arg) => ipcRenderer.invoke('createAboutWindow', arg),
   createSettingsWindow: (arg) =>
     ipcRenderer.invoke('createSettingsWindow', arg),
-  version: (arg) => ipcRenderer.invoke('version', arg),
+
+  // DATABASE
   getDatbasePath: (arg) => ipcRenderer.invoke('getDatbasePath', arg),
   selectDatabasePath: (arg) => ipcRenderer.invoke('selectDatabasePath', arg),
+  getDatabaseInfo: (arg) => ipcRenderer.invoke('getDatabaseInfo', arg),
 });

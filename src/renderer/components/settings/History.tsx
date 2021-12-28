@@ -1,7 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const History: React.FC = () => {
+  const [text, setText] = useState<string>();
+
+  useEffect(() => {
+    const getDatabaseInfo = async () =>
+      setText(await window.electron.getDatabaseInfo());
+    getDatabaseInfo();
+  }, [text]);
+
   return (
     <>
       <div className="border border-solid rounded-md border-zinc-700 shadow-2xl">
@@ -11,9 +19,10 @@ const History: React.FC = () => {
         </div>
 
         <ul className="list-disc mx-5 px-5 pb-5">
-          <li>1124 local item (7.71 MB) are saved on this computer</li>
+          <li>{text}</li>
         </ul>
       </div>
+
       <div className="pt-5 flex w-full justify-end">
         <button
           type="button"
