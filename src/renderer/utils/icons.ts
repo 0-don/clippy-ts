@@ -17,10 +17,24 @@ import {
   faSignOutAlt,
   faUser,
   faUpload,
+  faCogs,
+  faRocket,
+  faBell,
+  faSync,
 } from '@fortawesome/free-solid-svg-icons';
-import { faClock, faHdd, faSave } from '@fortawesome/free-regular-svg-icons';
+import {
+  faClock,
+  faHdd,
+  faSave,
+  faKeyboard,
+} from '@fortawesome/free-regular-svg-icons';
 
 library.add(
+  faSync,
+  faBell,
+  faRocket,
+  faKeyboard,
+  faCogs,
   faUpload,
   faUser,
   faSignOutAlt,

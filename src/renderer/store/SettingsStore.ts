@@ -27,7 +27,7 @@ const useSettingsStore = create<Settings>(
     immer(
       (set): Settings => ({
         tabs: [
-          { name: 'General', icon: 'cog', current: false },
+          { name: 'General', icon: 'cogs', current: false },
           { name: 'Account', icon: 'user', current: false },
           {
             name: 'History',

@@ -1,8 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect } from 'react';
+import TextBlock from '../../elements/TextBlock';
+import SwitchField from '../../elements/SwitchField';
+import useSettingsStore from '../../store/SettingsStore';
 
 const Account: React.FC = () => {
   const [url, setUrl] = useState<string>();
+  const { sync, setSync } = useSettingsStore();
 
   useEffect(() => {
     const getUrl = async () => setUrl(await window.electron.getDatbasePath());
@@ -11,12 +15,19 @@ const Account: React.FC = () => {
 
   return (
     <>
-      <div className="border border-solid rounded-md border-zinc-700 shadow-2xl">
-        <div className="flex items-center space-x-2 bg-zinc-800 px-5 pt-5 pb-2.5">
-          <FontAwesomeIcon icon="globe-europe" />
-          <h2 className="font-semibold">Database Location</h2>
+      <TextBlock icon="sync" title="Sync">
+        <div className="px-5 flex items-center mb-2 space-x-2 pb-2.5 justify-between">
+          <div className="flex items-center space-x-2 truncate">
+            <FontAwesomeIcon icon={['far', 'save']} />
+            <h6 className="text-sm">Synchronize Clipboard History</h6>
+          </div>
+          <div>
+            <SwitchField checked={sync === 'online'} onChange={setSync} />
+          </div>
         </div>
+      </TextBlock>
 
+      <TextBlock icon="globe-europe" title="Database Location">
         <div className="list-disc px-5 pb-5 pt-2.5">
           <button
             type="button"
@@ -37,7 +48,7 @@ const Account: React.FC = () => {
             </div>
           </button>
         </div>
-      </div>
+      </TextBlock>
     </>
   );
 };

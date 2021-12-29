@@ -113,7 +113,7 @@ function Clipboards({ star, search }: ClipboardProps) {
                       <p className="text-sm">{content}</p>
                     </div>
                   )}
-                  <div className="text-zinc-400 text-xs">
+                  <div className="text-zinc-400 text-xs text-left">
                     {dayjs(createdDate).toNow(true)}
                   </div>
                 </div>
