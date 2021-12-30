@@ -1,7 +1,7 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { persist } from 'zustand/middleware';
 import create from 'zustand';
-import immer from '../utils/immer';
+import { immer } from '../utils/util';
 
 type SettingsTabName = 'General' | 'Account' | 'History';
 

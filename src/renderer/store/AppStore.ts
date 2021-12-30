@@ -1,5 +1,5 @@
 import create from 'zustand';
-import immer from '../utils/immer';
+import { immer } from '../utils/util';
 import { Clipboard } from '../../main/prisma/client/index';
 
 type AppTab =
