@@ -9,14 +9,14 @@ const Settings = () => {
   const currentTab = tabs.find((tab) => tab.current)?.name;
 
   return (
-    <>
+    <div className="absolute w-full h-full dark:bg-dark bg-white dark:text-white text-black flex flex-col overflow-hidden">
       <Tabs />
-      <div className="p-5 dark:text-white">
+      <div className="p-5 dark:text-white ">
         {currentTab === 'General' && <General />}
         {currentTab === 'Account' && <Account />}
         {currentTab === 'History' && <History />}
       </div>
-    </>
+    </div>
   );
 };
 

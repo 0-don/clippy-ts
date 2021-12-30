@@ -60,7 +60,6 @@ export const GLOBAL_SHORTCUT_KEYS = [
   'V',
   'W',
   'X',
-  'X',
   'Y',
   'Z',
   'F1',

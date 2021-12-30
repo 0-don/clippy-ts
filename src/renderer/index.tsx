@@ -3,10 +3,8 @@ import ReactDOM from 'react-dom';
 import { useEffect } from 'react';
 import './index.css';
 import './utils/icons';
-import './utils/Types';
 import Routes from './Routes';
 import useSettingsStore from './store/SettingsStore';
-// import icon from '../../assets/clippy.png';
 
 const Index = () => {
   const { startTheme } = useSettingsStore();

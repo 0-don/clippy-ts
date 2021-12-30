@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import icon from '../../../assets/clippy.png';
-// import icon from '../../assets/clippy.png';
+
 const About: React.FC = () => {
   const [version, setVersion] = useState<string | number>();
 

@@ -1,5 +1,4 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface CheckBoxProps {
   text: string;
@@ -11,12 +10,12 @@ const CheckBox: React.FC<CheckBoxProps> = ({ checked, onChange, text }) => {
   console.log(checked, onChange);
   return (
     <div className="flex items-center">
-      <div className="bg-white dark:bg-gray-800 border rounded-sm border-gray-400 dark:border-gray-700 w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
+      <div className="bg-white dark:bg-dark border rounded-sm border-gray-400 dark:border-gray-700 w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
         <input
           type="checkbox"
           className="checkbox opacity-0 absolute cursor-pointer w-full h-full"
         />
-        <div className="check-icon hidden bg-indigo-700 text-white rounded-sm">
+        <div className="check-icon hidden bg-indigo-600 text-white rounded-sm">
           <svg
             className="icon icon-tabler icon-tabler-check"
             xmlns="http://www.w3.org/2000/svg"
