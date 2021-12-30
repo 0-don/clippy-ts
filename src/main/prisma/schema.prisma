@@ -5,6 +5,7 @@ generator client {
   provider      = "prisma-client-js"
   output        = "./client"
   binaryTargets = ["native"]
+
 }
 
 datasource db {
@@ -25,7 +26,7 @@ model Clipboard {
 }
 
 model Settings {
-  id           Int     @id @default(autoincrement())
+  id           Int     @id
   startup      Boolean @default(false)
   notification Boolean @default(false)
   synchronize  Boolean @default(false)
@@ -33,9 +34,10 @@ model Settings {
 }
 
 model Hotkey {
-  id    Int     @id @default(autoincrement())
+  id    Int     @id
   ctrl  Boolean @default(false)
   alt   Boolean @default(false)
   shift Boolean @default(false)
+  key   String
   event String
 }

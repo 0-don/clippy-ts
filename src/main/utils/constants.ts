@@ -5,6 +5,8 @@ import path from 'path';
 
 export type ENV = 'MAIN_WINDOW_ID' | 'ABOUT_WINDOW_ID' | 'SETTINGS_WINDOW_ID';
 
+export type HotkeyEvent = 'windowDisplayToggle';
+
 export type GetClipboards = {
   cursor?: number;
   star?: boolean;

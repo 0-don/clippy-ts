@@ -11,19 +11,6 @@ const General: React.FC = () => {
 
   return (
     <>
-      <TextBlock icon={['far', 'keyboard']} title="Keyboard shorcut">
-        <div className="px-5 space-x-5 pb-5 flex items-center">
-          <FontAwesomeIcon icon="cut" className="text-xl" />
-
-          <div className="flex items-center space-x-5">
-            <CheckBox checked onChange={undefined} text="Ctrl" />
-            <CheckBox checked onChange={undefined} text="Alt" />
-            <CheckBox checked onChange={undefined} text="Shift" />
-            <Dropdown items={GLOBAL_SHORTCUT_KEYS} />
-          </div>
-        </div>
-      </TextBlock>
-
       <TextBlock icon="cog" title="System">
         <div className="px-5 flex items-center space-x-2 pb-5 justify-between">
           <div className="flex items-center space-x-2 truncate">
@@ -42,6 +29,19 @@ const General: React.FC = () => {
           </div>
           <div>
             <SwitchField checked={state} onChange={setState} />
+          </div>
+        </div>
+      </TextBlock>
+
+      <TextBlock icon={['far', 'keyboard']} title="Keyboard shorcut">
+        <div className="px-5 space-x-5 pb-5 flex items-center">
+          <FontAwesomeIcon icon="cut" className="text-xl" />
+
+          <div className="flex items-center space-x-5">
+            <CheckBox checked onChange={undefined} text="Ctrl" />
+            <CheckBox checked onChange={undefined} text="Alt" />
+            <CheckBox checked onChange={undefined} text="Shift" />
+            <Dropdown items={GLOBAL_SHORTCUT_KEYS} />
           </div>
         </div>
       </TextBlock>
