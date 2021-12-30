@@ -23,3 +23,19 @@ model Clipboard {
   star        Boolean  @default(false)
   createdDate DateTime @default(now())
 }
+
+model Settings {
+  id           Int     @id @default(autoincrement())
+  startup      Boolean @default(false)
+  notification Boolean @default(false)
+  synchronize  Boolean @default(false)
+  darkmode     Boolean @default(true)
+}
+
+model Hotkey {
+  id    Int     @id @default(autoincrement())
+  ctrl  Boolean @default(false)
+  alt   Boolean @default(false)
+  shift Boolean @default(false)
+  event String
+}

@@ -8,11 +8,10 @@ import { autoUpdater } from 'electron-updater';
 import clipboard from 'electron-clipboard-extended';
 import log from 'electron-log';
 import createWindow from './window';
-import './electron/events';
 import clippyTray from './electron/clippyTray';
 import { isDevelopment } from './utils/constants';
-
-// fs.writeFileSync('./sd/asdyx/test.txt', 'asdsda');
+import seed from './prisma/seed';
+import './electron/events';
 
 export default class AppUpdater {
   constructor() {
@@ -41,7 +40,7 @@ if (isDevelopment) {
   require('electron-debug')();
 }
 
-const installExtensions = async () => {
+const installExtensions = () => {
   const installer = require('electron-devtools-installer');
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
   const extensions = ['REACT_DEVELOPER_TOOLS'];
@@ -92,13 +91,9 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(async () => {
+    await seed();
     createMainWindow();
 
-    // console.log(
-    //   await dialog.showOpenDialog({
-    //     properties: ['openFile', 'multiSelections'],
-    //   })
-    // );
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
