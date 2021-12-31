@@ -16,7 +16,7 @@ export type GetClipboards = {
 
 export const getWindow = (env: ENV) => {
   const ID = 1 * Number(process.env[env]);
-  return BrowserWindow.fromId(ID);
+  return BrowserWindow.fromId(ID) as BrowserWindow;
 };
 
 export const isDevelopment =

@@ -1,35 +1,30 @@
-import { ipcMain } from 'electron';
+import { globalShortcut } from 'electron';
 import {
   prismaClientConfig,
-  getWindow,
   HotkeyEvent,
+  getWindow,
 } from '../../utils/constants';
-import { PrismaClient, Prisma } from '../../prisma/client';
+import { PrismaClient, Hotkey } from '../../prisma/client';
+import { displayWindowNearTray, hotkeyToAccelerator } from '../../utils/util';
+import tray from '../tray';
 
 const prisma = new PrismaClient(prismaClientConfig());
+interface ExtendedHotKey extends Hotkey {
+  event: HotkeyEvent;
+}
 
-// GET HOTKEY
-ipcMain.handle('getHotkey', async (_, event: HotkeyEvent) =>
-  prisma.hotkey.findFirst({ where: { event: { equals: event } } })
-);
+async function createGlobalShortcuts() {
+  const hotkeys = (await prisma.hotkey.findMany({
+    where: {},
+  })) as ExtendedHotKey[];
+  console.log(hotkeys);
+  const windowDisplayToggle = hotkeys.find(
+    (key) => key.event === 'windowDisplayToggle'
+  ) as ExtendedHotKey;
+  globalShortcut.register(hotkeyToAccelerator(windowDisplayToggle), () => {
+    const window = getWindow('MAIN_WINDOW_ID');
+    displayWindowNearTray(tray, window);
+  });
+}
 
-// // EXIT
-// ipcMain.handle(
-//   'windowDisplayToggle',
-//   async (_, hotkey: Prisma.HotkeyCreateInput) => {
-//     const window = getWindow('MAIN_WINDOW_ID');
-//     const dbHotkey = await prisma.hotkey.findFirst({
-//       where: { id: hotkey.id },
-//     });
-//     const dbHotkeyUpdate = await prisma.hotkey.update({
-//       where: { id: hotkey.id },
-//       data: hotkey,
-//     });
-
-//     if (window?.isVisible()) {
-//       window.show();
-//     } else {
-//       window?.hide();
-//     }
-//   }
-// );
+export default createGlobalShortcuts;

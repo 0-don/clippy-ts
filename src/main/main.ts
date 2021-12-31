@@ -8,10 +8,10 @@ import { autoUpdater } from 'electron-updater';
 import clipboard from 'electron-clipboard-extended';
 import log from 'electron-log';
 import createWindow from './window';
-import clippyTray from './electron/clippyTray';
+
 import { isDevelopment } from './utils/constants';
 import seed from './prisma/seed';
-import './electron/events';
+import createGlobalShortcuts from './electron/events/hotkey';
 
 export default class AppUpdater {
   constructor() {
@@ -57,8 +57,8 @@ const createMainWindow = async () => {
   if (isDevelopment) {
     await installExtensions();
   }
+  await require('./electron/tray');
   mainWindow = createWindow('MAIN_WINDOW_ID');
-  clippyTray();
 };
 
 ipcMain.handle('createAboutWindow', () => {
@@ -92,7 +92,8 @@ app
   .whenReady()
   .then(async () => {
     await seed();
-    createMainWindow();
+    await createMainWindow();
+    await createGlobalShortcuts();
 
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the

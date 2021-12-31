@@ -50,11 +50,11 @@ const clippyTray = (): Tray => {
   });
 
   // Register a 'CommandOrControl+D' shortcut listener.
-  globalShortcut.register('CommandOrControl+D', () => {
-    displayWindowNearTray(tray, window);
-  });
+  // globalShortcut.register('CommandOrControl+D', () => {
+  //   displayWindowNearTray(tray, window);
+  // });
 
   return tray;
 };
 
-export default clippyTray;
+export default clippyTray();

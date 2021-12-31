@@ -18,6 +18,7 @@ const hotkeyData: Prisma.HotkeyCreateInput[] &
   {
     id: 1,
     event: 'windowDisplayToggle',
+    ctrl: true,
     key: 'D',
   },
 ];

@@ -1,10 +1,20 @@
 import { ipcMain } from 'electron';
-import { PrismaClient } from '../../prisma/client/index';
-import { prismaClientConfig } from '../../utils/constants';
+import { Prisma, PrismaClient } from '../../prisma/client/index';
+import { HotkeyEvent, prismaClientConfig } from '../../utils/constants';
 
 const prisma = new PrismaClient(prismaClientConfig());
 
 // GET SETTINGS
-ipcMain.handle('getSettings', async () =>
+ipcMain.handle('getSettings', () =>
   prisma.settings.findFirst({ where: { id: 1 } })
+);
+
+// GET HOTKEY
+ipcMain.handle('getHotkey', (_, event: HotkeyEvent) =>
+  prisma.hotkey.findFirst({ where: { event: { equals: event } } })
+);
+
+// UPDATE HOTKEY
+ipcMain.handle('updateHotkey', (_, hotkey: Prisma.HotkeyCreateInput) =>
+  prisma.hotkey.update({ where: { id: hotkey.id }, data: hotkey })
 );

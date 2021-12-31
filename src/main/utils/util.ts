@@ -1,9 +1,10 @@
 /* eslint import/no-mutable-exports: off, no-restricted-properties: off */
 import { URL } from 'url';
+import { log } from 'console';
 import fs from 'fs';
 import path from 'path';
 import { BrowserWindow, Tray, screen } from 'electron';
-import { PrismaClient } from '../prisma/client';
+import { PrismaClient, Prisma } from '../prisma/client';
 import { DEFAULT_DB_CONFIG_PATH, prismaClientConfig } from './constants';
 
 const prisma = new PrismaClient(prismaClientConfig());
@@ -65,4 +66,16 @@ export async function localStorageHistory() {
   return `${count} local items (${formatBytes(
     size
   )}) are saved on this computer`;
+}
+
+export function hotkeyToAccelerator(hotkey: Prisma.HotkeyCreateInput) {
+  const accelerator: string[] = [];
+  if (hotkey.alt) accelerator.push('Alt');
+  if (hotkey.ctrl) accelerator.push('CmdOrCtrl');
+  if (hotkey.shift) accelerator.push('Shift');
+  if (hotkey.key) accelerator.push(hotkey.key);
+
+  const result = accelerator.join('+');
+  log(result);
+  return result;
 }
