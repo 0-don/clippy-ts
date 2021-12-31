@@ -23,7 +23,8 @@ async function createGlobalShortcuts() {
   ) as ExtendedHotKey;
   globalShortcut.register(hotkeyToAccelerator(windowDisplayToggle), () => {
     const window = getWindow('MAIN_WINDOW_ID');
-    displayWindowNearTray(tray, window);
+
+    displayWindowNearTray(tray(), window);
   });
 }
 

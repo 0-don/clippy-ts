@@ -11,7 +11,7 @@ import path from 'path';
 import { getWindow, RESOURCES_PATH } from '../utils/constants';
 import { displayWindowNearTray } from '../utils/util';
 
-const clippyTray = (): Tray => {
+const createTray = (): Tray => {
   const img = nativeImage.createFromPath(
     path.resolve(RESOURCES_PATH, 'onclip.png')
   );
@@ -57,4 +57,4 @@ const clippyTray = (): Tray => {
   return tray;
 };
 
-export default clippyTray();
+export default createTray;
