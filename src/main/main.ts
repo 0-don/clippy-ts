@@ -10,7 +10,7 @@ import log from 'electron-log';
 import createWindow from './window';
 import { isDevelopment } from './utils/constants';
 import seed from './prisma/seed';
-import createGlobalShortcuts from './electron/hotkey';
+import createGlobalShortcuts from './electron/globalShortcut';
 import { createTray } from './electron/tray';
 import './electron/events';
 

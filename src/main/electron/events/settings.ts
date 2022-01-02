@@ -9,6 +9,11 @@ ipcMain.handle('getSettings', () =>
   prisma.settings.findFirst({ where: { id: 1 } })
 );
 
+// UPDATE SETTINGS
+ipcMain.handle('updateSettings', (_, data: Prisma.SettingsCreateInput) =>
+  prisma.settings.update({ where: { id: 1 }, data })
+);
+
 // GET HOTKEY
 ipcMain.handle('getHotkey', (_, event: HotkeyEvent) =>
   prisma.hotkey.findFirst({ where: { event: { equals: event } } })

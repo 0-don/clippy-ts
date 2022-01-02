@@ -36,6 +36,12 @@ contextBridge.exposeInMainWorld('electron', {
   createSettingsWindow: (arg) =>
     ipcRenderer.invoke('createSettingsWindow', arg),
 
+  // SETTINGS
+  getSettings: (arg) => ipcRenderer.invoke('getSettings', arg),
+  updateSettings: (arg) => ipcRenderer.invoke('updateSettings', arg),
+  getHotkey: (arg) => ipcRenderer.invoke('getHotkey', arg),
+  updateHotkey: (arg) => ipcRenderer.invoke('updateHotkey', arg),
+
   // DATABASE
   getDatbasePath: (arg) => ipcRenderer.invoke('getDatbasePath', arg),
   selectDatabasePath: (arg) => ipcRenderer.invoke('selectDatabasePath', arg),

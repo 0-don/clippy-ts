@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { Clipboard } from '../../main/prisma/client/index';
+import { Clipboard, Prisma } from '../../main/prisma/client/index';
 import { GetClipboards } from '../../main/utils/constants';
 
 declare global {
@@ -7,16 +7,35 @@ declare global {
     electron: {
       once: (type: string, arg: unknown) => () => void;
       on: (type: string, arg: unknown) => () => void;
+
+      // UTIL
       myPing: () => void;
-      doAction: (arg: number[]) => string;
+      exit: () => Promise<boolean>;
+      version: () => Promise<string>;
+
+      // CLIPBOARD
       getClipboards: (arg: GetClipboards) => Promise<Clipboard[]>;
       deleteClipboard: (arg: number) => Promise<boolean>;
       starClipboard: (arg: number) => Promise<boolean>;
       switchClipboard: (arg: Clipboard) => Promise<boolean>;
-      exit: () => Promise<boolean>;
+
+      // WINDOW
       createAboutWindow: () => Promise<boolean>;
       createSettingsWindow: () => Promise<boolean>;
-      version: () => Promise<string>;
+
+      // SETTINGS
+      getSettings: () => Promise<Prisma.SettingsCreateInput>;
+      updateSettings: (
+        arg: Prisma.SettingsCreateInput
+      ) => Promise<Prisma.SettingsCreateInput>;
+      getHotkey: (
+        arg: Prisma.HotkeyCreateInput
+      ) => Promise<Prisma.HotkeyCreateInput>;
+      updateHotkey: (
+        arg: Prisma.HotkeyCreateInput
+      ) => Promise<Prisma.HotkeyCreateInput>;
+
+      // DATABASE
       getDatbasePath: () => Promise<string>;
       selectDatabasePath: () => Promise<string>;
       getDatabaseInfo: () => Promise<string>;
