@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { Clipboard, Prisma } from '../../main/prisma/client/index';
-import { GetClipboards } from '../../main/utils/constants';
+import { GetClipboards, HotkeyEvent } from '../../main/utils/constants';
 
 declare global {
   interface Window {
@@ -28,9 +28,7 @@ declare global {
       updateSettings: (
         arg: Prisma.SettingsCreateInput
       ) => Promise<Prisma.SettingsCreateInput>;
-      getHotkey: (
-        arg: Prisma.HotkeyCreateInput
-      ) => Promise<Prisma.HotkeyCreateInput>;
+      getHotkey: (arg: HotkeyEvent) => Promise<Prisma.HotkeyCreateInput>;
       updateHotkey: (
         arg: Prisma.HotkeyCreateInput
       ) => Promise<Prisma.HotkeyCreateInput>;

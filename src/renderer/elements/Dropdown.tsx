@@ -6,13 +6,14 @@ import { classNames } from '../utils/util';
 
 interface DropdownProps {
   items: string[];
+  value: string;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ items }) => {
-  const [selectedState, setSelectedState] = useState(items[3]);
+const Dropdown: React.FC<DropdownProps> = ({ items, value }) => {
+  const [selectedState, setSelectedState] = useState(value);
 
   return (
-    <Listbox value={selectedState} onChange={setSelectedState}>
+    <Listbox value={value} onChange={setSelectedState}>
       {({ open }) => (
         <>
           <div className="mt-1 relative ">
@@ -31,7 +32,7 @@ const Dropdown: React.FC<DropdownProps> = ({ items }) => {
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute z-10 mt-0.5 w-full bg-dark-light shadow-lg max-h-16 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                {items.map((item) => (
+                {items?.map((item) => (
                   <Listbox.Option
                     key={item}
                     className={({ active }) =>

@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Prisma } from '../../../main/prisma/client';
 import TextBlock from '../../elements/TextBlock';
 import SwitchField from '../../elements/SwitchField';
 import CheckBox from '../../elements/CheckBox';
@@ -8,6 +9,19 @@ import { GLOBAL_SHORTCUT_KEYS } from '../../utils/contants';
 
 const General: React.FC = () => {
   const [state, setState] = useState<boolean>(false);
+  const [hotkey, setHotkey] = useState<Prisma.HotkeyCreateInput>();
+
+  useEffect(() => {
+    const getHotkey = async () =>
+      setHotkey(await window.electron.getHotkey('windowDisplayToggle'));
+    getHotkey();
+  }, [setHotkey]);
+
+  console.log(hotkey);
+
+  if (!hotkey) {
+    return null;
+  }
 
   return (
     <>
@@ -38,10 +52,22 @@ const General: React.FC = () => {
           <FontAwesomeIcon icon="cut" className="text-xl" />
 
           <div className="flex items-center space-x-5">
-            <CheckBox checked onChange={undefined} text="Ctrl" />
-            <CheckBox checked onChange={undefined} text="Alt" />
-            <CheckBox checked onChange={undefined} text="Shift" />
-            <Dropdown items={GLOBAL_SHORTCUT_KEYS} />
+            <CheckBox
+              checked={hotkey.ctrl}
+              onChange={() => setHotkey({ ...hotkey, ctrl: !hotkey.ctrl })}
+              text="Ctrl"
+            />
+            <CheckBox
+              checked={hotkey.alt}
+              onChange={() => setHotkey({ ...hotkey, alt: !hotkey.alt })}
+              text="Alt"
+            />
+            <CheckBox
+              checked={hotkey.shift}
+              onChange={() => setHotkey({ ...hotkey, shift: !hotkey.shift })}
+              text="Shift"
+            />
+            <Dropdown items={GLOBAL_SHORTCUT_KEYS} value={hotkey?.key} />
           </div>
         </div>
       </TextBlock>

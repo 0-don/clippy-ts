@@ -35,9 +35,9 @@ model Settings {
 
 model Hotkey {
   id    Int     @id
-  ctrl  Boolean @default(false)
-  alt   Boolean @default(false)
-  shift Boolean @default(false)
+  ctrl  Boolean
+  alt   Boolean
+  shift Boolean
   key   String
   event String
 }
