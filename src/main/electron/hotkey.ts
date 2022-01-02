@@ -1,12 +1,8 @@
 import { globalShortcut } from 'electron';
-import {
-  prismaClientConfig,
-  HotkeyEvent,
-  getWindow,
-} from '../../utils/constants';
-import { PrismaClient, Hotkey } from '../../prisma/client';
-import { displayWindowNearTray, hotkeyToAccelerator } from '../../utils/util';
-import tray from '../tray';
+import { prismaClientConfig, HotkeyEvent, getWindow } from '../utils/constants';
+import { PrismaClient, Hotkey } from '../prisma/client';
+import { displayWindowNearTray, hotkeyToAccelerator } from '../utils/util';
+import { tray } from './tray';
 
 const prisma = new PrismaClient(prismaClientConfig());
 interface ExtendedHotKey extends Hotkey {
@@ -17,14 +13,14 @@ async function createGlobalShortcuts() {
   const hotkeys = (await prisma.hotkey.findMany({
     where: {},
   })) as ExtendedHotKey[];
-  console.log(hotkeys);
-  const windowDisplayToggle = hotkeys.find(
+
+  const hotkey = hotkeys.find(
     (key) => key.event === 'windowDisplayToggle'
   ) as ExtendedHotKey;
-  globalShortcut.register(hotkeyToAccelerator(windowDisplayToggle), () => {
+  globalShortcut.register(hotkeyToAccelerator(hotkey), () => {
     const window = getWindow('MAIN_WINDOW_ID');
 
-    displayWindowNearTray(tray(), window);
+    displayWindowNearTray(tray, window);
   });
 }
 

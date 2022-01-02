@@ -1,22 +1,18 @@
-import {
-  Tray,
-  app,
-  Menu,
-  screen,
-  globalShortcut,
-  BrowserWindow,
-  nativeImage,
-} from 'electron';
+/* eslint-disable import/no-mutable-exports */
+import { Tray, app, Menu, screen, BrowserWindow, nativeImage } from 'electron';
 import path from 'path';
 import { getWindow, RESOURCES_PATH } from '../utils/constants';
 import { displayWindowNearTray } from '../utils/util';
 
-const createTray = (): Tray => {
-  const img = nativeImage.createFromPath(
-    path.resolve(RESOURCES_PATH, 'onclip.png')
-  );
-  const tray = new Tray(img.resize({ width: 16, height: 16 }));
+export let tray: Tray;
+
+export const createTray = (): Tray => {
   const window = getWindow('MAIN_WINDOW_ID') as BrowserWindow;
+  tray = new Tray(
+    nativeImage
+      .createFromPath(path.resolve(RESOURCES_PATH, 'onclip.png'))
+      .resize({ width: 16, height: 16 })
+  );
 
   tray.setToolTip('Clippy');
   if (process.platform === 'darwin') {
@@ -56,5 +52,3 @@ const createTray = (): Tray => {
 
   return tray;
 };
-
-export default createTray;

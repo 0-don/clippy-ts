@@ -3,16 +3,16 @@
 import path from 'path';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import { app, BrowserWindow, ipcMain, Tray } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import clipboard from 'electron-clipboard-extended';
 import log from 'electron-log';
 import createWindow from './window';
-
 import { isDevelopment } from './utils/constants';
 import seed from './prisma/seed';
-import createGlobalShortcuts from './electron/events/hotkey';
-import tray from './electron/tray';
+import createGlobalShortcuts from './electron/hotkey';
+import { createTray } from './electron/tray';
+import './electron/events';
 
 export default class AppUpdater {
   constructor() {
@@ -59,7 +59,8 @@ const createMainWindow = async () => {
     await installExtensions();
   }
   mainWindow = createWindow('MAIN_WINDOW_ID');
-  tray();
+  createTray();
+  await createGlobalShortcuts();
 };
 
 ipcMain.handle('createAboutWindow', () => {
@@ -94,7 +95,6 @@ app
   .then(async () => {
     await seed();
     await createMainWindow();
-    await createGlobalShortcuts();
 
     app.on('activate', async () => {
       // On macOS it's common to re-create a window in the app when the

@@ -7,7 +7,7 @@ const prisma = new PrismaClient(prismaClientConfig());
 
 const settingsData: Prisma.SettingsCreateInput = {
   id: 1,
-  darkmode: false,
+  darkmode: true,
   notification: false,
   startup: false,
   synchronize: false,
