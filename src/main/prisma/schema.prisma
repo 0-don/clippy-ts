@@ -27,17 +27,17 @@ model Clipboard {
 
 model Settings {
   id           Int     @id
-  startup      Boolean @default(false)
-  notification Boolean @default(false)
-  synchronize  Boolean @default(false)
-  darkmode     Boolean @default(true)
+  startup      Boolean // @default(false)
+  notification Boolean // @default(false)
+  synchronize  Boolean // @default(false)
+  darkmode     Boolean // @default(true)
 }
 
 model Hotkey {
   id    Int     @id
-  ctrl  Boolean
-  alt   Boolean
-  shift Boolean
-  key   String
+  ctrl  Boolean // @default(false)
+  alt   Boolean // @default(false)
+  shift Boolean // @default(false)
+  key   String  // @default("X")
   event String
 }

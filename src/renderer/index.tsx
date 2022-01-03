@@ -7,16 +7,16 @@ import Routes from './Routes';
 import useSettingsStore from './store/SettingsStore';
 
 const Index = () => {
-  const { startTheme } = useSettingsStore();
+  const { initSettings } = useSettingsStore();
 
   useEffect(() => {
     window.electron.once('ping', (arg: unknown) => {
       console.log(arg);
     });
-
     window.electron.myPing();
-    startTheme();
-  }, [startTheme]);
+
+    initSettings();
+  }, [initSettings]);
 
   return <Routes />;
 };

@@ -1,11 +1,25 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import useSettingsStore from '../../store/SettingsStore';
+import { Prisma } from '../../../main/prisma/client';
 import Shortcut from '../../elements/Shortcut';
 import SwitchField from '../../elements/SwitchField';
 import TextBlock from '../../elements/TextBlock';
 
 const General: React.FC = () => {
-  const [state, setState] = useState<boolean>(false);
+  const [stg, setSettings] = useState<Prisma.SettingsCreateInput>();
+
+  const { settings } = useSettingsStore();
+
+  useEffect(() => {
+    const getSettings = async () =>
+      setSettings(await window.electron.getSettings());
+    getSettings();
+  }, [setSettings]);
+
+  if (!stg) {
+    return null;
+  }
 
   return (
     <>
@@ -16,7 +30,12 @@ const General: React.FC = () => {
             <h6 className="text-sm">Start Clippy on system startup.</h6>
           </div>
           <div>
-            <SwitchField checked={state} onChange={setState} />
+            <SwitchField
+              checked={settings?.startup ?? false}
+              onChange={(check: boolean) =>
+                setSettings({ ...stg, startup: check })
+              }
+            />
           </div>
         </div>
 
@@ -26,7 +45,12 @@ const General: React.FC = () => {
             <h6 className="text-sm">Show desktop notifications.</h6>
           </div>
           <div>
-            <SwitchField checked={state} onChange={setState} />
+            <SwitchField
+              checked={stg.notification}
+              onChange={(check: boolean) =>
+                setSettings({ ...stg, notification: check })
+              }
+            />
           </div>
         </div>
       </TextBlock>

@@ -3,8 +3,11 @@ import { Switch } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type SwitchProps = {
-  checked: boolean;
-  onChange: undefined | (() => void) | Dispatch<SetStateAction<boolean>>;
+  checked: boolean | undefined;
+  onChange:
+    | undefined
+    | ((check: boolean) => void)
+    | Dispatch<SetStateAction<boolean>>;
 };
 
 function classNames(...classes: string[]) {
@@ -14,9 +17,9 @@ function classNames(...classes: string[]) {
 const SwitchField: React.FC<SwitchProps> = ({ checked, onChange }) => {
   return (
     <Switch
-      checked={checked}
+      checked={checked ?? false}
       as="div"
-      onChange={onChange ?? (() => {})}
+      onChange={(check) => onChange && onChange(check)}
       className="mx-1 flex-shrink-0 group relative rounded-full inline-flex items-center justify-center h-3 w-9 cursor-pointer z-10"
     >
       {checked && (
