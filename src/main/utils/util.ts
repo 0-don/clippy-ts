@@ -76,6 +76,6 @@ export function hotkeyToAccelerator(hotkey: Prisma.HotkeyCreateInput) {
   if (hotkey.key) accelerator.push(hotkey.key);
 
   const result = accelerator.join('+');
-  log(result);
+
   return result;
 }

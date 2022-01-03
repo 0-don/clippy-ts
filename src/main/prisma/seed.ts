@@ -40,7 +40,7 @@ async function seed() {
         .upsert({
           where: { id: key.id },
           create: key,
-          update: key,
+          update: { id: key.id },
         })
         .then((data) => data)
     )

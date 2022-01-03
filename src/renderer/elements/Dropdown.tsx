@@ -1,26 +1,24 @@
 /* eslint-disable react/prop-types */
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { classNames } from '../utils/util';
+import { GlobalShortcutKeysType } from '../utils/contants';
 
 interface DropdownProps {
   items: string[];
   value: string;
+  onChange: (char: GlobalShortcutKeysType) => void;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ items, value }) => {
-  const [selectedState, setSelectedState] = useState(value);
-
+const Dropdown: React.FC<DropdownProps> = ({ items, value, onChange }) => {
   return (
-    <Listbox value={value} onChange={setSelectedState}>
+    <Listbox value={value} onChange={onChange}>
       {({ open }) => (
         <>
           <div className="mt-1 relative ">
             <Listbox.Button className="flex w-16 items-center justify-between space-x-2.5 border-gray-300 px-2 dark:bg-dark-light dark:border-dark-light dark:text-white border rounded-md focus:outline-none dark:focus:bg-dark-dark">
-              <span className="block text-lg font-semibold truncate text-white w-full">
-                {selectedState}
-              </span>
+              <span className="block truncate text-white w-full">{value}</span>
               <FontAwesomeIcon size="xs" className="text-white" icon="sort" />
             </Listbox.Button>
 
@@ -31,7 +29,7 @@ const Dropdown: React.FC<DropdownProps> = ({ items, value }) => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute z-10 mt-0.5 w-full bg-dark-light shadow-lg max-h-16 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+              <Listbox.Options className="absolute z-10 mt-0.5 w-full bg-dark-light shadow-lg max-h-24 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                 {items?.map((item) => (
                   <Listbox.Option
                     key={item}

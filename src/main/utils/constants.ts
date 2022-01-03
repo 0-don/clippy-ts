@@ -1,6 +1,6 @@
 /* eslint import/prefer-default-export: off, import/no-mutable-exports: off */
+import { app, BrowserWindow } from 'electron';
 import fs from 'fs';
-import { app, BrowserWindow, nativeImage, Tray } from 'electron';
 import path from 'path';
 
 export type ENV = 'MAIN_WINDOW_ID' | 'ABOUT_WINDOW_ID' | 'SETTINGS_WINDOW_ID';

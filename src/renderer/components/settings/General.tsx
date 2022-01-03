@@ -1,27 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
-import { Prisma } from '../../../main/prisma/client';
-import TextBlock from '../../elements/TextBlock';
+import React, { useState } from 'react';
+import Shortcut from '../../elements/Shortcut';
 import SwitchField from '../../elements/SwitchField';
-import CheckBox from '../../elements/CheckBox';
-import Dropdown from '../../elements/Dropdown';
-import { GLOBAL_SHORTCUT_KEYS } from '../../utils/contants';
+import TextBlock from '../../elements/TextBlock';
 
 const General: React.FC = () => {
   const [state, setState] = useState<boolean>(false);
-  const [hotkey, setHotkey] = useState<Prisma.HotkeyCreateInput>();
-
-  useEffect(() => {
-    const getHotkey = async () =>
-      setHotkey(await window.electron.getHotkey('windowDisplayToggle'));
-    getHotkey();
-  }, [setHotkey]);
-
-  console.log(hotkey);
-
-  if (!hotkey) {
-    return null;
-  }
 
   return (
     <>
@@ -49,26 +33,7 @@ const General: React.FC = () => {
 
       <TextBlock icon={['far', 'keyboard']} title="Keyboard shorcut">
         <div className="px-5 space-x-5 pb-5 flex items-center">
-          <FontAwesomeIcon icon="cut" className="text-xl" />
-
-          <div className="flex items-center space-x-5">
-            <CheckBox
-              checked={hotkey.ctrl}
-              onChange={() => setHotkey({ ...hotkey, ctrl: !hotkey.ctrl })}
-              text="Ctrl"
-            />
-            <CheckBox
-              checked={hotkey.alt}
-              onChange={() => setHotkey({ ...hotkey, alt: !hotkey.alt })}
-              text="Alt"
-            />
-            <CheckBox
-              checked={hotkey.shift}
-              onChange={() => setHotkey({ ...hotkey, shift: !hotkey.shift })}
-              text="Shift"
-            />
-            <Dropdown items={GLOBAL_SHORTCUT_KEYS} value={hotkey?.key} />
-          </div>
+          <Shortcut event="windowDisplayToggle" />
         </div>
       </TextBlock>
     </>

@@ -10,8 +10,10 @@ ipcMain.handle('getSettings', () =>
 );
 
 // UPDATE SETTINGS
-ipcMain.handle('updateSettings', (_, data: Prisma.SettingsCreateInput) =>
-  prisma.settings.update({ where: { id: 1 }, data })
+ipcMain.handle(
+  'updateSettings',
+  (_, { id, ...settings }: Prisma.SettingsCreateInput) =>
+    prisma.settings.update({ where: { id: 1 }, data: settings })
 );
 
 // GET HOTKEY
@@ -20,6 +22,8 @@ ipcMain.handle('getHotkey', (_, event: HotkeyEvent) =>
 );
 
 // UPDATE HOTKEY
-ipcMain.handle('updateHotkey', (_, hotkey: Prisma.HotkeyCreateInput) =>
-  prisma.hotkey.update({ where: { id: hotkey.id }, data: hotkey })
+ipcMain.handle(
+  'updateHotkey',
+  async (_, { id, ...hotkey }: Prisma.HotkeyCreateInput) =>
+    prisma.hotkey.update({ where: { id }, data: hotkey })
 );
