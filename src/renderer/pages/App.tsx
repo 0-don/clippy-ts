@@ -9,7 +9,7 @@ import useSettingsStore from '../store/SettingsStore';
 
 const App = () => {
   const { tab } = useAppStore();
-  const { sync } = useSettingsStore();
+  const { settings } = useSettingsStore();
 
   return (
     <div className="absolute w-full h-full dark:bg-dark bg-white dark:text-white text-black flex overflow-hidden ">
@@ -22,8 +22,8 @@ const App = () => {
             {tab.toLocaleUpperCase()}
           </p>
           <FontAwesomeIcon
-            icon={sync === 'online' ? ['fas', 'globe'] : ['far', 'hdd']}
-            title={sync}
+            icon={settings.synchronize ? ['fas', 'globe'] : ['far', 'hdd']}
+            title={settings.synchronize ? 'online' : 'offline'}
             className="text-1xl mr-2"
           />
         </div>

@@ -1,25 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
-import useSettingsStore from '../../store/SettingsStore';
-import { Prisma } from '../../../main/prisma/client';
+import React from 'react';
 import Shortcut from '../../elements/Shortcut';
 import SwitchField from '../../elements/SwitchField';
 import TextBlock from '../../elements/TextBlock';
+import useSettingsStore from '../../store/SettingsStore';
 
 const General: React.FC = () => {
-  const [stg, setSettings] = useState<Prisma.SettingsCreateInput>();
-
-  const { settings } = useSettingsStore();
-
-  useEffect(() => {
-    const getSettings = async () =>
-      setSettings(await window.electron.getSettings());
-    getSettings();
-  }, [setSettings]);
-
-  if (!stg) {
-    return null;
-  }
+  const { settings, updateSettings } = useSettingsStore();
 
   return (
     <>
@@ -31,9 +18,9 @@ const General: React.FC = () => {
           </div>
           <div>
             <SwitchField
-              checked={settings?.startup ?? false}
+              checked={settings.startup}
               onChange={(check: boolean) =>
-                setSettings({ ...stg, startup: check })
+                updateSettings({ ...settings, startup: check })
               }
             />
           </div>
@@ -46,9 +33,9 @@ const General: React.FC = () => {
           </div>
           <div>
             <SwitchField
-              checked={stg.notification}
+              checked={settings.notification}
               onChange={(check: boolean) =>
-                setSettings({ ...stg, notification: check })
+                updateSettings({ ...settings, notification: check })
               }
             />
           </div>

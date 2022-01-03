@@ -4,7 +4,7 @@ import useSettingsStore from '../../store/SettingsStore';
 import SwitchField from '../../elements/SwitchField';
 
 const ViewMore: React.FC = () => {
-  const { sync, setSync } = useSettingsStore();
+  const { settings, updateSettings } = useSettingsStore();
 
   return (
     <>
@@ -12,7 +12,9 @@ const ViewMore: React.FC = () => {
       <button
         type="button"
         className="px-3 hover:bg-neutral-700 cursor-pointer w-full"
-        onClick={setSync}
+        onClick={() =>
+          updateSettings({ ...settings, synchronize: !settings.synchronize })
+        }
       >
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center truncate">
@@ -21,7 +23,7 @@ const ViewMore: React.FC = () => {
               Sync Clipboard Hitory
             </p>
           </div>
-          <SwitchField checked={sync === 'online'} onChange={undefined} />
+          <SwitchField checked={settings.synchronize} onChange={undefined} />
         </div>
         <hr className="text-zinc-600" />
       </button>

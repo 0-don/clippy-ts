@@ -31,7 +31,7 @@ async function seed() {
   await prisma.settings.upsert({
     where: { id: settingsData.id },
     create: settingsData,
-    update: settingsData,
+    update: { id: settingsData.id },
   });
 
   await Promise.all(

@@ -6,7 +6,7 @@ import useSettingsStore from '../../store/SettingsStore';
 
 const Account: React.FC = () => {
   const [url, setUrl] = useState<string>();
-  const { sync, setSync } = useSettingsStore();
+  const { settings, updateSettings } = useSettingsStore();
 
   useEffect(() => {
     const getUrl = async () => setUrl(await window.electron.getDatbasePath());
@@ -22,7 +22,15 @@ const Account: React.FC = () => {
             <h6 className="text-sm">Synchronize Clipboard History</h6>
           </div>
           <div>
-            <SwitchField checked={sync === 'online'} onChange={setSync} />
+            <SwitchField
+              checked={settings.synchronize}
+              onChange={() =>
+                updateSettings({
+                  ...settings,
+                  synchronize: !settings.synchronize,
+                })
+              }
+            />
           </div>
         </div>
       </TextBlock>
@@ -38,7 +46,7 @@ const Account: React.FC = () => {
           >
             <div
               title={url}
-              className="italic text-left text-sm border-gray-300 w-full px-3 py-0.5 dark:bg-dark-light dark:border-dark-light dark:text-white border rounded-md focus:outline-none dark:focus:bg-dark-dark"
+              className="truncate italic text-left text-sm border-gray-300 w-full px-3 py-0.5 dark:bg-dark-light dark:border-dark-light dark:text-white border rounded-md focus:outline-none dark:focus:bg-dark-dark"
             >
               {url}
             </div>

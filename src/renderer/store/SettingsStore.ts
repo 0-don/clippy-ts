@@ -14,12 +14,11 @@ type SettingsTab = {
 
 type Settings = {
   settings: Prisma.SettingsCreateInput;
-  sync: 'offline' | 'online';
-  tabs: SettingsTab[];
-  setCurrentTab: (tabName: SettingsTabName) => void;
-  setSync: () => void;
   initSettings: () => void;
   updateSettings: (settings: Prisma.SettingsCreateInput) => void;
+
+  tabs: SettingsTab[];
+  setCurrentTab: (tabName: SettingsTabName) => void;
 };
 
 const useSettingsStore = create<Settings>(
@@ -36,17 +35,6 @@ const useSettingsStore = create<Settings>(
             current: false,
           },
         ],
-        sync: 'offline',
-
-        // updateSettings: (settings) => set((state) => {}),
-
-        // CHANGE THEME
-
-        // SET SYNC
-        setSync: () =>
-          set((state) => {
-            state.sync = state.sync === 'online' ? 'offline' : 'online';
-          }),
 
         // SET CURRENT TAB
         setCurrentTab: (tabName) =>
@@ -59,10 +47,12 @@ const useSettingsStore = create<Settings>(
           }),
 
         // UPDATE SETTINGS
-        updateSettings: (settings) =>
+        updateSettings: async (settings) => {
+          await window.electron.updateSettings(settings);
           set((state) => {
             state.settings = settings;
-          }),
+          });
+        },
 
         // INIT SETTINGS
         initSettings: async () => {
