@@ -1,4 +1,4 @@
-import { ipcMain } from 'electron';
+import { ipcMain, webContents } from 'electron';
 import { Prisma, PrismaClient } from '../../prisma/client/index';
 import { HotkeyEvent, prismaClientConfig } from '../../utils/constants';
 
@@ -12,8 +12,14 @@ ipcMain.handle('getSettings', () =>
 // UPDATE SETTINGS
 ipcMain.handle(
   'updateSettings',
-  (_, { id, ...settings }: Prisma.SettingsCreateInput) =>
-    prisma.settings.update({ where: { id: 1 }, data: settings })
+  async (_, { id, ...settings }: Prisma.SettingsCreateInput) => {
+    const setting = await prisma.settings.update({
+      where: { id: 1 },
+      data: settings,
+    });
+
+    return setting;
+  }
 );
 
 // GET HOTKEY

@@ -1,6 +1,5 @@
 /* eslint import/no-mutable-exports: off, no-restricted-properties: off */
 import { URL } from 'url';
-import { log } from 'console';
 import fs from 'fs';
 import path from 'path';
 import { BrowserWindow, Tray, screen } from 'electron';
@@ -54,6 +53,7 @@ export function displayWindowNearTray(tray: Tray, window: BrowserWindow) {
       height,
       width,
     });
+    // window.reload();
     window.show();
   }
 }

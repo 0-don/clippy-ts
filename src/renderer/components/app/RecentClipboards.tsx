@@ -18,9 +18,9 @@ const RecentClipboards = () => {
       (clipboard: Clipboard) => setClipboards([clipboard, ...clipboards])
     );
 
-    return () => {
-      addClipboard();
-    };
+    // return () => {
+    //   addClipboard();
+    // };
   }, [clipboards, setClipboards]);
 
   return <Clipboards />;

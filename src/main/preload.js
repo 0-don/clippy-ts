@@ -6,11 +6,7 @@ contextBridge.exposeInMainWorld('electron', {
     const validChannels = ['addClipboard'];
     if (validChannels.includes(channel)) {
       // Deliberately strip event as it includes `sender`
-      const subscription = (event, ...args) => func(...args);
-      ipcRenderer.on(channel, subscription);
-      return () => {
-        ipcRenderer.removeListener(channel, subscription);
-      };
+      ipcRenderer.on(channel, (event, ...args) => func(...args));
     }
   },
   once(channel, func) {

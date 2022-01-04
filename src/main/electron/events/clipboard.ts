@@ -33,7 +33,7 @@ clipboard
       const clip = await prisma?.clipboard.create({
         data: { content, type },
       });
-      mainWindow?.webContents.send('addClipboard', clip);
+      mainWindow.webContents.send('addClipboard', clip);
     }
     addClipboard = true;
   })
@@ -55,7 +55,7 @@ clipboard
         },
       });
 
-      mainWindow?.webContents.send('addClipboard', clip);
+      mainWindow.webContents.send('addClipboard', clip);
     }
     addClipboard = true;
   })

@@ -19,7 +19,7 @@ type App = {
 const useAppStore = create<App>(
   immer(
     (set): App => ({
-      tab: 'View more',
+      tab: 'Recent Clipboards',
       cursor: undefined,
       clipboards: [],
       setTab: (tab) =>

@@ -22,64 +22,53 @@ type Settings = {
 };
 
 const useSettingsStore = create<Settings>(
-  persist(
-    immer(
-      (set, get): Settings => ({
-        settings: undefined as unknown as Prisma.SettingsCreateInput,
-        tabs: [
-          { name: 'General', icon: 'cogs', current: true },
-          { name: 'Account', icon: 'user', current: false },
-          {
-            name: 'History',
-            icon: ['fas', 'history'],
-            current: false,
-          },
-        ],
-
-        // SET CURRENT TAB
-        setCurrentTab: (tabName) =>
-          set((state) => {
-            state.tabs = state.tabs.map((tab) =>
-              tab.name === tabName
-                ? { ...tab, current: true }
-                : { ...tab, current: false }
-            );
-          }),
-
-        // UPDATE SETTINGS
-        updateSettings: async (settings) => {
-          await window.electron.updateSettings(settings);
-          set((state) => {
-            state.settings = settings;
-          });
+  immer(
+    (set, get): Settings => ({
+      settings: undefined as unknown as Prisma.SettingsCreateInput,
+      tabs: [
+        { name: 'General', icon: 'cogs', current: true },
+        { name: 'Account', icon: 'user', current: false },
+        {
+          name: 'History',
+          icon: ['fas', 'history'],
+          current: false,
         },
+      ],
 
-        // INIT SETTINGS
-        initSettings: async () => {
-          if (!get().settings) {
-            const settings = await window.electron.getSettings();
-            set((state) => {
-              state.settings = settings;
-            });
-          }
+      // SET CURRENT TAB
+      setCurrentTab: (tabName) =>
+        set((state) => {
+          state.tabs = state.tabs.map((tab) =>
+            tab.name === tabName
+              ? { ...tab, current: true }
+              : { ...tab, current: false }
+          );
+        }),
 
-          if (get().settings?.darkmode) {
-            document.querySelector('html')?.classList?.add?.('dark');
-          } else {
-            document.querySelector('html')?.classList?.remove?.('dark');
-          }
-        },
-      })
-    ),
-    {
-      name: 'settings',
-      serialize: (state) => JSON.stringify(state),
-      deserialize: (storedState) => JSON.parse(storedState),
-      partialize: (state) => {
-        const { ...fresh } = state;
-        return fresh;
+      // UPDATE SETTINGS
+      updateSettings: async (settings) => {
+        await window.electron.updateSettings(settings);
+        set((state) => {
+          state.settings = settings;
+        });
       },
-    }
+
+      // INIT SETTINGS
+      initSettings: async () => {
+        // if (!get().settings) {
+        const settings = await window.electron.getSettings();
+        set((state) => {
+          state.settings = settings;
+        });
+        // }
+
+        if (get().settings?.darkmode) {
+          document.querySelector('html')?.classList?.add?.('dark');
+        } else {
+          document.querySelector('html')?.classList?.remove?.('dark');
+        }
+      },
+    })
   )
 );
 
