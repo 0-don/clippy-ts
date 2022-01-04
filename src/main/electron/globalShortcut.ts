@@ -19,7 +19,6 @@ async function createGlobalShortcuts() {
   ) as ExtendedHotKey;
   globalShortcut.register(hotkeyToAccelerator(hotkey), () => {
     const window = getWindow('MAIN_WINDOW_ID');
-
     displayWindowNearTray(tray, window);
   });
 }

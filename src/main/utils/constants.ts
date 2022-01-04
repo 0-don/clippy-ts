@@ -5,7 +5,9 @@ import path from 'path';
 
 export type ENV = 'MAIN_WINDOW_ID' | 'ABOUT_WINDOW_ID' | 'SETTINGS_WINDOW_ID';
 
-export type HotkeyEvent = 'windowDisplayToggle';
+export const HotKeyEvents = ['windowDisplayToggle'] as const;
+
+export type HotkeyEvent = typeof HotKeyEvents[number];
 
 export type GetClipboards = {
   cursor?: number;

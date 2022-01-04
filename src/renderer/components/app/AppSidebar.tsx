@@ -7,7 +7,7 @@ const AppSidebar: React.FC = () => {
   const { tab, setTab } = useAppStore();
   return (
     <>
-      <DarkMode />
+      {/* <DarkMode /> */}
       <FontAwesomeIcon
         size="lg"
         className={`${

@@ -6,9 +6,10 @@ import './index.css';
 import './utils/icons';
 import Routes from './Routes';
 import useSettingsStore from './store/SettingsStore';
+import { Prisma } from '../main/prisma/client';
 
 const Index = () => {
-  const { initSettings, settings } = useSettingsStore();
+  const { initSettings, settings, updateSettings } = useSettingsStore();
 
   useEffect(() => {
     window.electron.once('ping', (arg: unknown) => {
@@ -17,6 +18,13 @@ const Index = () => {
     window.electron.myPing();
     initSettings();
   }, []);
+
+  useEffect(() => {
+    window.electron.on(
+      'refreshSettings',
+      (setting: Prisma.SettingsCreateInput) => updateSettings(setting, false)
+    );
+  }, [updateSettings]);
 
   if (!settings) return null;
 

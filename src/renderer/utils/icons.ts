@@ -29,9 +29,11 @@ import {
   faHdd,
   faSave,
   faKeyboard,
+  faMoon,
 } from '@fortawesome/free-regular-svg-icons';
 
 library.add(
+  faMoon,
   faCut,
   faSync,
   faSort,

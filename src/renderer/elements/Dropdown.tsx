@@ -6,7 +6,7 @@ import { classNames } from '../utils/util';
 import { GlobalShortcutKeysType } from '../utils/contants';
 
 interface DropdownProps {
-  items: string[];
+  items: string[] | readonly string[];
   value: string;
   onChange: (char: GlobalShortcutKeysType) => void;
 }
@@ -17,8 +17,10 @@ const Dropdown: React.FC<DropdownProps> = ({ items, value, onChange }) => {
       {({ open }) => (
         <>
           <div className="mt-1 relative ">
-            <Listbox.Button className="flex w-16 items-center justify-between space-x-2.5 border-gray-300 px-2 dark:bg-dark-light dark:border-dark-light dark:text-white border rounded-md focus:outline-none dark:focus:bg-dark-dark">
-              <span className="block truncate text-white w-full">{value}</span>
+            <Listbox.Button className="flex w-12 items-center justify-between border-gray-300 px-1 dark:bg-dark-light dark:border-dark-light dark:text-white border rounded-md focus:outline-none dark:focus:bg-dark-dark">
+              <span className="block text-sm truncate text-white w-full">
+                {value}
+              </span>
               <FontAwesomeIcon size="xs" className="text-white" icon="sort" />
             </Listbox.Button>
 

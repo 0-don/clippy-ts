@@ -13,14 +13,9 @@ const RecentClipboards = () => {
   }, [setClipboards]);
 
   useEffect(() => {
-    const addClipboard = window.electron.on(
-      'addClipboard',
-      (clipboard: Clipboard) => setClipboards([clipboard, ...clipboards])
+    window.electron.on('addClipboard', (clipboard: Clipboard) =>
+      setClipboards([clipboard, ...clipboards])
     );
-
-    // return () => {
-    //   addClipboard();
-    // };
   }, [clipboards, setClipboards]);
 
   return <Clipboards />;

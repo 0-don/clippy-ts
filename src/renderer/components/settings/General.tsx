@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import DarkMode from '../../elements/DarkMode';
 import Shortcut from '../../elements/Shortcut';
 import SwitchField from '../../elements/SwitchField';
 import TextBlock from '../../elements/TextBlock';
@@ -10,6 +11,12 @@ const General: React.FC = () => {
 
   return (
     <>
+      <TextBlock icon={['far', 'keyboard']} title="Keyboard shortcut">
+        <div className="px-5 space-x-2 pb-5 flex items-center">
+          <Shortcut event="windowDisplayToggle" />
+        </div>
+      </TextBlock>
+
       <TextBlock icon="cog" title="System">
         <div className="px-5 flex items-center space-x-2 pb-5 justify-between">
           <div className="flex items-center space-x-2 truncate">
@@ -40,11 +47,15 @@ const General: React.FC = () => {
             />
           </div>
         </div>
-      </TextBlock>
 
-      <TextBlock icon={['far', 'keyboard']} title="Keyboard shorcut">
-        <div className="px-5 space-x-5 pb-5 flex items-center">
-          <Shortcut event="windowDisplayToggle" />
+        <div className="px-5 flex items-center space-x-2 pb-5 justify-between">
+          <div className="flex items-center space-x-2 truncate">
+            <FontAwesomeIcon icon={['far', 'moon']} />
+            <h6 className="text-sm">Switch Theme.</h6>
+          </div>
+          <div>
+            <DarkMode />
+          </div>
         </div>
       </TextBlock>
     </>

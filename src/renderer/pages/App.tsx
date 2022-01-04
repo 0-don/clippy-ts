@@ -13,7 +13,7 @@ const App = () => {
 
   return (
     <div className="absolute w-full h-full dark:bg-dark bg-white dark:text-white text-black flex overflow-hidden ">
-      <div className="dark:bg-dark-light bg-gray-200 flex flex-col items-center space-y-7 pt-3 px-1">
+      <div className="dark:bg-dark-light bg-gray-200 flex flex-col items-center space-y-7 pt-3 px-3">
         <AppSidebar />
       </div>
       <div className="flex-1 min-w-0">

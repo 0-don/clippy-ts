@@ -34,7 +34,7 @@ const Shortcut: React.FC<ShortcutProps> = ({ event }) => {
   return (
     <>
       <FontAwesomeIcon icon="cut" className="text-xl" />
-      <div className="flex items-center space-x-5">
+      <div className="flex items-center space-x-2 w-full">
         <CheckBox
           checked={hotkey.ctrl}
           onChange={() => setHotkey({ ...hotkey, ctrl: !hotkey.ctrl })}
@@ -52,9 +52,10 @@ const Shortcut: React.FC<ShortcutProps> = ({ event }) => {
         />
         <Dropdown
           items={GLOBAL_SHORTCUT_KEYS}
-          value={hotkey?.key}
+          value={hotkey.key}
           onChange={(key) => setHotkey({ ...hotkey, key })}
         />
+        <p className="w-full flex justify-end truncate">{event}</p>
       </div>
     </>
   );

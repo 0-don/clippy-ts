@@ -21,7 +21,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({ checked, onChange, text }) => {
           <FontAwesomeIcon className="text-white text-sm m-0.5" icon="check" />
         </div>
       </div>
-      <p className="ml-3 text-base leading-4 font-normal text-gray-800 dark:text-gray-100">
+      <p className="ml-3 text-sm leading-4 font-normal text-gray-800 dark:text-gray-100">
         {text}
       </p>
     </button>
