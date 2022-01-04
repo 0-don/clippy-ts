@@ -1,12 +1,16 @@
 /* eslint-disable import/prefer-default-export */
 import { Clipboard, Prisma } from '../../main/prisma/client/index';
-import { GetClipboards, HotkeyEvent } from '../../main/utils/constants';
+import {
+  GetClipboards,
+  HotkeyEvent,
+  OnEvent,
+} from '../../main/utils/constants';
 
 declare global {
   interface Window {
     electron: {
-      once: (type: string, arg: unknown) => () => void;
-      on: (type: string, arg: unknown) => () => void;
+      once: (type: 'ping', arg: unknown) => () => void;
+      on: (type: OnEvent, arg: unknown) => () => void;
 
       // UTIL
       myPing: () => void;

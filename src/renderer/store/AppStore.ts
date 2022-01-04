@@ -10,7 +10,6 @@ type AppTab =
 
 type App = {
   tab: AppTab;
-  cursor?: number;
   clipboards: Clipboard[];
   setTab: (tab: AppTab) => void;
   setClipboards: (clipboards: Clipboard[]) => void;
@@ -20,7 +19,6 @@ const useAppStore = create<App>(
   immer(
     (set): App => ({
       tab: 'Recent Clipboards',
-      cursor: undefined,
       clipboards: [],
       setTab: (tab) =>
         set((state) => {

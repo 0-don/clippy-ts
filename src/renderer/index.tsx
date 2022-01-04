@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-console */
 import ReactDOM from 'react-dom';
 import { useEffect } from 'react';
@@ -17,14 +16,20 @@ const Index = () => {
     });
     window.electron.myPing();
     initSettings();
-  }, []);
+  }, [initSettings]);
 
   useEffect(() => {
     window.electron.on(
       'refreshSettings',
       (setting: Prisma.SettingsCreateInput) => updateSettings(setting, false)
     );
+
+    // window.electron.on("re")
   }, [updateSettings]);
+
+  useEffect(() => {
+    // setTimeout(() => {}, timeout);
+  }, []);
 
   if (!settings) return null;
 

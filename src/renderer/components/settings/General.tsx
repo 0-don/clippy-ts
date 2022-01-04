@@ -12,7 +12,7 @@ const General: React.FC = () => {
   return (
     <>
       <TextBlock icon={['far', 'keyboard']} title="Keyboard shortcut">
-        <div className="px-5 space-x-2 pb-5 flex items-center">
+        <div className="px-5 flex items-center mb-2 space-x-2 pb-2.5">
           <Shortcut event="windowDisplayToggle" />
         </div>
       </TextBlock>

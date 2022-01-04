@@ -98,7 +98,7 @@ function Clipboards({ star, search }: ClipboardProps) {
                       src={URL.createObjectURL(
                         new Blob([new Uint8Array(blob)], { type: 'image/png' })
                       )}
-                      style={{ height: '100px' }}
+                      style={{ height: '200px' }}
                       alt={`${width}x${height} ${size}`}
                       title={`${width}x${height} ${size}`}
                     />

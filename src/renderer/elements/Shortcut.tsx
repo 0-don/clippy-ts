@@ -33,8 +33,9 @@ const Shortcut: React.FC<ShortcutProps> = ({ event }) => {
 
   return (
     <>
-      <FontAwesomeIcon icon="cut" className="text-xl" />
-      <div className="flex items-center space-x-2 w-full">
+      <div className="flex items-center space-x-2.5 w-full text-sm">
+        <FontAwesomeIcon icon="cut" />
+
         <CheckBox
           checked={hotkey.ctrl}
           onChange={() => setHotkey({ ...hotkey, ctrl: !hotkey.ctrl })}

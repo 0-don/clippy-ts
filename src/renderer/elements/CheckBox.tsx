@@ -10,7 +10,7 @@ interface CheckBoxProps {
 const CheckBox: React.FC<CheckBoxProps> = ({ checked, onChange, text }) => {
   return (
     <button type="button" className="flex items-center" onClick={onChange}>
-      <div className="bg-white dark:bg-dark border rounded-sm border-gray-400 dark:border-gray-700 w-5 h-5 flex flex-shrink-0 justify-center items-center relative">
+      <div className="bg-white dark:bg-dark border rounded-sm border-gray-400 dark:border-gray-700 w-[1.1rem] h-[1.1rem] flex flex-shrink-0 justify-center items-center relative">
         <input
           type="checkbox"
           className="checkbox opacity-0 absolute cursor-pointer w-full h-full"
@@ -21,7 +21,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({ checked, onChange, text }) => {
           <FontAwesomeIcon className="text-white text-sm m-0.5" icon="check" />
         </div>
       </div>
-      <p className="ml-3 text-sm leading-4 font-normal text-gray-800 dark:text-gray-100">
+      <p className="ml-2 text-sm leading-4 font-normal text-gray-800 dark:text-gray-100">
         {text}
       </p>
     </button>

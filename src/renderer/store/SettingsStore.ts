@@ -13,6 +13,8 @@ type SettingsTab = {
 };
 
 type Settings = {
+  globalHotkeyEvent: boolean;
+
   settings: Prisma.SettingsCreateInput;
   initSettings: () => void;
   updateSettings: (
@@ -28,6 +30,8 @@ const useSettingsStore = create<Settings>(
   persist(
     immer(
       (set, get): Settings => ({
+        globalHotkeyEvent: true,
+
         settings: undefined as unknown as Prisma.SettingsCreateInput,
         tabs: [
           { name: 'General', icon: 'cogs', current: true },
@@ -64,7 +68,7 @@ const useSettingsStore = create<Settings>(
             state.settings = settings;
           });
 
-          if (get().settings?.darkmode) {
+          if (get().settings.darkmode) {
             document.querySelector('html')?.classList?.add?.('dark');
           } else {
             document.querySelector('html')?.classList?.remove?.('dark');
@@ -77,7 +81,7 @@ const useSettingsStore = create<Settings>(
       serialize: (state) => JSON.stringify(state),
       deserialize: (storedState) => JSON.parse(storedState),
       partialize: (state) => {
-        const { ...fresh } = state;
+        const { globalHotkeyEvent, ...fresh } = state;
         return fresh;
       },
     }

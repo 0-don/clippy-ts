@@ -10,16 +10,26 @@ interface ExtendedHotKey extends Hotkey {
 }
 
 async function createGlobalShortcuts() {
+  let hotkey: ExtendedHotKey;
   const hotkeys = (await prisma.hotkey.findMany({
     where: {},
   })) as ExtendedHotKey[];
 
-  const hotkey = hotkeys.find(
+  hotkey = hotkeys.find(
     (key) => key.event === 'windowDisplayToggle'
   ) as ExtendedHotKey;
   globalShortcut.register(hotkeyToAccelerator(hotkey), () => {
     const window = getWindow('MAIN_WINDOW_ID');
     displayWindowNearTray(tray, window);
+  });
+
+  hotkey = hotkeys.find(
+    (key) => key.event === 'recentClipboards'
+  ) as ExtendedHotKey;
+  globalShortcut.register(hotkeyToAccelerator(hotkey), () => {
+    const window = getWindow('MAIN_WINDOW_ID');
+    // window.webContents.send("se");
+    // displayWindowNearTray(tray, window);
   });
 }
 
