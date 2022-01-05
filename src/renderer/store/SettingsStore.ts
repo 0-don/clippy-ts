@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import create from 'zustand';
 import { immer } from '../utils/util';
 import { Prisma } from '../../main/prisma/client';
+import { ExtendedHotKey } from '../../main/utils/constants';
 
 type SettingsTabName = 'General' | 'Account' | 'History';
 
@@ -14,6 +15,8 @@ type SettingsTab = {
 
 type Settings = {
   globalHotkeyEvent: boolean;
+  hotkeys: ExtendedHotKey[];
+  updateHotkey: (hotkey: ExtendedHotKey, update?: boolean) => void;
 
   settings: Prisma.SettingsCreateInput;
   initSettings: () => void;
@@ -32,7 +35,9 @@ const useSettingsStore = create<Settings>(
       (set, get): Settings => ({
         globalHotkeyEvent: true,
 
+        hotkeys: undefined as unknown as ExtendedHotKey[],
         settings: undefined as unknown as Prisma.SettingsCreateInput,
+
         tabs: [
           { name: 'General', icon: 'cogs', current: true },
           { name: 'Account', icon: 'user', current: false },
@@ -61,11 +66,24 @@ const useSettingsStore = create<Settings>(
           });
         },
 
+        // UPDATE HOTKEYS
+        updateHotkey: async (hotkey, upload = true) => {
+          if (upload) await window.electron.updateHotkey(hotkey);
+          set((state) => {
+            state.hotkeys = state.hotkeys.map((key) =>
+              key.id === hotkey.id ? hotkey : key
+            );
+          });
+        },
+
         // INIT SETTINGS
         initSettings: async () => {
           const settings = await window.electron.getSettings();
+          const hotkeys = await window.electron.getHotkeys();
+
           set((state) => {
             state.settings = settings;
+            state.hotkeys = hotkeys;
           });
 
           if (get().settings.darkmode) {

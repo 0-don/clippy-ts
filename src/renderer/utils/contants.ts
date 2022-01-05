@@ -1,56 +1,8 @@
-/* eslint-disable import/prefer-default-export */
-import { Clipboard, Prisma } from '../../main/prisma/client/index';
-import {
-  GetClipboards,
-  HotkeyEvent,
-  OnEvent,
-} from '../../main/utils/constants';
-
 export type AppTab =
   | 'Recent Clipboards'
   | 'Starred Clipboards'
   | 'History'
   | 'View more';
-
-declare global {
-  interface Window {
-    electron: {
-      once: (type: 'ping', arg: unknown) => () => void;
-      on: (type: OnEvent, arg: unknown) => () => void;
-
-      // UTIL
-      myPing: () => void;
-      exit: () => Promise<boolean>;
-      version: () => Promise<string>;
-
-      // CLIPBOARD
-      getClipboards: (arg: GetClipboards) => Promise<Clipboard[]>;
-      deleteClipboard: (arg: number) => Promise<boolean>;
-      starClipboard: (arg: number) => Promise<boolean>;
-      switchClipboard: (arg: Clipboard) => Promise<boolean>;
-
-      // WINDOW
-      createAboutWindow: () => Promise<boolean>;
-      createSettingsWindow: () => Promise<boolean>;
-
-      // SETTINGS
-      getSettings: () => Promise<Prisma.SettingsCreateInput>;
-      updateSettings: (
-        arg: Prisma.SettingsCreateInput
-      ) => Promise<Prisma.SettingsCreateInput>;
-      getHotkey: (arg: HotkeyEvent) => Promise<Prisma.HotkeyCreateInput>;
-      updateHotkey: (
-        arg: Prisma.HotkeyCreateInput
-      ) => Promise<Prisma.HotkeyCreateInput>;
-
-      // DATABASE
-      getDatbasePath: () => Promise<string>;
-      selectDatabasePath: () => Promise<string>;
-      getDatabaseInfo: () => Promise<string>;
-      clearDatabase: () => Promise<string>;
-    };
-  }
-}
 
 export const GLOBAL_SHORTCUT_KEYS = [
   'A',

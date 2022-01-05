@@ -3,7 +3,12 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electron', {
   on(channel, func) {
-    const validChannels = ['addClipboard', 'refreshSettings', 'setTab'];
+    const validChannels = [
+      'addClipboard',
+      'refreshSettings',
+      'setTab',
+      'refreshHotkeys',
+    ];
     if (validChannels.includes(channel)) {
       // Deliberately strip event as it includes `sender`
       ipcRenderer.on(channel, (event, ...args) => func(...args));
@@ -29,6 +34,7 @@ contextBridge.exposeInMainWorld('electron', {
   getSettings: (arg) => ipcRenderer.invoke('getSettings', arg),
   updateSettings: (arg) => ipcRenderer.invoke('updateSettings', arg),
   getHotkey: (arg) => ipcRenderer.invoke('getHotkey', arg),
+  getHotkeys: (arg) => ipcRenderer.invoke('getHotkeys', arg),
   updateHotkey: (arg) => ipcRenderer.invoke('updateHotkey', arg),
 
   // DATABASE

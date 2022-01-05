@@ -8,9 +8,11 @@ import useSettingsStore from './store/SettingsStore';
 import { Prisma } from '../main/prisma/client';
 import useAppStore from './store/AppStore';
 import { AppTab } from './utils/contants';
+import { ExtendedHotKey } from '../main/utils/constants';
 
 const Index = () => {
-  const { initSettings, settings, updateSettings } = useSettingsStore();
+  const { initSettings, settings, updateSettings, updateHotkey } =
+    useSettingsStore();
   const { setTab } = useAppStore();
 
   useEffect(() => {
@@ -21,8 +23,12 @@ const Index = () => {
       (setting: Prisma.SettingsCreateInput) => updateSettings(setting, false)
     );
 
+    window.electron.on('refreshHotkeys', (hotkey: ExtendedHotKey) =>
+      updateHotkey(hotkey, false)
+    );
+
     window.electron.on('setTab', (tab: AppTab) => setTab(tab));
-  }, [updateSettings, setTab, initSettings]);
+  }, [updateSettings, updateHotkey, setTab, initSettings]);
 
   if (!settings) return null;
 

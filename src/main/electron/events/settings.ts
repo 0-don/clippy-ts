@@ -1,6 +1,10 @@
 import { ipcMain, webContents, globalShortcut } from 'electron';
 import { Prisma, PrismaClient } from '../../prisma/client/index';
-import { HotkeyEvent, prismaClientConfig } from '../../utils/constants';
+import {
+  ExtendedHotKey,
+  HotkeyEvent,
+  prismaClientConfig,
+} from '../../utils/constants';
 import createGlobalShortcuts from '../globalShortcut';
 
 const prisma = new PrismaClient(prismaClientConfig());
@@ -32,15 +36,23 @@ ipcMain.handle('getHotkey', (_, event: HotkeyEvent) =>
   prisma.hotkey.findFirst({ where: { event: { equals: event } } })
 );
 
+// GET HOTKEYS
+ipcMain.handle('getHotkeys', () => prisma.hotkey.findMany());
+
 // UPDATE HOTKEY
-ipcMain.handle(
-  'updateHotkey',
-  async (_, { id, ...hotkey }: Prisma.HotkeyCreateInput) => {
-    globalShortcut.unregisterAll();
+ipcMain.handle('updateHotkey', async (_, { id, ...hotkey }: ExtendedHotKey) => {
+  globalShortcut.unregisterAll();
 
-    const result = await prisma.hotkey.update({ where: { id }, data: hotkey });
+  const dbHotkey = await prisma.hotkey.update({
+    where: { id },
+    data: hotkey,
+  });
 
-    await createGlobalShortcuts();
-    return result;
-  }
-);
+  await createGlobalShortcuts();
+
+  webContents
+    .getAllWebContents()
+    .forEach((webContent) => webContent.send('refreshHotkeys', dbHotkey));
+
+  return dbHotkey;
+});

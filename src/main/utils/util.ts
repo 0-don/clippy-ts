@@ -4,7 +4,11 @@ import fs from 'fs';
 import path from 'path';
 import { BrowserWindow, Tray, screen } from 'electron';
 import { PrismaClient, Prisma } from '../prisma/client';
-import { DEFAULT_DB_CONFIG_PATH, prismaClientConfig } from './constants';
+import {
+  DEFAULT_DB_CONFIG_PATH,
+  ExtendedHotKey,
+  prismaClientConfig,
+} from './constants';
 
 const prisma = new PrismaClient(prismaClientConfig());
 
@@ -68,7 +72,7 @@ export async function localStorageHistory() {
   )}) are saved on this computer`;
 }
 
-export function hotkeyToAccelerator(hotkey: Prisma.HotkeyCreateInput) {
+export function hotkeyToAccelerator(hotkey: ExtendedHotKey) {
   const accelerator: string[] = [];
   if (hotkey.alt) accelerator.push('Alt');
   if (hotkey.ctrl) accelerator.push('CmdOrCtrl');

@@ -1,16 +1,10 @@
 import { log } from 'console';
-import { HotkeyEvent, prismaClientConfig } from '../utils/constants';
+import { ExtendedHotKey, prismaClientConfig } from '../utils/constants';
 import { PrismaClient, Prisma } from './client/index';
-import { GlobalShortcutKeysType } from '../../renderer/utils/contants';
 
 function pause(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-
-type KeyType = Prisma.HotkeyCreateInput & {
-  event: HotkeyEvent;
-  key: GlobalShortcutKeysType;
-};
 
 const prisma = new PrismaClient(prismaClientConfig());
 
@@ -22,7 +16,7 @@ const settingsData: Prisma.SettingsCreateInput = {
   synchronize: false,
 };
 
-const keys: KeyType[] = [
+const keys: ExtendedHotKey[] = [
   {
     id: 1,
     event: 'windowDisplayToggle',

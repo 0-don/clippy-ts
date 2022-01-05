@@ -1,7 +1,9 @@
 /* eslint import/prefer-default-export: off */
 import { app, BrowserWindow } from 'electron';
-import fs from 'fs';
 import path from 'path';
+import fs from 'fs';
+import { Hotkey } from '../prisma/client';
+import { GlobalShortcutKeysType } from '../../renderer/utils/contants';
 
 export type ENV = 'MAIN_WINDOW_ID' | 'ABOUT_WINDOW_ID' | 'SETTINGS_WINDOW_ID';
 
@@ -17,9 +19,15 @@ export type HotkeyEvent = typeof hotKeyEvents[number];
 export const onEvents = [
   'addClipboard',
   'refreshSettings',
+  'refreshHotkeys',
   ...hotKeyEvents,
 ] as const;
 export type OnEvent = typeof onEvents[number];
+
+export interface ExtendedHotKey extends Hotkey {
+  event: HotkeyEvent;
+  key: GlobalShortcutKeysType;
+}
 
 export type GetClipboards = {
   cursor?: number;

@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { HotkeyEvent } from '../../main/utils/constants';
-import { Prisma } from '../../main/prisma/client';
-import { GLOBAL_SHORTCUT_KEYS } from '../utils/contants';
+import { ExtendedHotKey, HotkeyEvent } from '../../main/utils/constants';
 import CheckBox from './CheckBox';
 import Dropdown from './Dropdown';
+import { GLOBAL_SHORTCUT_KEYS } from '../utils/contants';
 
 interface ShortcutProps {
   event: HotkeyEvent;
 }
 
 const Shortcut: React.FC<ShortcutProps> = ({ event }) => {
-  const [hotkey, setHotkey] = useState<Prisma.HotkeyCreateInput>();
+  const [hotkey, setHotkey] = useState<ExtendedHotKey>();
 
   useEffect(() => {
     const getHotkey = async () =>
@@ -21,8 +20,7 @@ const Shortcut: React.FC<ShortcutProps> = ({ event }) => {
 
   useEffect(() => {
     const updateHotkey = async () => {
-      if (hotkey)
-        await window.electron.updateHotkey(hotkey as Prisma.HotkeyCreateInput);
+      if (hotkey) await window.electron.updateHotkey(hotkey as ExtendedHotKey);
     };
     updateHotkey();
   }, [hotkey]);
