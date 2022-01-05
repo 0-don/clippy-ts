@@ -1,4 +1,4 @@
-/* eslint import/prefer-default-export: off, import/no-mutable-exports: off */
+/* eslint import/prefer-default-export: off */
 import { app, BrowserWindow } from 'electron';
 import fs from 'fs';
 import path from 'path';
@@ -6,12 +6,19 @@ import path from 'path';
 export type ENV = 'MAIN_WINDOW_ID' | 'ABOUT_WINDOW_ID' | 'SETTINGS_WINDOW_ID';
 
 export const hotKeyEvents = [
+  // local
   'windowDisplayToggle',
-  'recentClipboards',
+
+  // external
+  'setTab',
 ] as const;
 export type HotkeyEvent = typeof hotKeyEvents[number];
 
-export const onEvents = ['addClipboard', ...hotKeyEvents] as const;
+export const onEvents = [
+  'addClipboard',
+  'refreshSettings',
+  ...hotKeyEvents,
+] as const;
 export type OnEvent = typeof onEvents[number];
 
 export type GetClipboards = {

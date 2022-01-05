@@ -6,6 +6,12 @@ import {
   OnEvent,
 } from '../../main/utils/constants';
 
+export type AppTab =
+  | 'Recent Clipboards'
+  | 'Starred Clipboards'
+  | 'History'
+  | 'View more';
+
 declare global {
   interface Window {
     electron: {

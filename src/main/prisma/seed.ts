@@ -23,6 +23,14 @@ const hotkeyData: Prisma.HotkeyCreateInput[] &
     alt: false,
     key: 'D',
   },
+  {
+    id: 2,
+    event: 'setTab',
+    shift: true,
+    ctrl: false,
+    alt: false,
+    key: 'H',
+  },
 ];
 
 async function seed() {
@@ -40,7 +48,7 @@ async function seed() {
         .upsert({
           where: { id: key.id },
           create: key,
-          update: { id: key.id },
+          update: key,
         })
         .then((data) => data)
     )

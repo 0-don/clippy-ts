@@ -1,12 +1,7 @@
 import create from 'zustand';
 import { immer } from '../utils/util';
 import { Clipboard } from '../../main/prisma/client/index';
-
-type AppTab =
-  | 'Recent Clipboards'
-  | 'Starred Clipboards'
-  | 'History'
-  | 'View more';
+import { AppTab } from '../utils/contants';
 
 type App = {
   tab: AppTab;

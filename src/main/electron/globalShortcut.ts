@@ -23,13 +23,10 @@ async function createGlobalShortcuts() {
     displayWindowNearTray(tray, window);
   });
 
-  hotkey = hotkeys.find(
-    (key) => key.event === 'recentClipboards'
-  ) as ExtendedHotKey;
+  hotkey = hotkeys.find((key) => key.event === 'setTab') as ExtendedHotKey;
   globalShortcut.register(hotkeyToAccelerator(hotkey), () => {
     const window = getWindow('MAIN_WINDOW_ID');
-    // window.webContents.send("se");
-    // displayWindowNearTray(tray, window);
+    window.webContents.send('setTab', 'Recent Clipboards');
   });
 }
 

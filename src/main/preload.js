@@ -3,21 +3,14 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electron', {
   on(channel, func) {
-    const validChannels = ['addClipboard', 'refreshSettings'];
+    const validChannels = ['addClipboard', 'refreshSettings', 'setTab'];
     if (validChannels.includes(channel)) {
       // Deliberately strip event as it includes `sender`
       ipcRenderer.on(channel, (event, ...args) => func(...args));
     }
   },
-  once(channel, func) {
-    const validChannels = ['ping'];
-    if (validChannels.includes(channel)) {
-      // Deliberately strip event as it includes `sender`
-      ipcRenderer.once(channel, (event, ...args) => func(...args));
-    }
-  },
+
   // UTIL
-  myPing: () => ipcRenderer.send('ping', 'ping'),
   exit: (arg) => ipcRenderer.invoke('exit', arg),
   version: (arg) => ipcRenderer.invoke('version', arg),
 
