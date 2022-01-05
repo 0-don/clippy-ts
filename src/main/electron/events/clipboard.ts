@@ -69,7 +69,7 @@ ipcMain.handle(
 
     // log('cursor:', cursor, 'star:', star, 'search:', search);
 
-    const clipboards = await prisma?.clipboard.findMany({
+    const clipboards = await prisma.clipboard.findMany({
       take: take * (cursor ? -1 : 1),
       skip: cursor ? 1 : undefined,
       where: {
@@ -105,7 +105,7 @@ ipcMain.handle(
 
 // DELETE CLIPBOARD
 ipcMain.handle('deleteClipboard', async (_, id: number) => {
-  await prisma?.clipboard.delete({
+  await prisma.clipboard.delete({
     where: { id },
   });
   return true;
@@ -113,10 +113,10 @@ ipcMain.handle('deleteClipboard', async (_, id: number) => {
 
 // STAR CLIPBOARD
 ipcMain.handle('starClipboard', async (_, id: number) => {
-  const clip = await prisma?.clipboard.findFirst({
+  const clip = await prisma.clipboard.findFirst({
     where: { id },
   });
-  await prisma?.clipboard.update({
+  await prisma.clipboard.update({
     where: { id },
     data: { star: !clip?.star },
   });

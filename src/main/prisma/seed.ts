@@ -18,9 +18,9 @@ const hotkeyData: Prisma.HotkeyCreateInput[] &
   {
     id: 1,
     event: 'windowDisplayToggle',
-    shift: false,
     ctrl: true,
     alt: false,
+    shift: false,
     key: 'D',
     status: true,
     name: 'Clippy Display Toggle',
@@ -28,9 +28,9 @@ const hotkeyData: Prisma.HotkeyCreateInput[] &
   {
     id: 2,
     event: 'setTab',
-    shift: true,
-    ctrl: false,
+    ctrl: true,
     alt: false,
+    shift: false,
     key: 'H',
     status: true,
     name: 'Recent Clipboards',
@@ -46,17 +46,26 @@ async function seed() {
     update: { id: settingsData.id },
   });
 
-  await Promise.all(
-    hotkeyData.map((key) =>
-      prisma.hotkey
-        .upsert({
-          where: { id: key.id },
-          create: key,
-          update: key,
-        })
-        .then((data) => data)
-    )
+  // for (const key of hotkeyData) {
+  //   await prisma.hotkey.upsert({
+  //     where: { id: key.id },
+  //     create: key,
+  //     update: key,
+  //   });
+  // }
+
+  const promises = hotkeyData.map((key) =>
+    prisma.hotkey
+      .upsert({
+        where: { id: key.id },
+        create: key,
+        update: key,
+      })
+      .then((data) => data)
   );
+
+  const res = await Promise.all(promises);
+  console.log(res);
 }
 
 export default seed;
