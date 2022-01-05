@@ -7,13 +7,13 @@ import Routes from './Routes';
 import useSettingsStore from './store/SettingsStore';
 import { Prisma } from '../main/prisma/client';
 import useAppStore from './store/AppStore';
-import { AppTab } from './utils/contants';
+import { SidebarIconName } from './utils/contants';
 import { ExtendedHotKey } from '../main/utils/constants';
 
 const Index = () => {
   const { initSettings, settings, updateSettings, updateHotkey } =
     useSettingsStore();
-  const { setTab } = useAppStore();
+  const { setSidebarIcon } = useAppStore();
 
   useEffect(() => {
     initSettings();
@@ -27,8 +27,10 @@ const Index = () => {
       updateHotkey(hotkey, false)
     );
 
-    window.electron.on('setTab', (tab: AppTab) => setTab(tab));
-  }, [updateSettings, updateHotkey, setTab, initSettings]);
+    window.electron.on('setTab', (sidebarIconName: SidebarIconName) =>
+      setSidebarIcon(sidebarIconName)
+    );
+  }, [updateSettings, updateHotkey, setSidebarIcon, initSettings]);
 
   if (!settings) return null;
 

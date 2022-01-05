@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { Clipboard, Prisma } from '../../main/prisma/client/index';
 import {
   ExtendedHotKey,

@@ -54,7 +54,7 @@ const Shortcut: React.FC<ShortcutProps> = ({ event }) => {
           value={hotkey.key}
           onChange={(key) => setHotkey({ ...hotkey, key })}
         />
-        <p className="w-full flex justify-end truncate">{event}</p>
+        <p className="w-full flex justify-end truncate">{hotkey.name}</p>
       </div>
     </>
   );

@@ -1,8 +1,19 @@
-export type AppTab =
-  | 'Recent Clipboards'
-  | 'Starred Clipboards'
-  | 'History'
-  | 'View more';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+
+export const sidebarIconNames = [
+  'Recent Clipboards',
+  'Starred Clipboards',
+  'History',
+  'View more',
+] as const;
+
+export type SidebarIconName = typeof sidebarIconNames[number];
+
+export type SidebarIcon = {
+  name: SidebarIconName;
+  icon: IconProp;
+  current: boolean;
+};
 
 export const GLOBAL_SHORTCUT_KEYS = [
   'A',

@@ -8,8 +8,10 @@ import ViewMore from '../components/app/ViewMore';
 import useSettingsStore from '../store/SettingsStore';
 
 const App = () => {
-  const { tab } = useAppStore();
+  const { sidebarIcons } = useAppStore();
   const { settings } = useSettingsStore();
+
+  const sIcon = sidebarIcons.find((icon) => icon.current);
 
   return (
     <div className="absolute w-full h-full dark:bg-dark bg-white dark:text-white text-black flex overflow-hidden ">
@@ -19,7 +21,7 @@ const App = () => {
       <div className="flex-1 min-w-0">
         <div className="pl-2 py-1 flex justify-between w-full">
           <p className="dark:bg-dark-dark dark:text-white bg-gray-50 text-gray-500 text-xs font-semibold ">
-            {tab.toLocaleUpperCase()}
+            {sIcon?.name?.toLocaleUpperCase()}
           </p>
           <FontAwesomeIcon
             icon={settings.synchronize ? ['fas', 'globe'] : ['far', 'hdd']}
@@ -27,10 +29,14 @@ const App = () => {
             className="text-1xl mr-2"
           />
         </div>
-        {tab === 'Recent Clipboards' && <RecentClipboards />}
-        {tab === 'Starred Clipboards' && <StarredClipboards />}
-        {tab === 'History' && <History />}
-        {tab === 'View more' && <ViewMore />}
+        {sIcon?.name === 'Recent Clipboards' && sIcon?.current && (
+          <RecentClipboards />
+        )}
+        {sIcon?.name === 'Starred Clipboards' && sIcon?.current && (
+          <StarredClipboards />
+        )}
+        {sIcon?.name === 'History' && sIcon?.current && <History />}
+        {sIcon?.name === 'View more' && sIcon?.current && <ViewMore />}
       </div>
     </div>
   );
