@@ -1,31 +1,21 @@
-import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ExtendedHotKey, HotkeyEvent } from '../../main/utils/constants';
+import React from 'react';
+import { HotkeyEvent } from '../../main/utils/constants';
+import useSettingsStore from '../store/SettingsStore';
+import { GLOBAL_SHORTCUT_KEYS } from '../utils/contants';
 import CheckBox from './CheckBox';
 import Dropdown from './Dropdown';
-import { GLOBAL_SHORTCUT_KEYS } from '../utils/contants';
 
 interface ShortcutProps {
   event: HotkeyEvent;
 }
 
 const Shortcut: React.FC<ShortcutProps> = ({ event }) => {
-  const [hotkey, setHotkey] = useState<ExtendedHotKey>();
+  const { updateHotkey, hotkeys } = useSettingsStore();
 
-  useEffect(() => {
-    const getHotkey = async () =>
-      setHotkey(await window.electron.getHotkey(event));
-    getHotkey();
-  }, [setHotkey, event]);
+  const currentHotkey = hotkeys.find((key) => key.event === event);
 
-  useEffect(() => {
-    const updateHotkey = async () => {
-      if (hotkey) await window.electron.updateHotkey(hotkey as ExtendedHotKey);
-    };
-    updateHotkey();
-  }, [hotkey]);
-
-  if (!hotkey) {
+  if (!currentHotkey) {
     return null;
   }
 
@@ -34,27 +24,37 @@ const Shortcut: React.FC<ShortcutProps> = ({ event }) => {
       <div className="flex items-center space-x-2.5 w-full text-sm">
         <FontAwesomeIcon icon="cut" />
 
-        <CheckBox
-          checked={hotkey.ctrl}
-          onChange={() => setHotkey({ ...hotkey, ctrl: !hotkey.ctrl })}
-          text="Ctrl"
-        />
-        <CheckBox
-          checked={hotkey.alt}
-          onChange={() => setHotkey({ ...hotkey, alt: !hotkey.alt })}
-          text="Alt"
-        />
-        <CheckBox
-          checked={hotkey.shift}
-          onChange={() => setHotkey({ ...hotkey, shift: !hotkey.shift })}
-          text="Shift"
-        />
+        {currentHotkey.status && (
+          <>
+            <CheckBox
+              checked={currentHotkey.ctrl}
+              onChange={() =>
+                updateHotkey({ ...currentHotkey, ctrl: !currentHotkey.ctrl })
+              }
+              text="Ctrl"
+            />
+            <CheckBox
+              checked={currentHotkey.alt}
+              onChange={() =>
+                updateHotkey({ ...currentHotkey, alt: !currentHotkey.alt })
+              }
+              text="Alt"
+            />
+            <CheckBox
+              checked={currentHotkey.shift}
+              onChange={() =>
+                updateHotkey({ ...currentHotkey, shift: !currentHotkey.shift })
+              }
+              text="Shift"
+            />
+          </>
+        )}
         <Dropdown
           items={GLOBAL_SHORTCUT_KEYS}
-          value={hotkey.key}
-          onChange={(key) => setHotkey({ ...hotkey, key })}
+          value={currentHotkey.key}
+          onChange={(key) => updateHotkey({ ...currentHotkey, key })}
         />
-        <p className="w-full flex justify-end truncate">{hotkey.name}</p>
+        <p className="w-full flex justify-end truncate">{currentHotkey.name}</p>
       </div>
     </>
   );

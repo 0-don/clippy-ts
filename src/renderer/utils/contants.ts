@@ -16,6 +16,7 @@ export type SidebarIcon = {
 };
 
 export const GLOBAL_SHORTCUT_KEYS = [
+  'none',
   'A',
   'B',
   'C',

@@ -11,24 +11,24 @@ import { tray } from './tray';
 const prisma = new PrismaClient(prismaClientConfig());
 
 async function createGlobalShortcuts() {
-  let hotkey: ExtendedHotKey;
-  const hotkeys = (await prisma.hotkey.findMany({
-    where: {},
-  })) as ExtendedHotKey[];
+  let hotkey: ExtendedHotKey | undefined;
+  const hotkeys = (await prisma.hotkey.findMany()) as ExtendedHotKey[];
 
   hotkey = hotkeys.find(
-    (key) => key.event === 'windowDisplayToggle'
-  ) as ExtendedHotKey;
-  globalShortcut.register(hotkeyToAccelerator(hotkey), () => {
-    const window = getWindow('MAIN_WINDOW_ID');
-    displayWindowNearTray(tray, window);
-  });
+    ({ event, status }) => event === 'windowDisplayToggle' && status
+  );
+  if (hotkey)
+    globalShortcut.register(hotkeyToAccelerator(hotkey), () => {
+      const window = getWindow('MAIN_WINDOW_ID');
+      displayWindowNearTray(tray, window);
+    });
 
-  hotkey = hotkeys.find((key) => key.event === 'setTab') as ExtendedHotKey;
-  globalShortcut.register(hotkeyToAccelerator(hotkey), () => {
-    const window = getWindow('MAIN_WINDOW_ID');
-    window.webContents.send('setTab', 'Recent Clipboards');
-  });
+  hotkey = hotkeys.find(({ event, status }) => event === 'setTab' && status);
+  if (hotkey)
+    globalShortcut.register(hotkeyToAccelerator(hotkey), () => {
+      const window = getWindow('MAIN_WINDOW_ID');
+      window.webContents.send('setTab', 'Recent Clipboards');
+    });
 }
 
 export default createGlobalShortcuts;

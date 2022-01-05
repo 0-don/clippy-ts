@@ -9,6 +9,7 @@ const AppSidebar: React.FC = () => {
     <>
       {sidebarIcons.map((sIcon) => (
         <FontAwesomeIcon
+          key={sIcon.name}
           size="lg"
           className={`${
             sIcon.current

@@ -1,5 +1,5 @@
 import { ipcMain, webContents, globalShortcut } from 'electron';
-import { Prisma, PrismaClient } from '../../prisma/client/index';
+import { Hotkey, Prisma, PrismaClient } from '../../prisma/client/index';
 import {
   ExtendedHotKey,
   HotkeyEvent,
@@ -43,10 +43,18 @@ ipcMain.handle('getHotkeys', () => prisma.hotkey.findMany());
 ipcMain.handle('updateHotkey', async (_, { id, ...hotkey }: ExtendedHotKey) => {
   globalShortcut.unregisterAll();
 
-  const dbHotkey = await prisma.hotkey.update({
-    where: { id },
-    data: hotkey,
-  });
+  let dbHotkey: Hotkey;
+  if (hotkey.key === 'none') {
+    dbHotkey = await prisma.hotkey.update({
+      where: { id },
+      data: { ...hotkey, status: false },
+    });
+  } else {
+    dbHotkey = await prisma.hotkey.update({
+      where: { id },
+      data: { ...hotkey, status: true },
+    });
+  }
 
   await createGlobalShortcuts();
 

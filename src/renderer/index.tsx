@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import ReactDOM from 'react-dom';
 import { useEffect } from 'react';
+
 import './index.css';
 import './utils/icons';
 import Routes from './Routes';
@@ -11,9 +12,12 @@ import { SidebarIconName } from './utils/contants';
 import { ExtendedHotKey } from '../main/utils/constants';
 
 const Index = () => {
-  const { initSettings, settings, updateSettings, updateHotkey } =
-    useSettingsStore();
-  const { setSidebarIcon } = useAppStore();
+  const initSettings = useSettingsStore((state) => state.initSettings);
+  const settings = useSettingsStore((state) => state.settings);
+  const updateSettings = useSettingsStore((state) => state.updateSettings);
+  const updateHotkey = useSettingsStore((state) => state.updateHotkey);
+
+  const setSidebarIcon = useAppStore((state) => state.setSidebarIcon);
 
   useEffect(() => {
     initSettings();
