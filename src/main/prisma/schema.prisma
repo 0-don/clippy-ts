@@ -34,10 +34,12 @@ model Settings {
 }
 
 model Hotkey {
-  id    Int     @id
-  ctrl  Boolean // @default(false)
-  alt   Boolean // @default(false)
-  shift Boolean // @default(false)
-  key   String  // @default("X")
-  event String
+  id     Int     @id
+  event  String
+  ctrl   Boolean // @default(false)
+  alt    Boolean // @default(false)
+  shift  Boolean // @default(false)
+  key    String // @default("X")
+  status Boolean // @default(true)
+  name   String
 }

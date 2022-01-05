@@ -22,6 +22,8 @@ const hotkeyData: Prisma.HotkeyCreateInput[] &
     ctrl: true,
     alt: false,
     key: 'D',
+    status: true,
+    name: 'Clippy Display Toggle',
   },
   {
     id: 2,
@@ -30,6 +32,8 @@ const hotkeyData: Prisma.HotkeyCreateInput[] &
     ctrl: false,
     alt: false,
     key: 'H',
+    status: true,
+    name: 'Recent Clipboards',
   },
 ];
 

@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import clipboard from 'electron-clipboard-extended';
 import { ipcMain, nativeImage } from 'electron';
-import { log } from 'electron-log';
+import { log } from 'console';
 import { PrismaClient, Clipboard } from '../../prisma/client';
 import {
   GetClipboards,
