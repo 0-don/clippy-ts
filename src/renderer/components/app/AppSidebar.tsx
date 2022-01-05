@@ -3,7 +3,8 @@ import React from 'react';
 import useAppStore from '../../store/AppStore';
 
 const AppSidebar: React.FC = () => {
-  const { sidebarIcons, setSidebarIcon } = useAppStore();
+  const sidebarIcons = useAppStore((state) => state.sidebarIcons);
+  const setSidebarIcon = useAppStore((state) => state.setSidebarIcon);
 
   return (
     <>

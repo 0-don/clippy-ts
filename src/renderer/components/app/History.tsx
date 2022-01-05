@@ -7,7 +7,7 @@ import SwitchField from '../../elements/SwitchField';
 const History: React.FC = () => {
   const [search, setSearch] = useState('');
   const [showImages, setShowImages] = useState(false);
-  const { setClipboards } = useAppStore();
+  const setClipboards = useAppStore((state) => state.setClipboards);
 
   useEffect(() => {
     const getClipboards = async () =>

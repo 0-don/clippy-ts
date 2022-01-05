@@ -8,8 +8,8 @@ import ViewMore from '../components/app/ViewMore';
 import useSettingsStore from '../store/SettingsStore';
 
 const App = () => {
-  const { sidebarIcons } = useAppStore();
-  const { settings } = useSettingsStore();
+  const settings = useSettingsStore((state) => state.settings);
+  const sidebarIcons = useAppStore((state) => state.sidebarIcons);
 
   const sIcon = sidebarIcons.find((icon) => icon.current);
 

@@ -4,7 +4,8 @@ import useSettingsStore from '../../store/SettingsStore';
 import SwitchField from '../../elements/SwitchField';
 
 const ViewMore: React.FC = () => {
-  const { settings, updateSettings } = useSettingsStore();
+  const settings = useSettingsStore((state) => state.settings);
+  const updateSettings = useSettingsStore((state) => state.updateSettings);
 
   return (
     <>

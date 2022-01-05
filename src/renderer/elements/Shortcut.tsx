@@ -11,7 +11,8 @@ interface ShortcutProps {
 }
 
 const Shortcut: React.FC<ShortcutProps> = ({ event }) => {
-  const { updateHotkey, hotkeys } = useSettingsStore();
+  const updateHotkey = useSettingsStore((state) => state.updateHotkey);
+  const hotkeys = useSettingsStore((state) => state.hotkeys);
 
   const currentHotkey = hotkeys.find((key) => key.event === event);
 

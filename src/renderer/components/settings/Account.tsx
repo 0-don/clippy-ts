@@ -6,7 +6,8 @@ import useSettingsStore from '../../store/SettingsStore';
 
 const Account: React.FC = () => {
   const [url, setUrl] = useState<string>();
-  const { settings, updateSettings } = useSettingsStore();
+  const settings = useSettingsStore((state) => state.settings);
+  const updateSettings = useSettingsStore((state) => state.updateSettings);
 
   useEffect(() => {
     const getUrl = async () => setUrl(await window.electron.getDatbasePath());

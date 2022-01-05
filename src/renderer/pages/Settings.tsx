@@ -5,7 +5,7 @@ import General from '../components/settings/General';
 import History from '../components/settings/History';
 
 const Settings = () => {
-  const { tabs } = useSettingsStore();
+  const tabs = useSettingsStore((state) => state.tabs);
   const currentTab = tabs.find((tab) => tab.current)?.name;
 
   return (

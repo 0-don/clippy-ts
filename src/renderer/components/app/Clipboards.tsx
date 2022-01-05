@@ -20,7 +20,8 @@ const defaultProps = {
 
 function Clipboards({ star, search }: ClipboardProps) {
   const myRef = useRef<HTMLDivElement>(null);
-  const { clipboards, setClipboards } = useAppStore();
+  const clipboards = useAppStore((state) => state.clipboards);
+  const setClipboards = useAppStore((state) => state.setClipboards);
 
   const onScroll = async () => {
     const bottom =

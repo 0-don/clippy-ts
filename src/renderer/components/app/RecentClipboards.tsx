@@ -4,7 +4,8 @@ import { Clipboard } from '../../../main/prisma/client/index';
 import Clipboards from './Clipboards';
 
 const RecentClipboards = () => {
-  const { clipboards, setClipboards } = useAppStore();
+  const clipboards = useAppStore((state) => state.clipboards);
+  const setClipboards = useAppStore((state) => state.setClipboards);
 
   useEffect(() => {
     const getClipboards = async () =>

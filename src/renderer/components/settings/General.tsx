@@ -7,7 +7,8 @@ import TextBlock from '../../elements/TextBlock';
 import useSettingsStore from '../../store/SettingsStore';
 
 const General: React.FC = () => {
-  const { settings, updateSettings } = useSettingsStore();
+  const settings = useSettingsStore((state) => state.settings);
+  const updateSettings = useSettingsStore((state) => state.updateSettings);
 
   return (
     <>

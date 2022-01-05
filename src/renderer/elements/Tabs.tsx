@@ -7,7 +7,9 @@ function classNames(...classes: string[]) {
 }
 
 const Tabs: React.FC = () => {
-  const { tabs, setCurrentTab } = useSettingsStore();
+  const tabs = useSettingsStore((state) => state.tabs);
+  const setCurrentTab = useSettingsStore((state) => state.setCurrentTab);
+
   return (
     <div className="border-b border-gray-500">
       <nav className="-mb-px flex space-x-8" aria-label="Tabs">
