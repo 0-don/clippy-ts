@@ -3,6 +3,15 @@ import { HotkeyEvent, prismaClientConfig } from '../utils/constants';
 import { PrismaClient, Prisma } from './client/index';
 import { GlobalShortcutKeysType } from '../../renderer/utils/contants';
 
+function pause(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+type KeyType = Prisma.HotkeyCreateInput & {
+  event: HotkeyEvent;
+  key: GlobalShortcutKeysType;
+};
+
 const prisma = new PrismaClient(prismaClientConfig());
 
 const settingsData: Prisma.SettingsCreateInput = {
@@ -13,8 +22,7 @@ const settingsData: Prisma.SettingsCreateInput = {
   synchronize: false,
 };
 
-const hotkeyData: Prisma.HotkeyCreateInput[] &
-  { event: HotkeyEvent; key: GlobalShortcutKeysType }[] = [
+const keys: KeyType[] = [
   {
     id: 1,
     event: 'windowDisplayToggle',
@@ -46,26 +54,16 @@ async function seed() {
     update: { id: settingsData.id },
   });
 
-  // for (const key of hotkeyData) {
-  //   await prisma.hotkey.upsert({
-  //     where: { id: key.id },
-  //     create: key,
-  //     update: key,
-  //   });
-  // }
-
-  const promises = hotkeyData.map((key) =>
-    prisma.hotkey
-      .upsert({
+  await Promise.all(
+    keys.map(async (key) => {
+      await pause(50);
+      return prisma.hotkey.upsert({
         where: { id: key.id },
         create: key,
         update: key,
-      })
-      .then((data) => data)
+      });
+    })
   );
-
-  const res = await Promise.all(promises);
-  console.log(res);
 }
 
 export default seed;
