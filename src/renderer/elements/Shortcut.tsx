@@ -53,7 +53,9 @@ const Shortcut: React.FC<ShortcutProps> = ({ event }) => {
         <Dropdown
           items={GLOBAL_SHORTCUT_KEYS}
           value={currentHotkey.key}
-          onChange={(key) => updateHotkey({ ...currentHotkey, key })}
+          onChange={(key) =>
+            updateHotkey({ ...currentHotkey, key, status: key !== 'none' })
+          }
         />
         <p className="w-full flex justify-end truncate">{currentHotkey.name}</p>
       </div>

@@ -17,7 +17,7 @@ const Dropdown: React.FC<DropdownProps> = ({ items, value, onChange }) => {
       {({ open }) => (
         <>
           <div className="mt-1 relative ">
-            <Listbox.Button className="flex w-12 items-center justify-between border-gray-300 px-1 dark:bg-dark-light dark:border-dark-light dark:text-white border rounded-md focus:outline-none dark:focus:bg-dark-dark">
+            <Listbox.Button className="flex w-[55px] items-center justify-between border-gray-300 px-1 dark:bg-dark-light dark:border-dark-light dark:text-white border rounded-md focus:outline-none dark:focus:bg-dark-dark">
               <span className="block text-sm truncate text-white w-full">
                 {value}
               </span>
@@ -31,7 +31,7 @@ const Dropdown: React.FC<DropdownProps> = ({ items, value, onChange }) => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute z-10 mt-0.5 w-full bg-dark-light shadow-lg max-h-24 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+              <Listbox.Options className="absolute z-10 mt-0.5 w-full bg-dark-light shadow-lg max-h-24 rounded-md py-1 text-sm ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none">
                 {items?.map((item) => (
                   <Listbox.Option
                     key={item}
