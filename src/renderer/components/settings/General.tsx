@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import { ExtendedHotKey } from '../../../main/utils/constants';
 import DarkMode from '../../elements/DarkMode';
 import Shortcut from '../../elements/Shortcut';
 import SwitchField from '../../elements/SwitchField';
@@ -7,14 +8,16 @@ import TextBlock from '../../elements/TextBlock';
 import useSettingsStore from '../../store/SettingsStore';
 
 const General: React.FC = () => {
-  const settings = useSettingsStore((state) => state.settings);
-  const updateSettings = useSettingsStore((state) => state.updateSettings);
+  const { hotkeys, settings, updateSettings } = useSettingsStore();
+  const hotkey = hotkeys.find(
+    (key) => key.event === 'windowDisplayToggle'
+  ) as ExtendedHotKey;
 
   return (
     <>
       <TextBlock icon={['far', 'keyboard']} title="Keyboard shortcut">
         <div className="px-5 flex items-center mb-2 space-x-2 pb-2.5">
-          <Shortcut event="windowDisplayToggle" />
+          <Shortcut hotkey={hotkey} />
         </div>
       </TextBlock>
 

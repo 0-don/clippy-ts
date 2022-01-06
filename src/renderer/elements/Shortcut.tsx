@@ -1,63 +1,55 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { HotkeyEvent } from '../../main/utils/constants';
+import { ExtendedHotKey } from '../../main/utils/constants';
 import useSettingsStore from '../store/SettingsStore';
 import { GLOBAL_SHORTCUT_KEYS } from '../utils/contants';
 import CheckBox from './CheckBox';
 import Dropdown from './Dropdown';
 
 interface ShortcutProps {
-  event: HotkeyEvent;
+  hotkey: ExtendedHotKey;
 }
 
-const Shortcut: React.FC<ShortcutProps> = ({ event }) => {
+const Shortcut: React.FC<ShortcutProps> = ({ hotkey }) => {
   const updateHotkey = useSettingsStore((state) => state.updateHotkey);
-  const hotkeys = useSettingsStore((state) => state.hotkeys);
-
-  const currentHotkey = hotkeys.find((key) => key.event === event);
-
-  if (!currentHotkey) {
-    return null;
-  }
+  const { icon, status, ctrl, alt, shift, key, name } = hotkey;
 
   return (
     <>
       <div className="flex items-center space-x-2.5 w-full text-sm">
-        <FontAwesomeIcon icon="cut" />
+        <FontAwesomeIcon icon={JSON.parse(icon)} />
 
-        {currentHotkey.status && (
+        {status && (
           <>
             <CheckBox
-              checked={currentHotkey.ctrl}
-              onChange={() =>
-                updateHotkey({ ...currentHotkey, ctrl: !currentHotkey.ctrl })
-              }
+              checked={ctrl}
+              onChange={() => updateHotkey({ ...hotkey, ctrl: !ctrl })}
               text="Ctrl"
             />
             <CheckBox
-              checked={currentHotkey.alt}
-              onChange={() =>
-                updateHotkey({ ...currentHotkey, alt: !currentHotkey.alt })
-              }
+              checked={alt}
+              onChange={() => updateHotkey({ ...hotkey, alt: !alt })}
               text="Alt"
             />
             <CheckBox
-              checked={currentHotkey.shift}
-              onChange={() =>
-                updateHotkey({ ...currentHotkey, shift: !currentHotkey.shift })
-              }
+              checked={shift}
+              onChange={() => updateHotkey({ ...hotkey, shift: !shift })}
               text="Shift"
             />
           </>
         )}
         <Dropdown
           items={GLOBAL_SHORTCUT_KEYS}
-          value={currentHotkey.key}
-          onChange={(key) =>
-            updateHotkey({ ...currentHotkey, key, status: key !== 'none' })
+          value={key}
+          onChange={(currentKey) =>
+            updateHotkey({
+              ...hotkey,
+              key: currentKey,
+              status: currentKey !== 'none',
+            })
           }
         />
-        <p className="w-full flex justify-end truncate">{currentHotkey.name}</p>
+        <p className="w-full flex justify-end truncate">{name}</p>
       </div>
     </>
   );

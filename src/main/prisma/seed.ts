@@ -63,8 +63,6 @@ async function seed() {
   );
 }
 
-// (async () => {
-//   await seed();
-// })();
-
-seed();
+(async () => {
+  await seed();
+})();

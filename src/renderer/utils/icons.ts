@@ -23,6 +23,7 @@ import {
   faSync,
   faSort,
   faCut,
+  faKey,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faClock,
@@ -33,6 +34,7 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 
 library.add(
+  faKey,
   faMoon,
   faCut,
   faSync,
