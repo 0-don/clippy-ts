@@ -20,10 +20,13 @@ async function createGlobalShortcuts(allShortcuts = true) {
     ({ event, status }) => event === 'windowDisplayToggle' && status
   );
   if (hotkey)
-    globalShortcut.register(hotkeyToAccelerator(hotkey), () => {
+    globalShortcut.register(hotkeyToAccelerator(hotkey), async () => {
       const window = getWindow('MAIN_WINDOW_ID');
       displayWindowNearTray(tray, window);
-      if (window.isVisible()) window.webContents.send('enableHotkey', true);
+      if (window.isVisible()) {
+        window.webContents.send('enableHotkey', true);
+        await createGlobalShortcuts();
+      }
     });
 
   // IF ALL SHORTCUTS ENABLED CREATE EVERYTHING

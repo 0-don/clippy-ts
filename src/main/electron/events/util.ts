@@ -10,5 +10,6 @@ ipcMain.handle('version', async () => app.getVersion());
 // DISABLE HOTKEYS
 ipcMain.handle('disableHotkeys', async () => {
   globalShortcut.unregisterAll();
+
   await createGlobalShortcuts(false);
 });
