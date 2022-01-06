@@ -1,5 +1,5 @@
-/*  eslint global-require: off,
-    no-console: off */
+/* eslint-disable no-console */
+/*  eslint global-require: off */
 import path from 'path';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -10,9 +10,10 @@ import log from 'electron-log';
 import createWindow from './window';
 import { isDevelopment } from './utils/constants';
 import seed from './prisma/seed';
-import createGlobalShortcuts from './electron/globalShortcut';
+
 import { createTray } from './electron/tray';
 import './electron/events';
+import { createGlobalShortcuts } from './electron/globalShortcut';
 
 export default class AppUpdater {
   constructor() {
@@ -93,17 +94,17 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(async () => {
-    seed();
+    await seed();
     createMainWindow();
 
-    app.on('activate', async () => {
+    app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
       if (mainWindow === null) createMainWindow();
     });
     // Remove this if your app does not use auto updates
     // eslint-disable-next-line
-    new AppUpdater();
+    // new AppUpdater();
     return null;
   })
   .catch(console.log);

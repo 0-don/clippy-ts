@@ -3,7 +3,7 @@ import { URL } from 'url';
 import fs from 'fs';
 import path from 'path';
 import { BrowserWindow, Tray, screen } from 'electron';
-import { PrismaClient, Prisma } from '../prisma/client';
+import { PrismaClient } from '../prisma/client';
 import {
   DEFAULT_DB_CONFIG_PATH,
   ExtendedHotKey,

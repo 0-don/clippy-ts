@@ -1,9 +1,12 @@
+/* eslint-disable import/no-mutable-exports */
 /* eslint import/prefer-default-export: off */
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Tray } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import { Hotkey } from '../prisma/client';
 import { GlobalShortcutKeysType } from '../../renderer/utils/contants';
+
+export let tray: Tray;
 
 export type ENV = 'MAIN_WINDOW_ID' | 'ABOUT_WINDOW_ID' | 'SETTINGS_WINDOW_ID';
 

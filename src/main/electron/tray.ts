@@ -31,7 +31,7 @@ export const createTray = (): Tray => {
     tray.popUpContextMenu(menuConfig);
   });
 
-  window.on('blur', () => {
+  window.on('blur', async () => {
     const mousePos = screen.getCursorScreenPoint();
     const trayBounds = tray.getBounds();
     const mouseOnTrayIcon =

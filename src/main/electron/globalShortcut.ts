@@ -10,8 +10,9 @@ import { tray } from './tray';
 
 const prisma = new PrismaClient(prismaClientConfig());
 
-async function createGlobalShortcuts() {
+export async function createGlobalShortcuts() {
   let hotkey: ExtendedHotKey | undefined;
+
   const hotkeys = (await prisma.hotkey.findMany()) as ExtendedHotKey[];
 
   hotkey = hotkeys.find(
@@ -27,8 +28,12 @@ async function createGlobalShortcuts() {
   if (hotkey)
     globalShortcut.register(hotkeyToAccelerator(hotkey), () => {
       const window = getWindow('MAIN_WINDOW_ID');
-      window.webContents.send('setTab', 'Recent Clipboards');
+      if (window.isVisible())
+        window.webContents.send('setTab', 'Recent Clipboards');
     });
 }
 
-export default createGlobalShortcuts;
+export function restartHotkeyShortcuts() {
+  globalShortcut.unregisterAll();
+  createGlobalShortcuts();
+}
