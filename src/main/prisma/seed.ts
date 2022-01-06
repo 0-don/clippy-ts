@@ -60,4 +60,8 @@ async function seed() {
   );
 }
 
-export default seed;
+// (async () => {
+//   await seed();
+// })();
+
+seed();

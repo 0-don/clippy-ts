@@ -7,12 +7,11 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import clipboard from 'electron-clipboard-extended';
 import log from 'electron-log';
+import './prisma/seed';
+import './electron/events';
 import createWindow from './window';
 import { isDevelopment } from './utils/constants';
-import seed from './prisma/seed';
-
 import { createTray } from './electron/tray';
-import './electron/events';
 import createGlobalShortcuts from './electron/globalShortcut';
 
 export default class AppUpdater {
@@ -93,8 +92,7 @@ app.on('window-all-closed', () => {
 
 app
   .whenReady()
-  .then(async () => {
-    await seed();
+  .then(() => {
     createMainWindow();
 
     app.on('activate', () => {

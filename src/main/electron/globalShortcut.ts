@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { globalShortcut } from 'electron';
 import {
   prismaClientConfig,
