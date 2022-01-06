@@ -1,14 +1,12 @@
 /* eslint-disable no-console */
 import ReactDOM from 'react-dom';
 import { useEffect } from 'react';
-
 import './index.css';
 import './utils/icons';
 import Routes from './Routes';
 import useSettingsStore from './store/SettingsStore';
 import { Prisma } from '../main/prisma/client';
 import useAppStore from './store/AppStore';
-import { SidebarIconName } from './utils/contants';
 import { ExtendedHotKey } from '../main/utils/constants';
 
 const Index = () => {
@@ -32,15 +30,9 @@ const Index = () => {
       (hotkey: ExtendedHotKey) => updateHotkey(hotkey, false)
     );
 
-    const setTab = window.electron.on(
-      'setTab',
-      (sidebarIconName: SidebarIconName) => setSidebarIcon(sidebarIconName)
-    );
-
     return () => {
       refreshSettings();
       refreshHotkeys();
-      setTab();
     };
   }, [updateSettings, updateHotkey, setSidebarIcon, initSettings]);
 

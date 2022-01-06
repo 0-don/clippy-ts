@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { globalShortcut } from 'electron';
 import {
   prismaClientConfig,
@@ -10,11 +11,12 @@ import { tray } from './tray';
 
 const prisma = new PrismaClient(prismaClientConfig());
 
-export async function createGlobalShortcuts() {
+async function createGlobalShortcuts(allShortcuts = true) {
   let hotkey: ExtendedHotKey | undefined;
-
   const hotkeys = (await prisma.hotkey.findMany()) as ExtendedHotKey[];
 
+  // MAIN HOTKEY
+  // WINDOW DISPLAY TOGGLE
   hotkey = hotkeys.find(
     ({ event, status }) => event === 'windowDisplayToggle' && status
   );
@@ -22,18 +24,20 @@ export async function createGlobalShortcuts() {
     globalShortcut.register(hotkeyToAccelerator(hotkey), () => {
       const window = getWindow('MAIN_WINDOW_ID');
       displayWindowNearTray(tray, window);
+      if (window.isVisible()) window.webContents.send('enableHotkey', true);
     });
 
-  hotkey = hotkeys.find(({ event, status }) => event === 'setTab' && status);
-  if (hotkey)
-    globalShortcut.register(hotkeyToAccelerator(hotkey), () => {
-      const window = getWindow('MAIN_WINDOW_ID');
-      if (window.isVisible())
-        window.webContents.send('setTab', 'Recent Clipboards');
-    });
+  // IF ALL SHORTCUTS ENABLED CREATE EVERYTHING
+  if (allShortcuts) {
+    // SET TAB
+    hotkey = hotkeys.find(({ event, status }) => event === 'setTab' && status);
+    if (hotkey)
+      globalShortcut.register(hotkeyToAccelerator(hotkey), () => {
+        const window = getWindow('MAIN_WINDOW_ID');
+        if (window.isVisible())
+          window.webContents.send('setTab', 'Recent Clipboards');
+      });
+  }
 }
 
-export function restartHotkeyShortcuts() {
-  globalShortcut.unregisterAll();
-  createGlobalShortcuts();
-}
+export default createGlobalShortcuts;

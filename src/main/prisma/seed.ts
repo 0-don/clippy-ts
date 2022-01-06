@@ -30,7 +30,7 @@ const keys: ExtendedHotKey[] = [
   {
     id: 2,
     event: 'setTab',
-    ctrl: true,
+    ctrl: false,
     alt: false,
     shift: false,
     key: 'H',

@@ -13,7 +13,7 @@ import seed from './prisma/seed';
 
 import { createTray } from './electron/tray';
 import './electron/events';
-import { createGlobalShortcuts } from './electron/globalShortcut';
+import createGlobalShortcuts from './electron/globalShortcut';
 
 export default class AppUpdater {
   constructor() {

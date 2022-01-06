@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import StarredClipboards from '../components/app/StarredClipboards';
 import AppSidebar from '../components/app/AppSidebar';
@@ -6,12 +7,43 @@ import RecentClipboards from '../components/app/RecentClipboards';
 import History from '../components/app/History';
 import ViewMore from '../components/app/ViewMore';
 import useSettingsStore from '../store/SettingsStore';
+import { SidebarIconName } from '../utils/contants';
 
 const App = () => {
-  const settings = useSettingsStore((state) => state.settings);
-  const sidebarIcons = useAppStore((state) => state.sidebarIcons);
+  const { settings, setGlobalHotkeyEvent, globalHotkeyEvent } =
+    useSettingsStore();
+  const { sidebarIcons, setSidebarIcon } = useAppStore();
 
   const sIcon = sidebarIcons.find((icon) => icon.current);
+
+  useEffect(() => {
+    const setTab = window.electron.on(
+      'setTab',
+      (sidebarIconName: SidebarIconName) => setSidebarIcon(sidebarIconName)
+    );
+
+    const enableHotkey = window.electron.on('enableHotkey', (status: boolean) =>
+      setGlobalHotkeyEvent(status)
+    );
+
+    return () => {
+      enableHotkey();
+      setTab();
+    };
+  }, [setSidebarIcon, setGlobalHotkeyEvent]);
+
+  useEffect(() => {
+    const delayDebounceFn =
+      globalHotkeyEvent &&
+      setTimeout(async () => {
+        setGlobalHotkeyEvent(false);
+        await window.electron.disableHotkeys();
+      }, 5000);
+
+    return () => {
+      if (delayDebounceFn) clearTimeout(delayDebounceFn);
+    };
+  }, [setGlobalHotkeyEvent, globalHotkeyEvent]);
 
   return (
     <div className="absolute w-full h-full dark:bg-dark bg-white dark:text-white text-black flex overflow-hidden ">

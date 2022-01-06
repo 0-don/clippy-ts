@@ -14,6 +14,8 @@ declare global {
       // UTIL
       exit: () => Promise<boolean>;
       version: () => Promise<string>;
+      enableHotkey: () => Promise<boolean>;
+      disableHotkeys: () => Promise<boolean>;
 
       // CLIPBOARD
       getClipboards: (arg: GetClipboards) => Promise<Clipboard[]>;

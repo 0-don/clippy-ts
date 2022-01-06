@@ -15,6 +15,8 @@ type SettingsTab = {
 
 type Settings = {
   globalHotkeyEvent: boolean;
+  setGlobalHotkeyEvent: (status: boolean) => void;
+
   hotkeys: ExtendedHotKey[];
   updateHotkey: (hotkey: ExtendedHotKey, update?: boolean) => void;
 
@@ -57,6 +59,13 @@ const useSettingsStore = create<Settings>(
                 : { ...tab, current: false }
             );
           }),
+
+        // SET GLOBAL HOTKEY EVENT
+        setGlobalHotkeyEvent: (status) => {
+          set((state) => {
+            state.globalHotkeyEvent = status;
+          });
+        },
 
         // UPDATE SETTINGS
         updateSettings: async (settings, upload = true) => {

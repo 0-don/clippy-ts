@@ -7,6 +7,7 @@ const validChannels = [
   'refreshHotkeys',
   'windowDisplayToggle',
   'setTab',
+  'enableHotkey',
 ];
 
 contextBridge.exposeInMainWorld('electron', {
@@ -28,6 +29,8 @@ contextBridge.exposeInMainWorld('electron', {
 
   // UTIL
   exit: (arg) => ipcRenderer.invoke('exit', arg),
+  enableHotkey: (arg) => ipcRenderer.invoke('enableHotkey', arg),
+  disableHotkeys: (arg) => ipcRenderer.invoke('disableHotkeys', arg),
   version: (arg) => ipcRenderer.invoke('version', arg),
 
   // CLIPBOARD

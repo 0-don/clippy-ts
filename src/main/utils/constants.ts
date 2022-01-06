@@ -16,6 +16,7 @@ export const hotKeyEvents = [
 
   // external
   'setTab',
+  'enableHotkey',
 ] as const;
 export type HotkeyEvent = typeof hotKeyEvents[number];
 
