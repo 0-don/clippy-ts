@@ -1,6 +1,7 @@
 /* eslint-disable import/no-mutable-exports */
 /* eslint import/prefer-default-export: off */
 import { app, BrowserWindow, Tray } from 'electron';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import path from 'path';
 import fs from 'fs';
 import { Hotkey } from '../prisma/client';
@@ -31,6 +32,7 @@ export type OnEvent = typeof onEvents[number];
 export interface ExtendedHotKey extends Hotkey {
   event: HotkeyEvent;
   key: GlobalShortcutKeysType;
+  icon: IconProp | string;
 }
 
 export type GetClipboards = {

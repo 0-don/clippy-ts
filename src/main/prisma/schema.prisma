@@ -42,4 +42,5 @@ model Hotkey {
   key    String // @default("X")
   status Boolean // @default(true)
   name   String
+  icon   String
 }

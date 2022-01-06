@@ -4,13 +4,8 @@ import useSettingsStore from '../../store/SettingsStore';
 import useAppStore from '../../store/AppStore';
 
 const AppSidebar: React.FC = () => {
-  const hotkeys = useSettingsStore((state) => state.hotkeys);
-  const globalHotkeyEvent = useSettingsStore(
-    (state) => state.globalHotkeyEvent
-  );
-
-  const sidebarIcons = useAppStore((state) => state.sidebarIcons);
-  const setSidebarIcon = useAppStore((state) => state.setSidebarIcon);
+  const { hotkeys, globalHotkeyEvent } = useSettingsStore();
+  const { sidebarIcons, setSidebarIcon } = useAppStore();
 
   return (
     <>

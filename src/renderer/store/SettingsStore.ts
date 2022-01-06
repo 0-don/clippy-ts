@@ -5,7 +5,7 @@ import { immer } from '../utils/util';
 import { Prisma } from '../../main/prisma/client';
 import { ExtendedHotKey } from '../../main/utils/constants';
 
-type SettingsTabName = 'General' | 'Account' | 'History';
+type SettingsTabName = 'General' | 'Account' | 'History' | 'Hotkeys';
 
 type SettingsTab = {
   name: SettingsTabName;
@@ -46,6 +46,11 @@ const useSettingsStore = create<Settings>(
           {
             name: 'History',
             icon: ['fas', 'history'],
+            current: false,
+          },
+          {
+            name: 'Hotkeys',
+            icon: ['far', 'keyboard'],
             current: false,
           },
         ],

@@ -1,3 +1,4 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { log } from 'console';
 import { ExtendedHotKey, prismaClientConfig } from '../utils/constants';
 import { PrismaClient, Prisma } from './client/index';
@@ -26,6 +27,7 @@ const keys: ExtendedHotKey[] = [
     key: 'D',
     status: true,
     name: 'Clippy Display Toggle',
+    icon: JSON.stringify(['far', 'keyboard'] as IconProp),
   },
   {
     id: 2,
@@ -36,6 +38,7 @@ const keys: ExtendedHotKey[] = [
     key: 'H',
     status: true,
     name: 'Recent Clipboards',
+    icon: JSON.stringify(['fas', 'history'] as IconProp),
   },
 ];
 
