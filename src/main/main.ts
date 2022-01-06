@@ -41,7 +41,7 @@ if (isDevelopment) {
   require('electron-debug')();
 }
 
-const installExtensions = () => {
+const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
   const extensions = ['REACT_DEVELOPER_TOOLS'];
@@ -55,9 +55,9 @@ const installExtensions = () => {
 };
 
 const createMainWindow = async () => {
-  if (isDevelopment) {
-    await installExtensions();
-  }
+  // if (isDevelopment) {
+  //   await installExtensions();
+  // }
   mainWindow = createWindow('MAIN_WINDOW_ID');
   createTray();
   await createGlobalShortcuts();
@@ -93,8 +93,8 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(async () => {
-    await seed();
-    await createMainWindow();
+    seed();
+    createMainWindow();
 
     app.on('activate', async () => {
       // On macOS it's common to re-create a window in the app when the
