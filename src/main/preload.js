@@ -1,17 +1,28 @@
 /* eslint-disable consistent-return */
 const { contextBridge, ipcRenderer } = require('electron');
 
+const validChannels = [
+  'addClipboard',
+  'refreshSettings',
+  'refreshHotkeys',
+  'windowDisplayToggle',
+  'setTab',
+];
+
 contextBridge.exposeInMainWorld('electron', {
   on(channel, func) {
-    const validChannels = [
-      'addClipboard',
-      'refreshSettings',
-      'setTab',
-      'refreshHotkeys',
-    ];
     if (validChannels.includes(channel)) {
       // Deliberately strip event as it includes `sender`
-      ipcRenderer.on(channel, (event, ...args) => func(...args));
+      const subscription = (event, ...args) => func(...args);
+      ipcRenderer.on(channel, subscription);
+      return () => {
+        ipcRenderer.removeListener(channel, subscription);
+      };
+    }
+  },
+  removeAllListeners: (channel) => {
+    if (validChannels.includes(channel)) {
+      ipcRenderer.removeAllListeners(channel);
     }
   },
 

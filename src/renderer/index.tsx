@@ -22,18 +22,26 @@ const Index = () => {
   useEffect(() => {
     initSettings();
 
-    window.electron.on(
+    const refreshSettings = window.electron.on(
       'refreshSettings',
       (setting: Prisma.SettingsCreateInput) => updateSettings(setting, false)
     );
 
-    window.electron.on('refreshHotkeys', (hotkey: ExtendedHotKey) =>
-      updateHotkey(hotkey, false)
+    const refreshHotkeys = window.electron.on(
+      'refreshHotkeys',
+      (hotkey: ExtendedHotKey) => updateHotkey(hotkey, false)
     );
 
-    window.electron.on('setTab', (sidebarIconName: SidebarIconName) =>
-      setSidebarIcon(sidebarIconName)
+    const setTab = window.electron.on(
+      'setTab',
+      (sidebarIconName: SidebarIconName) => setSidebarIcon(sidebarIconName)
     );
+
+    return () => {
+      refreshSettings();
+      refreshHotkeys();
+      setTab();
+    };
   }, [updateSettings, updateHotkey, setSidebarIcon, initSettings]);
 
   if (!settings) return null;
