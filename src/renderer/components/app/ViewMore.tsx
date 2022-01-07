@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useSettingsStore from '../../store/SettingsStore';
 import SwitchField from '../../elements/SwitchField';
+import { ViewMoreName } from '../../utils/contants';
+import { ExtendedHotKey } from '../../../main/utils/constants';
 
 const ViewMore: React.FC = () => {
-  const { settings, updateSettings } = useSettingsStore();
+  const { settings, updateSettings, hotkeys, globalHotkeyEvent } =
+    useSettingsStore();
 
   useEffect(() => {
     const syncClipboardHistory = window.electron.on(
@@ -35,46 +37,56 @@ const ViewMore: React.FC = () => {
     };
   }, [updateSettings, settings]);
 
-  const createButton = (
-    name: 'Sync Clipboard Hitory' | 'Preferences' | 'About' | 'Exit',
-    icon: IconProp,
-    onClick: () => void
-  ) => (
-    <button
-      type="button"
-      className="px-3 w-full hover:bg-neutral-700 cursor-pointer"
-      onClick={onClick}
-    >
-      <div className="flex items-center justify-between py-4">
-        <div className="flex items-center truncate">
-          <FontAwesomeIcon icon={icon} className="text-2xl" />
-          <p className="px-4 text-base font-semibold">{name}</p>
+  const createButton = (name: ViewMoreName, onClick: () => void) => {
+    const hotkey = hotkeys.find((key) => key.name === name) as ExtendedHotKey;
+    console.log(hotkey.key);
+    return (
+      <button
+        type="button"
+        className="px-3 w-full hover:bg-neutral-700 cursor-pointer"
+        onClick={onClick}
+      >
+        <div className="flex items-center justify-between py-4">
+          <div className="flex items-center ">
+            <div className="relative">
+              <FontAwesomeIcon
+                icon={JSON.parse(hotkey.icon)}
+                className="text-2xl"
+              />
+              {globalHotkeyEvent && hotkey.status && (
+                <div className="absolute top-0 left-0 bg-zinc-600 px-1 text-[12px] rounded-sm -mt-3 -ml-2 font-semibold">
+                  {hotkey.key}
+                </div>
+              )}
+            </div>
+            <p className="px-4 text-base font-semibold">{name}</p>
+          </div>
+          {name === 'Sync Clipboard History' && (
+            <SwitchField checked={settings.synchronize} onChange={undefined} />
+          )}
         </div>
-        {name === 'Sync Clipboard Hitory' && (
-          <SwitchField checked={settings.synchronize} onChange={undefined} />
-        )}
-      </div>
-      <hr className="text-zinc-600" />
-    </button>
-  );
+        <hr className="text-zinc-600" />
+      </button>
+    );
+  };
 
   return (
     <>
-      {/* Sync Clipboard Hitory  */}
-      {createButton('Sync Clipboard Hitory', ['far', 'save'], () =>
+      {/* Sync Clipboard History  */}
+      {createButton('Sync Clipboard History', () =>
         updateSettings({ ...settings, synchronize: !settings.synchronize })
       )}
 
       {/* Preferences */}
-      {createButton('Preferences', 'cog', () =>
+      {createButton('Preferences', () =>
         window.electron.createSettingsWindow()
       )}
 
       {/* About */}
-      {createButton('About', 'info-circle', window.electron.createAboutWindow)}
+      {createButton('About', window.electron.createAboutWindow)}
 
       {/* Exit */}
-      {createButton('Exit', 'sign-out-alt', window.electron.exit)}
+      {createButton('Exit', window.electron.exit)}
     </>
   );
 };

@@ -14,6 +14,7 @@ import { formatBytes } from '../../utils/util';
 dayjs.extend(customParseFormat);
 
 const prisma = new PrismaClient(prismaClientConfig());
+
 // CLIPBOARD EVENT LISTENER
 let addClipboard = true;
 

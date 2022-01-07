@@ -65,14 +65,16 @@ async function createGlobalShortcuts(allShortcuts = true) {
     );
 
     // PREFRENCES
-    createGlobalShortcut(hotkeys, 'preferences', (key) =>
-      mainWindow.webContents.send(key.event, key.name)
-    );
+    createGlobalShortcut(hotkeys, 'preferences', (key) => {
+      mainWindow.webContents.send(key.event, key.name);
+      mainWindow.hide();
+    });
 
     // ABOUT
-    createGlobalShortcut(hotkeys, 'about', (key) =>
-      mainWindow.webContents.send(key.event, key.name)
-    );
+    createGlobalShortcut(hotkeys, 'about', (key) => {
+      mainWindow.webContents.send(key.event, key.name);
+      mainWindow.hide();
+    });
 
     // EXIT
     createGlobalShortcut(hotkeys, 'exit', (key) =>
@@ -83,13 +85,12 @@ async function createGlobalShortcuts(allShortcuts = true) {
     globalShortcut.registerAll(
       ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
       () =>
-        mainWindow.webContents.on(
-          'before-input-event',
-          (_, input) =>
-            Number(input.key) > 0 &&
-            Number(input.key) < 10 &&
-            mainWindow.webContents.send('clipboardSwitch', Number(input.key))
-        )
+        mainWindow.webContents.on('before-input-event', (_, input) => {
+          if (Number(input.key) > 0 && Number(input.key) < 10) {
+            mainWindow.webContents.send('clipboardSwitch', Number(input.key));
+            mainWindow.hide();
+          }
+        })
     );
   }
 }

@@ -7,6 +7,7 @@ import { Hotkey } from '../prisma/client';
 import {
   GlobalShortcutKeysType,
   SidebarIconName,
+  ViewMoreName,
 } from '../../renderer/utils/contants';
 
 export let tray: Tray;
@@ -42,13 +43,7 @@ export type OnEvent = typeof onEvents[number];
 export interface ExtendedHotKey extends Hotkey {
   event: HotkeyEvent;
   key: GlobalShortcutKeysType;
-  name:
-    | SidebarIconName
-    | 'Clippy Display Toggle'
-    | 'Sync Clipboard Hitory'
-    | 'Preferences'
-    | 'About'
-    | 'Exit';
+  name: SidebarIconName | 'Clippy Display Toggle' | ViewMoreName;
 }
 
 export type GetClipboards = {

@@ -1,5 +1,14 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
+export const viewMoreNames = [
+  'Sync Clipboard History',
+  'Preferences',
+  'About',
+  'Exit',
+] as const;
+
+export type ViewMoreName = typeof viewMoreNames[number];
+
 export const sidebarIconNames = [
   'Recent Clipboards',
   'Starred Clipboards',

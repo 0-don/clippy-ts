@@ -79,7 +79,7 @@ const keys: ExtendedHotKey[] = [
     shift: false,
     key: 'P',
     status: true,
-    name: 'Sync Clipboard Hitory',
+    name: 'Sync Clipboard History',
     icon: JSON.stringify(['far', 'save'] as IconProp),
   },
   {

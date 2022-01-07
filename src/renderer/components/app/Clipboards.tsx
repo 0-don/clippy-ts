@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import useAppStore from '../../store/AppStore';
 import { Clipboard } from '../../../main/prisma/client/index';
+import useSettingsStore from '../../store/SettingsStore';
 
 dayjs.extend(relativeTime);
 
@@ -20,8 +21,8 @@ const defaultProps = {
 
 function Clipboards({ star, search }: ClipboardProps) {
   const myRef = useRef<HTMLDivElement>(null);
-  const clipboards = useAppStore((state) => state.clipboards);
-  const setClipboards = useAppStore((state) => state.setClipboards);
+  const { clipboards, setClipboards } = useAppStore();
+  const { globalHotkeyEvent } = useSettingsStore();
 
   useEffect(() => {
     const switchClipboard = window.electron.on(
@@ -82,7 +83,7 @@ function Clipboards({ star, search }: ClipboardProps) {
 
   return (
     <div ref={myRef} onScroll={onScroll} className="overflow-auto h-full pb-5">
-      {clipboards?.map((clipboard) => {
+      {clipboards?.map((clipboard, index) => {
         const { content, type, id, createdDate, blob, width, height, size } =
           clipboard;
         return (
@@ -98,10 +99,17 @@ function Clipboards({ star, search }: ClipboardProps) {
             <div className="flex py-3 justify-between" key={id}>
               <div className="flex min-w-0">
                 <div className="flex items-center">
-                  <FontAwesomeIcon
-                    className="dark:text-white text-zinc-700 text-2xl"
-                    icon={['fas', type as IconName]}
-                  />
+                  <div className="relative">
+                    <FontAwesomeIcon
+                      className="dark:text-white text-zinc-700 text-2xl"
+                      icon={['fas', type as IconName]}
+                    />
+                    {globalHotkeyEvent && (
+                      <div className="absolute top-0 left-0 bg-zinc-600 px-1 text-[12px] rounded-sm -mt-3 -ml-3 font-semibold">
+                        {index + 1 < 10 && index + 1}
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className="px-5 truncate">
                   {blob && width && height && size ? (
