@@ -23,6 +23,10 @@ export const hotKeyEvents = [
   'history',
   'viewMore',
   'clipboardSwitch',
+  'syncClipboardHistory',
+  'preferences',
+  'about',
+  'exit',
 ] as const;
 export type HotkeyEvent = typeof hotKeyEvents[number];
 
@@ -38,7 +42,13 @@ export type OnEvent = typeof onEvents[number];
 export interface ExtendedHotKey extends Hotkey {
   event: HotkeyEvent;
   key: GlobalShortcutKeysType;
-  name: SidebarIconName | 'Clippy Display Toggle';
+  name:
+    | SidebarIconName
+    | 'Clippy Display Toggle'
+    | 'Sync Clipboard Hitory'
+    | 'Preferences'
+    | 'About'
+    | 'Exit';
 }
 
 export type GetClipboards = {

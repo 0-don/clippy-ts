@@ -9,6 +9,10 @@ const validChannels = [
   'history',
   'viewMore',
   'clipboardSwitch',
+  'syncClipboardHistory',
+  'preferences',
+  'about',
+  'exit',
 
   // OnEvent
   'addClipboard',

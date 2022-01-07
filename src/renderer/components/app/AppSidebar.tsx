@@ -25,7 +25,7 @@ const AppSidebar: React.FC = () => {
               title={sIcon.name}
             />
             {currentHotkey?.status && globalHotkeyEvent && (
-              <div className="absolute top-0 left-0 bg-zinc-600 p-0.5 text-[12px] rounded-sm -mt-3 -ml-3 font-semibold">
+              <div className="absolute top-0 left-0 bg-zinc-600 px-1 text-[12px] rounded-sm -mt-3 -ml-3 font-semibold">
                 {currentHotkey.key}
               </div>
             )}

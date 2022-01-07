@@ -59,6 +59,26 @@ async function createGlobalShortcuts(allShortcuts = true) {
       mainWindow.webContents.send(key.event, key.name)
     );
 
+    // SYNC CLIPBOARD HISTORY
+    createGlobalShortcut(hotkeys, 'syncClipboardHistory', (key) =>
+      mainWindow.webContents.send(key.event, key.name)
+    );
+
+    // PREFRENCES
+    createGlobalShortcut(hotkeys, 'preferences', (key) =>
+      mainWindow.webContents.send(key.event, key.name)
+    );
+
+    // ABOUT
+    createGlobalShortcut(hotkeys, 'about', (key) =>
+      mainWindow.webContents.send(key.event, key.name)
+    );
+
+    // EXIT
+    createGlobalShortcut(hotkeys, 'exit', (key) =>
+      mainWindow.webContents.send(key.event, key.name)
+    );
+
     // CLIPBOARD SWITCH
     globalShortcut.registerAll(
       ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
