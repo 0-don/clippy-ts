@@ -54,6 +54,9 @@ export const createTray = (): Tray => {
       window.hide();
     }
     globalShortcut.unregisterAll();
+    getWindow('MAIN_WINDOW_ID').webContents.removeAllListeners(
+      'before-input-event'
+    );
     await createGlobalShortcuts(false);
   });
 

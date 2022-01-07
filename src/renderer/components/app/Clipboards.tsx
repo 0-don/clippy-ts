@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import dayjs from 'dayjs';
@@ -22,6 +22,16 @@ function Clipboards({ star, search }: ClipboardProps) {
   const myRef = useRef<HTMLDivElement>(null);
   const clipboards = useAppStore((state) => state.clipboards);
   const setClipboards = useAppStore((state) => state.setClipboards);
+
+  useEffect(() => {
+    const switchClipboard = window.electron.on(
+      'clipboardSwitch',
+      (index: number) => window.electron.switchClipboard(clipboards[index - 1])
+    );
+    return () => {
+      switchClipboard();
+    };
+  }, [clipboards]);
 
   const onScroll = async () => {
     const bottom =

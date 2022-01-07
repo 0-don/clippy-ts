@@ -4,6 +4,7 @@ import {
   prismaClientConfig,
   getWindow,
   ExtendedHotKey,
+  HotkeyEvent,
 } from '../utils/constants';
 import { PrismaClient } from '../prisma/client';
 import { displayWindowNearTray, hotkeyToAccelerator } from '../utils/util';
@@ -11,63 +12,65 @@ import { tray } from './tray';
 
 const prisma = new PrismaClient(prismaClientConfig());
 
+const createGlobalShortcut = (
+  hotkeys: ExtendedHotKey[],
+  eventname: HotkeyEvent,
+  func: (key: ExtendedHotKey) => void
+) => {
+  const key = hotkeys.find(
+    ({ event, status }) => event === eventname && status
+  );
+  if (key) {
+    globalShortcut.register(hotkeyToAccelerator(key), () => func(key));
+  }
+};
+
 async function createGlobalShortcuts(allShortcuts = true) {
   const hotkeys = (await prisma.hotkey.findMany()) as ExtendedHotKey[];
   const mainWindow = getWindow('MAIN_WINDOW_ID');
 
   // MAIN HOTKEY
   // WINDOW DISPLAY TOGGLE
-  const WDT = hotkeys.find(
-    ({ event, status }) => event === 'windowDisplayToggle' && status
-  ) as ExtendedHotKey;
-  if (WDT)
-    globalShortcut.register(hotkeyToAccelerator(WDT), async () => {
-      displayWindowNearTray(tray, mainWindow);
-      mainWindow.webContents.send('enableHotkey', true);
-      await createGlobalShortcuts();
-    });
+  createGlobalShortcut(hotkeys, 'windowDisplayToggle', async () => {
+    displayWindowNearTray(tray, mainWindow);
+    mainWindow.webContents.send('enableHotkey', true);
+    await createGlobalShortcuts();
+  });
 
   // IF ALL SHORTCUTS ENABLED && MAINWINDOW IS VISIBLE CREATE EVERYTHING
   if (allShortcuts && mainWindow.isVisible()) {
     // RECENT CLIPBOARDS
-    const RC = hotkeys.find(
-      ({ event, status }) => event === 'recentClipboards' && status
-    ) as ExtendedHotKey;
-    if (RC) {
-      globalShortcut.register(hotkeyToAccelerator(RC), () =>
-        mainWindow.webContents.send(RC.event, RC.name)
-      );
-    }
+    createGlobalShortcut(hotkeys, 'recentClipboards', (key) =>
+      mainWindow.webContents.send(key.event, key.name)
+    );
 
     // STARRED CLIPBOARDS
-    const SC = hotkeys.find(
-      ({ event, status }) => event === 'starredClipboards' && status
-    ) as ExtendedHotKey;
-    if (SC) {
-      globalShortcut.register(hotkeyToAccelerator(SC), () =>
-        mainWindow.webContents.send(SC.event, SC.name)
-      );
-    }
+    createGlobalShortcut(hotkeys, 'starredClipboards', (key) =>
+      mainWindow.webContents.send(key.event, key.name)
+    );
 
     // HISTORY
-    const H = hotkeys.find(
-      ({ event, status }) => event === 'history' && status
-    ) as ExtendedHotKey;
-    if (H) {
-      globalShortcut.register(hotkeyToAccelerator(H), () =>
-        mainWindow.webContents.send(H.event, H.name)
-      );
-    }
+    createGlobalShortcut(hotkeys, 'history', (key) =>
+      mainWindow.webContents.send(key.event, key.name)
+    );
 
     // VIEW MORE
-    const VM = hotkeys.find(
-      ({ event, status }) => event === 'viewMore' && status
-    ) as ExtendedHotKey;
-    if (VM) {
-      globalShortcut.register(hotkeyToAccelerator(VM), () =>
-        mainWindow.webContents.send(VM.event, VM.name)
-      );
-    }
+    createGlobalShortcut(hotkeys, 'viewMore', (key) =>
+      mainWindow.webContents.send(key.event, key.name)
+    );
+
+    // CLIPBOARD SWITCH
+    globalShortcut.registerAll(
+      ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+      () =>
+        mainWindow.webContents.on(
+          'before-input-event',
+          (_, input) =>
+            Number(input.key) > 0 &&
+            Number(input.key) < 10 &&
+            mainWindow.webContents.send('clipboardSwitch', Number(input.key))
+        )
+    );
   }
 }
 

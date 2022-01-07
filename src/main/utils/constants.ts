@@ -22,6 +22,7 @@ export const hotKeyEvents = [
   'starredClipboards',
   'history',
   'viewMore',
+  'clipboardSwitch',
 ] as const;
 export type HotkeyEvent = typeof hotKeyEvents[number];
 

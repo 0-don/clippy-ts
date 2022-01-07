@@ -8,6 +8,7 @@ const validChannels = [
   'starredClipboards',
   'history',
   'viewMore',
+  'clipboardSwitch',
 
   // OnEvent
   'addClipboard',
