@@ -11,34 +11,42 @@ import { tray } from './tray';
 const prisma = new PrismaClient(prismaClientConfig());
 
 async function createGlobalShortcuts(allShortcuts = true) {
-  let hotkey: ExtendedHotKey | undefined;
   const hotkeys = (await prisma.hotkey.findMany()) as ExtendedHotKey[];
+  const mainWindow = getWindow('MAIN_WINDOW_ID');
 
   // MAIN HOTKEY
   // WINDOW DISPLAY TOGGLE
-  hotkey = hotkeys.find(
+  const WDT = hotkeys.find(
     ({ event, status }) => event === 'windowDisplayToggle' && status
-  );
-  if (hotkey)
-    globalShortcut.register(hotkeyToAccelerator(hotkey), async () => {
-      const window = getWindow('MAIN_WINDOW_ID');
-      displayWindowNearTray(tray, window);
-      if (window.isVisible()) {
-        window.webContents.send('enableHotkey', true);
-        await createGlobalShortcuts();
-      }
+  ) as ExtendedHotKey;
+  if (WDT)
+    globalShortcut.register(hotkeyToAccelerator(WDT), async () => {
+      displayWindowNearTray(tray, mainWindow);
+      mainWindow.webContents.send('enableHotkey', true);
+      await createGlobalShortcuts();
     });
 
-  // IF ALL SHORTCUTS ENABLED CREATE EVERYTHING
-  if (allShortcuts) {
-    // SET TAB
-    hotkey = hotkeys.find(({ event, status }) => event === 'setTab' && status);
-    if (hotkey)
-      globalShortcut.register(hotkeyToAccelerator(hotkey), () => {
-        const window = getWindow('MAIN_WINDOW_ID');
-        if (window.isVisible())
-          window.webContents.send('setTab', 'Recent Clipboards');
-      });
+  // IF ALL SHORTCUTS ENABLED && MAINWINDOW IS VISIBLE CREATE EVERYTHING
+  if (allShortcuts && mainWindow.isVisible()) {
+    // RECENT CLIPBOARDS
+    const RC = hotkeys.find(
+      ({ event, status }) => event === 'recentClipboards' && status
+    ) as ExtendedHotKey;
+    if (RC) {
+      globalShortcut.register(hotkeyToAccelerator(RC), () =>
+        mainWindow.webContents.send(RC.event, RC.name)
+      );
+    }
+
+    // STARRED CLIPBOARDS
+    const SC = hotkeys.find(
+      ({ event, status }) => event === 'starredClipboards' && status
+    ) as ExtendedHotKey;
+    if (SC) {
+      globalShortcut.register(hotkeyToAccelerator(SC), () =>
+        mainWindow.webContents.send(SC.event, SC.name)
+      );
+    }
   }
 }
 

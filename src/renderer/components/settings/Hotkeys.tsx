@@ -18,14 +18,6 @@ const Hotkeys: React.FC = () => {
               <Shortcut hotkey={hotkey} />
             </div>
           ))}
-          {/* {hotkeys.map((hotkey) => (
-            <div
-              key={hotkey.id}
-              className="px-5 flex items-center mb-2 space-x-2 pb-2.5"
-            >
-              <Shortcut hotkey={hotkey} />
-            </div>
-          ))} */}
         </div>
       </TextBlock>
     </>

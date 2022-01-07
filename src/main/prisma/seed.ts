@@ -31,7 +31,7 @@ const keys: ExtendedHotKey[] = [
   },
   {
     id: 2,
-    event: 'setTab',
+    event: 'recentClipboards',
     ctrl: false,
     alt: false,
     shift: false,
@@ -39,6 +39,17 @@ const keys: ExtendedHotKey[] = [
     status: true,
     name: 'Recent Clipboards',
     icon: JSON.stringify(['fas', 'history'] as IconProp),
+  },
+  {
+    id: 3,
+    event: 'starredClipboards',
+    ctrl: false,
+    alt: false,
+    shift: false,
+    key: 'S',
+    status: true,
+    name: 'Starred Clipboards',
+    icon: JSON.stringify(['fas', 'star'] as IconProp),
   },
 ];
 
@@ -51,16 +62,23 @@ async function seed() {
     update: { id: settingsData.id },
   });
 
-  await Promise.all(
-    keys.map(async (key) => {
-      await pause(50);
-      return prisma.hotkey.upsert({
-        where: { id: key.id },
-        create: key,
-        update: key,
-      });
-    })
-  );
+  await prisma.hotkey.upsert({
+    where: { id: keys[0].id },
+    create: keys[0],
+    update: keys[0],
+  });
+
+  await prisma.hotkey.upsert({
+    where: { id: keys[1].id },
+    create: keys[1],
+    update: keys[1],
+  });
+
+  await prisma.hotkey.upsert({
+    where: { id: keys[2].id },
+    create: keys[2],
+    update: keys[2],
+  });
 }
 
 (async () => {

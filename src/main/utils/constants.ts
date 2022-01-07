@@ -4,7 +4,10 @@ import { app, BrowserWindow, Tray } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import { Hotkey } from '../prisma/client';
-import { GlobalShortcutKeysType } from '../../renderer/utils/contants';
+import {
+  GlobalShortcutKeysType,
+  SidebarIconName,
+} from '../../renderer/utils/contants';
 
 export let tray: Tray;
 
@@ -15,8 +18,8 @@ export const hotKeyEvents = [
   'windowDisplayToggle',
 
   // external
-  'setTab',
-  'enableHotkey',
+  'recentClipboards',
+  'starredClipboards',
 ] as const;
 export type HotkeyEvent = typeof hotKeyEvents[number];
 
@@ -24,6 +27,7 @@ export const onEvents = [
   'addClipboard',
   'refreshSettings',
   'refreshHotkeys',
+  'enableHotkey',
   ...hotKeyEvents,
 ] as const;
 export type OnEvent = typeof onEvents[number];
@@ -31,6 +35,7 @@ export type OnEvent = typeof onEvents[number];
 export interface ExtendedHotKey extends Hotkey {
   event: HotkeyEvent;
   key: GlobalShortcutKeysType;
+  name: SidebarIconName | 'Clippy Display Toggle';
 }
 
 export type GetClipboards = {

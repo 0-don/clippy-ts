@@ -17,8 +17,13 @@ const App = () => {
   const sIcon = sidebarIcons.find((icon) => icon.current);
 
   useEffect(() => {
-    const setTab = window.electron.on(
-      'setTab',
+    const setRecentClipboards = window.electron.on(
+      'recentClipboards',
+      (sidebarIconName: SidebarIconName) => setSidebarIcon(sidebarIconName)
+    );
+
+    const setStarredClipboards = window.electron.on(
+      'starredClipboards',
       (sidebarIconName: SidebarIconName) => setSidebarIcon(sidebarIconName)
     );
 
@@ -27,8 +32,9 @@ const App = () => {
     );
 
     return () => {
+      setRecentClipboards();
+      setStarredClipboards();
       enableHotkey();
-      setTab();
     };
   }, [setSidebarIcon, setGlobalHotkeyEvent]);
 
