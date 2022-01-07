@@ -1,11 +1,9 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { log } from 'console';
 import { ExtendedHotKey, prismaClientConfig } from '../utils/constants';
 import { PrismaClient, Prisma } from './client/index';
-
-function pause(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 const prisma = new PrismaClient(prismaClientConfig());
 
@@ -35,7 +33,7 @@ const keys: ExtendedHotKey[] = [
     ctrl: false,
     alt: false,
     shift: false,
-    key: 'H',
+    key: 'R',
     status: true,
     name: 'Recent Clipboards',
     icon: JSON.stringify(['fas', 'history'] as IconProp),
@@ -51,6 +49,28 @@ const keys: ExtendedHotKey[] = [
     name: 'Starred Clipboards',
     icon: JSON.stringify(['fas', 'star'] as IconProp),
   },
+  {
+    id: 4,
+    event: 'history',
+    ctrl: false,
+    alt: false,
+    shift: false,
+    key: 'H',
+    status: true,
+    name: 'History',
+    icon: JSON.stringify(['fas', 'search'] as IconProp),
+  },
+  {
+    id: 5,
+    event: 'viewMore',
+    ctrl: false,
+    alt: false,
+    shift: false,
+    key: 'M',
+    status: true,
+    name: 'View more',
+    icon: JSON.stringify(['fas', 'ellipsis-h'] as IconProp),
+  },
 ];
 
 async function seed() {
@@ -62,23 +82,13 @@ async function seed() {
     update: { id: settingsData.id },
   });
 
-  await prisma.hotkey.upsert({
-    where: { id: keys[0].id },
-    create: keys[0],
-    update: keys[0],
-  });
-
-  await prisma.hotkey.upsert({
-    where: { id: keys[1].id },
-    create: keys[1],
-    update: keys[1],
-  });
-
-  await prisma.hotkey.upsert({
-    where: { id: keys[2].id },
-    create: keys[2],
-    update: keys[2],
-  });
+  for (const key of keys) {
+    await prisma.hotkey.upsert({
+      where: { id: key.id },
+      create: key,
+      update: key,
+    });
+  }
 }
 
 (async () => {

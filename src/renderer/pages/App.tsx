@@ -27,6 +27,16 @@ const App = () => {
       (sidebarIconName: SidebarIconName) => setSidebarIcon(sidebarIconName)
     );
 
+    const setHistory = window.electron.on(
+      'history',
+      (sidebarIconName: SidebarIconName) => setSidebarIcon(sidebarIconName)
+    );
+
+    const setViewMore = window.electron.on(
+      'viewMore',
+      (sidebarIconName: SidebarIconName) => setSidebarIcon(sidebarIconName)
+    );
+
     const enableHotkey = window.electron.on('enableHotkey', (status: boolean) =>
       setGlobalHotkeyEvent(status)
     );
@@ -34,6 +44,8 @@ const App = () => {
     return () => {
       setRecentClipboards();
       setStarredClipboards();
+      setHistory();
+      setViewMore();
       enableHotkey();
     };
   }, [setSidebarIcon, setGlobalHotkeyEvent]);

@@ -6,6 +6,8 @@ const validChannels = [
   'windowDisplayToggle',
   'recentClipboards',
   'starredClipboards',
+  'history',
+  'viewMore',
 
   // OnEvent
   'addClipboard',

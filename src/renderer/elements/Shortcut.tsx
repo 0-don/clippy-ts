@@ -16,7 +16,7 @@ const Shortcut: React.FC<ShortcutProps> = ({ hotkey }) => {
 
   return (
     <>
-      <div className="flex items-center space-x-2.5 w-full text-sm">
+      <div className="flex items-center justify-center space-x-2.5 w-full text-sm">
         <FontAwesomeIcon icon={JSON.parse(icon)} />
 
         {status && (

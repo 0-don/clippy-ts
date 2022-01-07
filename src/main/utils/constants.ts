@@ -20,6 +20,8 @@ export const hotKeyEvents = [
   // external
   'recentClipboards',
   'starredClipboards',
+  'history',
+  'viewMore',
 ] as const;
 export type HotkeyEvent = typeof hotKeyEvents[number];
 

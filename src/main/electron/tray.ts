@@ -1,9 +1,18 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable import/no-mutable-exports */
-import { Tray, app, Menu, screen, BrowserWindow, nativeImage } from 'electron';
+import {
+  Tray,
+  app,
+  Menu,
+  screen,
+  BrowserWindow,
+  nativeImage,
+  globalShortcut,
+} from 'electron';
 import path from 'path';
 import { getWindow, RESOURCES_PATH } from '../utils/constants';
 import { displayWindowNearTray } from '../utils/util';
+import createGlobalShortcuts from './globalShortcut';
 
 export let tray: Tray;
 
@@ -44,6 +53,8 @@ export const createTray = (): Tray => {
     if (!mouseOnTrayIcon) {
       window.hide();
     }
+    globalShortcut.unregisterAll();
+    await createGlobalShortcuts(false);
   });
 
   return tray;

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { globalShortcut } from 'electron';
 import {
   prismaClientConfig,
@@ -45,6 +46,26 @@ async function createGlobalShortcuts(allShortcuts = true) {
     if (SC) {
       globalShortcut.register(hotkeyToAccelerator(SC), () =>
         mainWindow.webContents.send(SC.event, SC.name)
+      );
+    }
+
+    // HISTORY
+    const H = hotkeys.find(
+      ({ event, status }) => event === 'history' && status
+    ) as ExtendedHotKey;
+    if (H) {
+      globalShortcut.register(hotkeyToAccelerator(H), () =>
+        mainWindow.webContents.send(H.event, H.name)
+      );
+    }
+
+    // VIEW MORE
+    const VM = hotkeys.find(
+      ({ event, status }) => event === 'viewMore' && status
+    ) as ExtendedHotKey;
+    if (VM) {
+      globalShortcut.register(hotkeyToAccelerator(VM), () =>
+        mainWindow.webContents.send(VM.event, VM.name)
       );
     }
   }

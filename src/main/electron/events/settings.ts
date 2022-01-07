@@ -58,9 +58,9 @@ ipcMain.handle('updateHotkey', async (_, { id, ...hotkey }: ExtendedHotKey) => {
 
   await createGlobalShortcuts();
 
-  // webContents
-  //   .getAllWebContents()
-  //   .forEach((webContent) => webContent.send('refreshHotkeys', dbHotkey));
+  webContents
+    .getAllWebContents()
+    .forEach((webContent) => webContent.send('refreshHotkeys', dbHotkey));
 
   return dbHotkey;
 });
