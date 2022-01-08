@@ -78,16 +78,16 @@ export const DEFAULT_DB_DIRECTORY = app.isPackaged
   : path.join(__dirname, '../prisma/db/');
 
 export const prismaClientConfig = () => {
-  let dbUrl: string;
+  // let dbUrl: string;
 
-  if (fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
-    dbUrl = fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8');
-  } else {
-    fs.writeFileSync(DEFAULT_DB_CONFIG_PATH, DEFAULT_DB_PATH);
-    dbUrl = DEFAULT_DB_PATH;
-  }
+  // if (fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
+  //   dbUrl = fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8');
+  // } else {
+  //   fs.writeFileSync(DEFAULT_DB_CONFIG_PATH, DEFAULT_DB_PATH);
+  //   dbUrl = DEFAULT_DB_PATH;
+  // }
 
   return {
-    datasources: { db: { url: `file:${dbUrl}` } },
+    datasources: { db: { url: `file:${DEFAULT_DB_PATH}` } },
   };
 };

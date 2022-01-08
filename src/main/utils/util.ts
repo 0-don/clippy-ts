@@ -1,12 +1,13 @@
 /* eslint import/no-mutable-exports: off, no-restricted-properties: off, import/no-cycle: off */
-import { BrowserWindow, screen, Tray } from 'electron';
+import { BrowserWindow, dialog, screen, Tray } from 'electron';
 import fs from 'fs';
 import path from 'path';
 import { URL } from 'url';
 import toggleGlobalShortcutState from '../electron/globalShortcut';
-import { PrismaClient } from '../prisma/client';
+import { Prisma, PrismaClient } from '../prisma/client';
 import {
   DEFAULT_DB_CONFIG_PATH,
+  DEFAULT_DB_PATH,
   ExtendedHotKey,
   prismaClientConfig,
 } from './constants';
@@ -84,4 +85,55 @@ export function hotkeyToAccelerator(hotkey: ExtendedHotKey) {
   const result = accelerator.join('+');
 
   return result;
+}
+
+export async function syncDbLocationDialog() {
+  const { synchronize } = (await prisma.settings.findFirst({
+    where: { id: 1 },
+  })) as Prisma.SettingsCreateInput;
+  await prisma?.$disconnect();
+
+  // IF SYNC ENABLED && DB LOCATION DOESNT EXIST
+  if (synchronize) {
+    const dialogResult = await dialog.showOpenDialog({
+      properties: ['openDirectory'],
+      title: 'Select location to load or backup your db',
+    });
+
+    if (dialogResult.canceled) {
+      return;
+    }
+
+    const dialogPath = path.join(dialogResult.filePaths[0], 'clippy.db');
+    const dbExists = fs.existsSync(dialogPath);
+
+    const response =
+      dbExists &&
+      dialog.showMessageBoxSync({
+        type: 'question',
+        buttons: ['Load', 'Overwrite', 'Cancel'],
+        title: 'Confirm',
+        message: 'Clippy database already in the folder?',
+      });
+
+    // CANCEL
+    if (response === 2) {
+      return;
+    }
+
+    // SET BACKUP LOCATION AS APP FILE CONFIG
+    fs.writeFileSync(DEFAULT_DB_CONFIG_PATH, dialogPath);
+
+    // LOAD
+    if (response === 0) {
+      // DELETE OLD DB
+      fs.unlinkSync(DEFAULT_DB_PATH);
+      // COPY DB FROM SELECTED LOCATION TO APP
+      fs.copyFileSync(dialogPath, DEFAULT_DB_PATH);
+      return;
+    }
+
+    // COPY APP DB TO SELECTED LOCATION
+    fs.copyFileSync(DEFAULT_DB_PATH, dialogPath);
+  }
 }

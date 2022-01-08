@@ -73,9 +73,13 @@ const ViewMore: React.FC = () => {
   return (
     <>
       {/* Sync Clipboard History  */}
-      {createButton('Sync Clipboard History', () =>
-        updateSettings({ ...settings, synchronize: !settings.synchronize })
-      )}
+      {createButton('Sync Clipboard History', async () => {
+        await updateSettings({
+          ...settings,
+          synchronize: !settings.synchronize,
+        });
+        await window.electron.toggleSyncClipboardHistory();
+      })}
 
       {/* Preferences */}
       {createButton('Preferences', () =>

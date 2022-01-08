@@ -25,7 +25,7 @@ type Settings = {
   updateSettings: (
     settings: Prisma.SettingsCreateInput,
     update?: boolean
-  ) => void;
+  ) => Promise<void>;
 
   tabs: SettingsTab[];
   setCurrentTab: (tabName: SettingsTabName) => void;

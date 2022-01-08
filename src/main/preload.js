@@ -66,4 +66,6 @@ contextBridge.exposeInMainWorld('electron', {
   selectDatabasePath: (arg) => ipcRenderer.invoke('selectDatabasePath', arg),
   getDatabaseInfo: (arg) => ipcRenderer.invoke('getDatabaseInfo', arg),
   clearDatabase: (arg) => ipcRenderer.invoke('clearDatabase', arg),
+  toggleSyncClipboardHistory: (arg) =>
+    ipcRenderer.invoke('toggleSyncClipboardHistory', arg),
 });
