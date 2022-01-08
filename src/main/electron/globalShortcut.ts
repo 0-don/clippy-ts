@@ -31,11 +31,9 @@ async function createGlobalShortcuts(allShortcuts = true) {
 
   // MAIN HOTKEY
   // WINDOW DISPLAY TOGGLE
-  createGlobalShortcut(hotkeys, 'windowDisplayToggle', async () => {
-    displayWindowNearTray(tray, mainWindow);
-    mainWindow.webContents.send('enableHotkey', true);
-    await createGlobalShortcuts();
-  });
+  createGlobalShortcut(hotkeys, 'windowDisplayToggle', () =>
+    displayWindowNearTray(tray, mainWindow)
+  );
 
   // IF ALL SHORTCUTS ENABLED && MAINWINDOW IS VISIBLE CREATE EVERYTHING
   if (allShortcuts && mainWindow.isVisible()) {
@@ -95,4 +93,18 @@ async function createGlobalShortcuts(allShortcuts = true) {
   }
 }
 
-export default createGlobalShortcuts;
+const toggleGlobalShortcutState = async (state: boolean) => {
+  const window = getWindow('MAIN_WINDOW_ID');
+
+  globalShortcut.unregisterAll();
+  window.webContents.removeAllListeners('before-input-event');
+
+  if (state) {
+    window.webContents.send('enableHotkey', state);
+    await createGlobalShortcuts(state);
+  } else {
+    await createGlobalShortcuts(state);
+  }
+};
+
+export default toggleGlobalShortcutState;

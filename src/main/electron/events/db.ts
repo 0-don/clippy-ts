@@ -23,7 +23,7 @@ ipcMain.handle('getDatabaseInfo', async () => localStorageHistory());
 // CLEAR DATABASE
 ipcMain.handle('clearDatabase', async () => {
   await prisma.clipboard.deleteMany({ where: {} });
-  await prisma?.$disconnect();
+  await prisma.$disconnect();
   return localStorageHistory();
 });
 

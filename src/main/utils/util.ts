@@ -1,8 +1,9 @@
-/* eslint import/no-mutable-exports: off, no-restricted-properties: off */
-import { URL } from 'url';
+/* eslint import/no-mutable-exports: off, no-restricted-properties: off, import/no-cycle: off */
+import { BrowserWindow, screen, Tray } from 'electron';
 import fs from 'fs';
 import path from 'path';
-import { BrowserWindow, Tray, screen } from 'electron';
+import { URL } from 'url';
+import toggleGlobalShortcutState from '../electron/globalShortcut';
 import { PrismaClient } from '../prisma/client';
 import {
   DEFAULT_DB_CONFIG_PATH,
@@ -39,7 +40,7 @@ export function formatBytes(bytes: number, decimals = 2) {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 }
 
-export function displayWindowNearTray(tray: Tray, window: BrowserWindow) {
+export async function displayWindowNearTray(tray: Tray, window: BrowserWindow) {
   const { x, y } = tray.getBounds();
   const { height, width } = window.getBounds();
   const mousePos = screen.getCursorScreenPoint();
@@ -57,8 +58,9 @@ export function displayWindowNearTray(tray: Tray, window: BrowserWindow) {
       height,
       width,
     });
-    // window.reload();
+
     window.show();
+    await toggleGlobalShortcutState(true);
   }
 }
 

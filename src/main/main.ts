@@ -12,7 +12,7 @@ import './electron/events';
 import createWindow from './window';
 import { isDevelopment } from './utils/constants';
 import { createTray } from './electron/tray';
-import createGlobalShortcuts from './electron/globalShortcut';
+import toggleGlobalShortcutState from './electron/globalShortcut';
 
 export default class AppUpdater {
   constructor() {
@@ -60,7 +60,7 @@ const createMainWindow = async () => {
   // }
   mainWindow = createWindow('MAIN_WINDOW_ID');
   createTray();
-  await createGlobalShortcuts();
+  await toggleGlobalShortcutState(false);
 };
 
 ipcMain.handle('createAboutWindow', () => {

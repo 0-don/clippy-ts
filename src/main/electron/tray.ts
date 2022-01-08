@@ -1,18 +1,10 @@
-/* eslint-disable import/no-cycle */
 /* eslint-disable import/no-mutable-exports */
-import {
-  Tray,
-  app,
-  Menu,
-  screen,
-  BrowserWindow,
-  nativeImage,
-  globalShortcut,
-} from 'electron';
+/* eslint-disable import/no-cycle */
+import { Tray, app, Menu, screen, BrowserWindow, nativeImage } from 'electron';
 import path from 'path';
 import { getWindow, RESOURCES_PATH } from '../utils/constants';
 import { displayWindowNearTray } from '../utils/util';
-import createGlobalShortcuts from './globalShortcut';
+import toggleGlobalShortcutState from './globalShortcut';
 
 export let tray: Tray;
 
@@ -31,7 +23,7 @@ export const createTray = (): Tray => {
     window?.setSkipTaskbar(true);
   }
 
-  tray.on('click', () => displayWindowNearTray(tray, window));
+  tray.on('click', async () => displayWindowNearTray(tray, window));
 
   tray.on('right-click', () => {
     const menuConfig = Menu.buildFromTemplate([
@@ -53,11 +45,7 @@ export const createTray = (): Tray => {
     if (!mouseOnTrayIcon) {
       window.hide();
     }
-    globalShortcut.unregisterAll();
-    getWindow('MAIN_WINDOW_ID').webContents.removeAllListeners(
-      'before-input-event'
-    );
-    await createGlobalShortcuts(false);
+    await toggleGlobalShortcutState(false);
   });
 
   return tray;
