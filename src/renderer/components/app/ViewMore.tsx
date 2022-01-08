@@ -39,7 +39,7 @@ const ViewMore: React.FC = () => {
 
   const createButton = (name: ViewMoreName, onClick: () => void) => {
     const hotkey = hotkeys.find((key) => key.name === name) as ExtendedHotKey;
-    console.log(hotkey.key);
+
     return (
       <button
         type="button"
