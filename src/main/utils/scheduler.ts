@@ -36,7 +36,7 @@ const asyncTask = async () => {
 
   fs.copyFileSync(DEFAULT_DB_PATH, backupLocation);
 
-  log(notification);
+  log('Sync Backup', dayjs().format('H:mm:ss'));
 };
 
 export const createTask = async () => {
@@ -46,7 +46,11 @@ export const createTask = async () => {
 
   if (synchronize && fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
     const task = new AsyncTask('backupTask', asyncTask, (err) => log(err));
-    const job = new SimpleIntervalJob({ seconds: syncTime }, task, 'backupJob');
+    const job = new SimpleIntervalJob(
+      { seconds: syncTime, runImmediately: true },
+      task,
+      'backupJob'
+    );
     scheduler.addSimpleIntervalJob(job);
   }
 };

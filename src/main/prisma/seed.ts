@@ -1,19 +1,23 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { log } from 'console';
 import { ExtendedHotKey, prismaClientConfig } from '../utils/constants';
 import { PrismaClient, Prisma } from './client/index';
+
+dayjs.extend(customParseFormat);
 
 const prisma = new PrismaClient(prismaClientConfig());
 
 const settingsData: Prisma.SettingsCreateInput = {
   id: 1,
   darkmode: true,
-  notification: false,
+  notification: true,
   startup: true,
   synchronize: false,
-  syncTime: 10,
+  syncTime: 600,
 };
 
 const keys: ExtendedHotKey[] = [
@@ -119,12 +123,12 @@ const keys: ExtendedHotKey[] = [
 ];
 
 async function seed() {
-  log(`Start seeding ...`);
+  log('Start seeding ...', dayjs().format('H:mm:ss'));
 
   await prisma.settings.upsert({
     where: { id: settingsData.id },
     create: settingsData,
-    update: { id: settingsData.id },
+    update: settingsData,
   });
 
   for (const key of keys) {
