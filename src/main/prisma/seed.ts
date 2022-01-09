@@ -13,6 +13,7 @@ const settingsData: Prisma.SettingsCreateInput = {
   notification: false,
   startup: true,
   synchronize: false,
+  syncTime: 10,
 };
 
 const keys: ExtendedHotKey[] = [

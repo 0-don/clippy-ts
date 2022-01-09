@@ -27,12 +27,13 @@ const Account: React.FC = () => {
           <div>
             <SwitchField
               checked={settings.synchronize}
-              onChange={() =>
+              onChange={async () => {
                 updateSettings({
                   ...settings,
                   synchronize: !settings.synchronize,
-                })
-              }
+                });
+                await window.electron.toggleSyncClipboardHistory();
+              }}
             />
           </div>
         </div>

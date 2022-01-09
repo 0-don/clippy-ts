@@ -30,6 +30,7 @@ model Settings {
   startup      Boolean // @default(false)
   notification Boolean // @default(false)
   synchronize  Boolean // @default(false)
+  syncTime     Int
   darkmode     Boolean // @default(true)
 }
 
