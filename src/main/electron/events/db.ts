@@ -10,8 +10,11 @@ import { localStorageHistory, syncDbLocationDialog } from '../../utils/util';
 const prisma = new PrismaClient(prismaClientConfig());
 
 // READ DATABASE URL
-ipcMain.handle('getDatbasePath', () =>
-  fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8')
+ipcMain.handle(
+  'getDatbasePath',
+  () =>
+    fs.existsSync(DEFAULT_DB_CONFIG_PATH) &&
+    fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8')
 );
 
 // GET DATABASE INFO

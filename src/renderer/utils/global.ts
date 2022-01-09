@@ -37,7 +37,7 @@ declare global {
       updateHotkey: (arg: ExtendedHotKey) => Promise<ExtendedHotKey>;
 
       // DATABASE
-      getDatbasePath: () => Promise<string>;
+      getDatbasePath: () => Promise<string | false>;
       selectDatabasePath: () => Promise<string>;
       getDatabaseInfo: () => Promise<string>;
       clearDatabase: () => Promise<string>;

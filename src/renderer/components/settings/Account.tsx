@@ -6,13 +6,15 @@ import useSettingsStore from '../../store/SettingsStore';
 
 const Account: React.FC = () => {
   const [url, setUrl] = useState<string>();
-  const settings = useSettingsStore((state) => state.settings);
-  const updateSettings = useSettingsStore((state) => state.updateSettings);
+  const { settings, updateSettings } = useSettingsStore();
 
   useEffect(() => {
-    const getUrl = async () => setUrl(await window.electron.getDatbasePath());
+    const getUrl = async () => {
+      const res = await window.electron.getDatbasePath();
+      if (res) setUrl(res);
+    };
     getUrl();
-  }, [setUrl]);
+  }, [setUrl, settings]);
 
   return (
     <>
@@ -36,28 +38,35 @@ const Account: React.FC = () => {
         </div>
       </TextBlock>
 
-      <TextBlock icon="globe-europe" title="Database Location">
-        <div className="list-disc px-5 pb-5 pt-2.5">
-          <button
-            type="button"
-            className="relative w-full group cursor-pointer"
-            onClick={async () =>
-              setUrl(await window.electron.selectDatabasePath())
-            }
-          >
-            <div
-              title={url}
-              className="truncate italic text-left text-sm border-gray-300 w-full px-3 py-0.5 dark:bg-dark-light dark:border-dark-light dark:text-white border rounded-md focus:outline-none dark:focus:bg-dark-dark"
+      {url && settings.synchronize && (
+        <TextBlock
+          icon="globe-europe"
+          title="Database Location"
+          className="animate-fade"
+        >
+          <div className="list-disc px-5 pb-5 pt-2.5">
+            <button
+              type="button"
+              className="relative w-full group cursor-pointer"
+              onClick={async () => {
+                const res = await window.electron.getDatbasePath();
+                if (res) setUrl(res);
+              }}
             >
-              {url}
-            </div>
-            <div className="my-1 absolute space-x-1 inset-y-0 right-1 flex items-center text-xs bg-gray-600 text-white group-hover:bg-gray-400 px-2 rounded group">
-              <FontAwesomeIcon icon="upload" />
-              <div>Browse</div>
-            </div>
-          </button>
-        </div>
-      </TextBlock>
+              <div
+                title={url}
+                className="truncate italic text-left text-sm border-gray-300 w-full px-3 py-0.5 dark:bg-dark-light dark:border-dark-light dark:text-white border rounded-md focus:outline-none dark:focus:bg-dark-dark"
+              >
+                {url}
+              </div>
+              <div className="my-1 absolute space-x-1 inset-y-0 right-1 flex items-center text-xs bg-gray-600 text-white group-hover:bg-gray-400 px-2 rounded group">
+                <FontAwesomeIcon icon="upload" />
+                <div>Browse</div>
+              </div>
+            </button>
+          </div>
+        </TextBlock>
+      )}
     </>
   );
 };
