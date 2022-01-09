@@ -1,19 +1,19 @@
 /* eslint-disable no-console */
 /*  eslint global-require: off */
-import path from 'path';
 import 'core-js/stable';
-import 'regenerator-runtime/runtime';
 import { app, BrowserWindow, ipcMain } from 'electron';
-import { autoUpdater } from 'electron-updater';
 import clipboard from 'electron-clipboard-extended';
 import log from 'electron-log';
-import './prisma/seed';
+import { autoUpdater } from 'electron-updater';
+import path from 'path';
+import 'regenerator-runtime/runtime';
 import './electron/events';
-import createWindow from './window';
-import { isDevelopment } from './utils/constants';
-import { createTray } from './electron/tray';
 import toggleGlobalShortcutState from './electron/globalShortcut';
-import { createTask, loadSyncDb, saveSyncDb } from './utils/scheduler';
+import { createTray } from './electron/tray';
+import './prisma/seed';
+import { isDevelopment } from './utils/constants';
+import { dbBackupTask, loadSyncDb, saveSyncDb } from './utils/scheduler';
+import createWindow from './window';
 
 export default class AppUpdater {
   constructor() {
@@ -63,7 +63,7 @@ const createMainWindow = async () => {
   await createTray();
   await toggleGlobalShortcutState(false);
   await loadSyncDb();
-  await createTask();
+  await dbBackupTask();
 };
 
 ipcMain.handle('createAboutWindow', () => {
@@ -84,14 +84,18 @@ ipcMain.handle('createSettingsWindow', () => {
  * Add event listeners...
  */
 
+app.on('quit', async () => {
+  await saveSyncDb();
+});
+
 app.on('window-all-closed', async () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
+
   if (process.platform !== 'darwin') {
     app.quit();
   }
   clipboard.off('text-changed');
-  await saveSyncDb();
 });
 
 app

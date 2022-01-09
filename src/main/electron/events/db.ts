@@ -1,11 +1,11 @@
 import { ipcMain } from 'electron';
 import fs from 'fs';
-import { createTask, deleteTask } from '../../utils/scheduler';
 import { PrismaClient } from '../../prisma/client/index';
 import {
   DEFAULT_DB_CONFIG_PATH,
   prismaClientConfig,
 } from '../../utils/constants';
+import { dbBackupTask } from '../../utils/scheduler';
 import { localStorageHistory, syncDbLocationDialog } from '../../utils/util';
 
 const prisma = new PrismaClient(prismaClientConfig());
@@ -33,11 +33,12 @@ ipcMain.handle('toggleSyncClipboardHistory', async () => {
   if (!fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
     await syncDbLocationDialog();
   }
-  deleteTask();
-  await createTask();
+  await dbBackupTask();
 });
 
 // SAVE, LOAD OR OVERWRITE DB IN SPECIFIC PATH
 ipcMain.handle('selectDatabasePath', async () => {
-  await syncDbLocationDialog();
+  const location = await syncDbLocationDialog();
+  await dbBackupTask();
+  return location;
 });

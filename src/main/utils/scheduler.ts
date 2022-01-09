@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 /* eslint-disable promise/always-return */
 import { log } from 'console';
 import dayjs from 'dayjs';
@@ -16,10 +17,11 @@ import { localStorageHistory } from './util';
 dayjs.extend(customParseFormat);
 
 const prisma = new PrismaClient(prismaClientConfig());
+const jobId = 'backupJob';
 
 const scheduler = new ToadScheduler();
 
-const asyncTask = async () => {
+const asyncDbBackupTask = async () => {
   const { notification } = (await prisma.settings.findFirst({
     where: { id: 1 },
   })) as Prisma.SettingsCreateInput;
@@ -39,6 +41,42 @@ const asyncTask = async () => {
   log('Sync Backup', dayjs().format('H:mm:ss'));
 };
 
+const removeDbBackupTask = async () => {
+  const { notification, synchronize } = (await prisma.settings.findFirst({
+    where: { id: 1 },
+  })) as Prisma.SettingsCreateInput;
+
+  if (notification && !synchronize && fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
+    log('Sync Stop', dayjs().format('H:mm:ss'));
+    new Notification({
+      title: 'Clippy Backup',
+      body: `Sync Stopped.`,
+    }).show();
+  }
+
+  scheduler.removeById(jobId);
+};
+
+export const dbBackupTask = async () => {
+  await removeDbBackupTask();
+
+  const { synchronize, syncTime } = (await prisma.settings.findFirst({
+    where: { id: 1 },
+  })) as Prisma.SettingsCreateInput;
+
+  if (synchronize && fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
+    const task = new AsyncTask('backupTask', asyncDbBackupTask, (err) =>
+      log(err)
+    );
+    const job = new SimpleIntervalJob(
+      { seconds: syncTime, runImmediately: true },
+      task,
+      jobId
+    );
+    scheduler.addSimpleIntervalJob(job);
+  }
+};
+
 export const loadSyncDb = async () => {
   const { synchronize } = (await prisma.settings.findFirst({
     where: { id: 1 },
@@ -47,8 +85,6 @@ export const loadSyncDb = async () => {
   if (synchronize && fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
     const dbLocation = fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8');
     const dbExists = fs.existsSync(dbLocation);
-    // log('Sync Db:', fs.statSync(dbLocation));
-    // log('Client Db:', fs.statSync(DEFAULT_DB_PATH));
     if (dbExists) {
       await prisma.$disconnect();
       fs.copyFileSync(dbLocation, DEFAULT_DB_PATH);
@@ -66,35 +102,4 @@ export const saveSyncDb = async () => {
     await prisma.$disconnect();
     fs.copyFileSync(DEFAULT_DB_PATH, dbLocation);
   }
-};
-
-export const createTask = async () => {
-  const { synchronize, syncTime } = (await prisma.settings.findFirst({
-    where: { id: 1 },
-  })) as Prisma.SettingsCreateInput;
-
-  if (synchronize && fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
-    const task = new AsyncTask('backupTask', asyncTask, (err) => log(err));
-    const job = new SimpleIntervalJob(
-      { seconds: syncTime, runImmediately: true },
-      task,
-      'backupJob'
-    );
-    scheduler.addSimpleIntervalJob(job);
-  }
-};
-
-export const deleteTask = async () => {
-  const { notification } = (await prisma.settings.findFirst({
-    where: { id: 1 },
-  })) as Prisma.SettingsCreateInput;
-
-  if (notification) {
-    new Notification({
-      title: 'Clippy Backup',
-      body: `Sync Stopped.`,
-    }).show();
-  }
-
-  scheduler.removeById('backupJob');
 };

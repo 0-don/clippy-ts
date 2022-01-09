@@ -1,5 +1,5 @@
 /* eslint import/no-mutable-exports: off, no-restricted-properties: off, import/no-cycle: off */
-import { BrowserWindow, dialog, screen, Tray } from 'electron';
+import { BrowserWindow, dialog, screen, Tray, webContents } from 'electron';
 import fs from 'fs';
 import path from 'path';
 import { URL } from 'url';
@@ -9,6 +9,7 @@ import {
   DEFAULT_DB_CONFIG_PATH,
   DEFAULT_DB_PATH,
   ExtendedHotKey,
+  getWindow,
   prismaClientConfig,
 } from './constants';
 
@@ -87,21 +88,35 @@ export function hotkeyToAccelerator(hotkey: ExtendedHotKey) {
   return result;
 }
 
+const syncDbLocationDialogCancel = async () => {
+  if (!fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
+    const resetSyncSettings = await prisma.settings.update({
+      where: { id: 1 },
+      data: { synchronize: false },
+    });
+    webContents
+      .getAllWebContents()
+      .forEach((wc) => wc.send('refreshSettings', resetSyncSettings));
+
+    return false;
+  }
+  return fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8');
+};
+
 export async function syncDbLocationDialog() {
-  const { synchronize } = (await prisma.settings.findFirst({
+  const settings = (await prisma.settings.findFirst({
     where: { id: 1 },
   })) as Prisma.SettingsCreateInput;
-  await prisma?.$disconnect();
 
   // IF SYNC ENABLED && DB LOCATION DOESNT EXIST
-  if (synchronize) {
+  if (settings) {
     const dialogResult = await dialog.showOpenDialog({
       properties: ['openDirectory'],
       title: 'Select location to load or backup your db',
     });
 
     if (dialogResult.canceled) {
-      return;
+      return syncDbLocationDialogCancel();
     }
 
     const dialogPath = path.join(dialogResult.filePaths[0], 'clippy.db');
@@ -118,11 +133,16 @@ export async function syncDbLocationDialog() {
 
     // CANCEL
     if (response === 2) {
-      return;
+      return syncDbLocationDialogCancel();
     }
 
+    await prisma?.$disconnect();
     // SET BACKUP LOCATION AS APP FILE CONFIG
     fs.writeFileSync(DEFAULT_DB_CONFIG_PATH, dialogPath);
+
+    webContents
+      .getAllWebContents()
+      .forEach((wc) => wc.send('refreshSettings', settings));
 
     // LOAD
     if (response === 0) {
@@ -130,10 +150,13 @@ export async function syncDbLocationDialog() {
       fs.unlinkSync(DEFAULT_DB_PATH);
       // COPY DB FROM SELECTED LOCATION TO APP
       fs.copyFileSync(dialogPath, DEFAULT_DB_PATH);
-      return;
+      return dialogPath;
     }
 
     // COPY APP DB TO SELECTED LOCATION
     fs.copyFileSync(DEFAULT_DB_PATH, dialogPath);
+
+    return dialogPath;
   }
+  return false;
 }

@@ -28,7 +28,7 @@ const Account: React.FC = () => {
             <SwitchField
               checked={settings.synchronize}
               onChange={async () => {
-                updateSettings({
+                await updateSettings({
                   ...settings,
                   synchronize: !settings.synchronize,
                 });
@@ -50,7 +50,7 @@ const Account: React.FC = () => {
               type="button"
               className="relative w-full group cursor-pointer"
               onClick={async () => {
-                const res = await window.electron.getDatbasePath();
+                const res = await window.electron.selectDatabasePath();
                 if (res) setUrl(res);
               }}
             >

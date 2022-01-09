@@ -16,7 +16,7 @@ const settingsData: Prisma.SettingsCreateInput = {
   darkmode: true,
   notification: true,
   startup: true,
-  synchronize: true,
+  synchronize: false,
   syncTime: 600,
 };
 

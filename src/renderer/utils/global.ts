@@ -38,7 +38,7 @@ declare global {
 
       // DATABASE
       getDatbasePath: () => Promise<string | false>;
-      selectDatabasePath: () => Promise<string>;
+      selectDatabasePath: () => Promise<string | false>;
       getDatabaseInfo: () => Promise<string>;
       clearDatabase: () => Promise<string>;
       toggleSyncClipboardHistory: () => Promise<void>;
