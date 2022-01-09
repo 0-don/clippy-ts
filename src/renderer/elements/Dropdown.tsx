@@ -6,9 +6,9 @@ import { classNames } from '../utils/util';
 import { GlobalShortcutKeysType } from '../utils/contants';
 
 interface DropdownProps {
-  items: string[] | readonly string[];
-  value: string;
-  onChange: (char: GlobalShortcutKeysType) => void;
+  items: string[] | readonly string[] | number[];
+  value: string | number;
+  onChange: (char: GlobalShortcutKeysType | number) => void;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({ items, value, onChange }) => {

@@ -74,10 +74,6 @@ const ViewMore: React.FC = () => {
     <>
       {/* Sync Clipboard History  */}
       {createButton('Sync Clipboard History', async () => {
-        await updateSettings({
-          ...settings,
-          synchronize: !settings.synchronize,
-        });
         await window.electron.toggleSyncClipboardHistory();
       })}
 

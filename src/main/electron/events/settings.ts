@@ -1,4 +1,5 @@
 import { ipcMain, webContents } from 'electron';
+import { dbBackupTask } from '../../utils/scheduler';
 import { Hotkey, Prisma, PrismaClient } from '../../prisma/client/index';
 import {
   ExtendedHotKey,
@@ -27,6 +28,7 @@ ipcMain.handle(
       .getAllWebContents()
       .forEach((webContent) => webContent.send('refreshSettings', setting));
 
+    await dbBackupTask();
     return setting;
   }
 );

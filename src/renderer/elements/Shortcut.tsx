@@ -2,7 +2,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { ExtendedHotKey } from '../../main/utils/constants';
 import useSettingsStore from '../store/SettingsStore';
-import { GLOBAL_SHORTCUT_KEYS } from '../utils/contants';
+import {
+  GlobalShortcutKeysType,
+  GLOBAL_SHORTCUT_KEYS,
+} from '../utils/contants';
 import CheckBox from './CheckBox';
 import Dropdown from './Dropdown';
 
@@ -46,7 +49,7 @@ const Shortcut: React.FC<ShortcutProps> = ({ hotkey }) => {
           onChange={(currentKey) =>
             updateHotkey({
               ...hotkey,
-              key: currentKey,
+              key: currentKey as GlobalShortcutKeysType,
               status: currentKey !== 'none',
             })
           }

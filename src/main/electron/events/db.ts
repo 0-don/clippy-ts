@@ -1,6 +1,6 @@
-import { ipcMain } from 'electron';
+import { ipcMain, webContents } from 'electron';
 import fs from 'fs';
-import { PrismaClient } from '../../prisma/client/index';
+import { Prisma, PrismaClient } from '../../prisma/client/index';
 import {
   DEFAULT_DB_CONFIG_PATH,
   prismaClientConfig,
@@ -30,10 +30,25 @@ ipcMain.handle('clearDatabase', async () => {
 
 // TOGGLE SYNC CLIPBOARD HISTORY
 ipcMain.handle('toggleSyncClipboardHistory', async () => {
-  if (!fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
+  const { synchronize } = (await prisma.settings.findFirst({
+    where: { id: 1 },
+  })) as Prisma.SettingsCreateInput;
+
+  const updateSettings = await prisma.settings.update({
+    where: { id: 1 },
+    data: { synchronize: !synchronize },
+  });
+
+  if (updateSettings && !fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
     await syncDbLocationDialog();
   }
   await dbBackupTask();
+
+  webContents
+    .getAllWebContents()
+    .forEach((webContent) =>
+      webContent.send('refreshSettings', updateSettings)
+    );
 });
 
 // SAVE, LOAD OR OVERWRITE DB IN SPECIFIC PATH

@@ -89,7 +89,15 @@ export const loadSyncDb = async () => {
       await prisma.$disconnect();
       fs.copyFileSync(dbLocation, DEFAULT_DB_PATH);
     }
+    return true;
   }
+  if (synchronize && !fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
+    await prisma.settings.update({
+      where: { id: 1 },
+      data: { synchronize: false },
+    });
+  }
+  return false;
 };
 
 export const saveSyncDb = async () => {

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import TextBlock from '../../elements/TextBlock';
 import SwitchField from '../../elements/SwitchField';
 import useSettingsStore from '../../store/SettingsStore';
+import Dropdown from '../../elements/Dropdown';
 
 const Account: React.FC = () => {
   const [url, setUrl] = useState<string>();
@@ -22,21 +23,37 @@ const Account: React.FC = () => {
         <div className="px-5 flex items-center mb-2 space-x-2 pb-2.5 justify-between">
           <div className="flex items-center space-x-2 truncate">
             <FontAwesomeIcon icon={['far', 'save']} />
-            <h6 className="text-sm">Synchronize Clipboard History</h6>
+            <h6 className="text-sm">Synchronize clipboard history</h6>
           </div>
           <div>
             <SwitchField
               checked={settings.synchronize}
               onChange={async () => {
-                await updateSettings({
-                  ...settings,
-                  synchronize: !settings.synchronize,
-                });
                 await window.electron.toggleSyncClipboardHistory();
               }}
             />
           </div>
         </div>
+        {settings.synchronize && (
+          <div className="px-5 flex items-center mb-2 space-x-2 pb-2.5 justify-between">
+            <div className="flex items-center space-x-2 truncate">
+              <FontAwesomeIcon icon={['far', 'clock']} />
+              <h6 className="text-sm">Change backup time</h6>
+            </div>
+            <div>
+              <Dropdown
+                items={[60, 600, 6000]}
+                value={settings.syncTime}
+                onChange={async (syncTime) => {
+                  await updateSettings({
+                    ...settings,
+                    syncTime: syncTime as number,
+                  });
+                }}
+              />
+            </div>
+          </div>
+        )}
       </TextBlock>
 
       {url && settings.synchronize && (
