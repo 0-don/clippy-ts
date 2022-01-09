@@ -13,7 +13,7 @@ import createWindow from './window';
 import { isDevelopment } from './utils/constants';
 import { createTray } from './electron/tray';
 import toggleGlobalShortcutState from './electron/globalShortcut';
-// import { createTask } from './utils/scheduler';
+import { createTask, loadSyncDb, saveSyncDb } from './utils/scheduler';
 
 export default class AppUpdater {
   constructor() {
@@ -24,6 +24,8 @@ export default class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
+let aboutWindow: BrowserWindow | null = null;
+let settingsWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -58,30 +60,38 @@ const createMainWindow = async () => {
   //   await installExtensions();
   // }
   mainWindow = createWindow('MAIN_WINDOW_ID');
-  createTray();
+  await createTray();
   await toggleGlobalShortcutState(false);
-  // await createTask();
+  await loadSyncDb();
+  await createTask();
 };
 
-ipcMain.handle('createAboutWindow', () =>
-  createWindow('ABOUT_WINDOW_ID', 'about')
-);
+ipcMain.handle('createAboutWindow', () => {
+  aboutWindow = createWindow('ABOUT_WINDOW_ID', 'about');
+  aboutWindow.on('close', () => {
+    aboutWindow = null;
+  });
+});
 
-ipcMain.handle('createSettingsWindow', () =>
-  createWindow('SETTINGS_WINDOW_ID', 'settings')
-);
+ipcMain.handle('createSettingsWindow', () => {
+  settingsWindow = createWindow('SETTINGS_WINDOW_ID', 'settings');
+  settingsWindow.on('close', () => {
+    settingsWindow = null;
+  });
+});
 
 /**
  * Add event listeners...
  */
 
-app.on('window-all-closed', () => {
+app.on('window-all-closed', async () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
   if (process.platform !== 'darwin') {
     app.quit();
   }
   clipboard.off('text-changed');
+  await saveSyncDb();
 });
 
 app

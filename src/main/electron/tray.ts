@@ -8,7 +8,7 @@ import toggleGlobalShortcutState from './globalShortcut';
 
 export let tray: Tray;
 
-export const createTray = (): Tray => {
+export const createTray = () => {
   const window = getWindow('MAIN_WINDOW_ID') as BrowserWindow;
   tray = new Tray(
     nativeImage
@@ -48,5 +48,5 @@ export const createTray = (): Tray => {
     await toggleGlobalShortcutState(false);
   });
 
-  return tray;
+  return tray as unknown as Promise<Tray>;
 };
