@@ -128,7 +128,7 @@ if (!gotTheLock) {
       });
       // Remove this if your app does not use auto updates
       // eslint-disable-next-line
-      new AppUpdater();
+      // new AppUpdater();
       return null;
     })
     .catch(console.log);
