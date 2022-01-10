@@ -5,10 +5,10 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Notification } from 'electron';
 import fs from 'fs';
-import { ToadScheduler, SimpleIntervalJob, AsyncTask } from 'toad-scheduler';
+import { AsyncTask, SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 import { Prisma, PrismaClient } from '../prisma/client';
 import { DEFAULT_DB_CONFIG_PATH, DEFAULT_DB_PATH } from './constants';
-import { localStorageHistory, pause } from './util';
+import { localStorageHistory } from './util';
 
 dayjs.extend(customParseFormat);
 
