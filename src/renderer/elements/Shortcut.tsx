@@ -20,7 +20,7 @@ const Shortcut: React.FC<ShortcutProps> = ({ hotkey }) => {
   return (
     <>
       <div className="flex items-center space-x-2.5 w-full text-sm ">
-        <div className="w-7">
+        <div className="w-8">
           <FontAwesomeIcon icon={JSON.parse(icon)} className="relative" />
         </div>
 
