@@ -9,11 +9,9 @@ import {
   DEFAULT_DB_CONFIG_PATH,
   DEFAULT_DB_PATH,
   ExtendedHotKey,
-  getWindow,
-  prismaClientConfig,
 } from './constants';
 
-const prisma = new PrismaClient(prismaClientConfig());
+const prisma = new PrismaClient();
 
 export let resolveHtmlPath: (htmlFileName: string) => string;
 
@@ -67,8 +65,7 @@ export async function displayWindowNearTray(tray: Tray, window: BrowserWindow) {
 }
 
 export async function localStorageHistory() {
-  const currentPath = fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8');
-  const { size } = fs.statSync(currentPath);
+  const { size } = fs.statSync(DEFAULT_DB_PATH);
   const count = await prisma.clipboard.count();
 
   return `${count} local items (${formatBytes(
@@ -159,4 +156,8 @@ export async function syncDbLocationDialog() {
     return dialogPath;
   }
   return false;
+}
+
+export function pause(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

@@ -1,16 +1,11 @@
 /* eslint-disable import/no-cycle */
 import { globalShortcut } from 'electron';
-import {
-  prismaClientConfig,
-  getWindow,
-  ExtendedHotKey,
-  HotkeyEvent,
-} from '../utils/constants';
+import { getWindow, ExtendedHotKey, HotkeyEvent } from '../utils/constants';
 import { PrismaClient } from '../prisma/client';
 import { displayWindowNearTray, hotkeyToAccelerator } from '../utils/util';
 import { tray } from './tray';
 
-const prisma = new PrismaClient(prismaClientConfig());
+const prisma = new PrismaClient();
 
 const createGlobalShortcut = (
   hotkeys: ExtendedHotKey[],

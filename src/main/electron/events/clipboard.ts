@@ -4,16 +4,12 @@ import clipboard from 'electron-clipboard-extended';
 import { ipcMain, nativeImage } from 'electron';
 import { log } from 'console';
 import { PrismaClient, Clipboard } from '../../prisma/client';
-import {
-  GetClipboards,
-  getWindow,
-  prismaClientConfig,
-} from '../../utils/constants';
+import { GetClipboards, getWindow } from '../../utils/constants';
 import { formatBytes } from '../../utils/util';
 
 dayjs.extend(customParseFormat);
 
-const prisma = new PrismaClient(prismaClientConfig());
+const prisma = new PrismaClient();
 
 // CLIPBOARD EVENT LISTENER
 let addClipboard = true;

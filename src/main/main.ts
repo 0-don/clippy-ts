@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 /*  eslint global-require: off */
+import './prisma/seed';
 import 'core-js/stable';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import clipboard from 'electron-clipboard-extended';
@@ -10,7 +11,6 @@ import 'regenerator-runtime/runtime';
 import './electron/events';
 import toggleGlobalShortcutState from './electron/globalShortcut';
 import { createTray } from './electron/tray';
-import './prisma/seed';
 import { isDevelopment } from './utils/constants';
 import { dbBackupTask, loadSyncDb, saveSyncDb } from './utils/scheduler';
 import createWindow from './window';
@@ -59,10 +59,10 @@ const createMainWindow = async () => {
   // if (isDevelopment) {
   //   await installExtensions();
   // }
+  await loadSyncDb();
   mainWindow = createWindow('MAIN_WINDOW_ID');
   await createTray();
   await toggleGlobalShortcutState(false);
-  await loadSyncDb();
   await dbBackupTask();
 };
 
@@ -74,7 +74,10 @@ ipcMain.handle('createAboutWindow', () => {
 });
 
 ipcMain.handle('createSettingsWindow', () => {
-  settingsWindow = createWindow('SETTINGS_WINDOW_ID', 'settings');
+  settingsWindow = createWindow('SETTINGS_WINDOW_ID', 'settings', {
+    height: 500,
+    width: 500,
+  });
   settingsWindow.on('close', () => {
     settingsWindow = null;
   });
@@ -100,13 +103,13 @@ app.on('window-all-closed', async () => {
 
 app
   .whenReady()
-  .then(() => {
-    createMainWindow();
+  .then(async () => {
+    await createMainWindow();
 
-    app.on('activate', () => {
+    app.on('activate', async () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
-      if (mainWindow === null) createMainWindow();
+      if (mainWindow === null) await createMainWindow();
     });
     // Remove this if your app does not use auto updates
     // eslint-disable-next-line

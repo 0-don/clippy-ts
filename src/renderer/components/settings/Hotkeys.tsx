@@ -9,7 +9,7 @@ const Hotkeys: React.FC = () => {
   return (
     <>
       <TextBlock icon="key" title="Change your Hotkeys">
-        <div className="px-5 overflow-auto h-96">
+        <div className="px-5 overflow-auto h-64">
           {hotkeys.map((hotkey, index) => (
             <div key={hotkey.id} className="">
               <div className="flex items-center px-0.5 py-4">
