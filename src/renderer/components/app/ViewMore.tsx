@@ -83,10 +83,10 @@ const ViewMore: React.FC = () => {
       )}
 
       {/* About */}
-      {createButton('About', window.electron.createAboutWindow)}
+      {createButton('About', () => window.electron.createAboutWindow())}
 
       {/* Exit */}
-      {createButton('Exit', window.electron.exit)}
+      {createButton('Exit', () => window.electron.exit())}
     </>
   );
 };
