@@ -1,12 +1,16 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
+import { app } from 'electron';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { log } from 'console';
-import { ExtendedHotKey, isDevelopment } from '../utils/constants';
+import { ExtendedHotKey } from '../utils/constants';
 import { PrismaClient, Prisma } from './client/index';
 import { pause } from '../utils/util';
+
+app.requestSingleInstanceLock();
+app.on('second-instance', () => app.quit());
 
 dayjs.extend(customParseFormat);
 
