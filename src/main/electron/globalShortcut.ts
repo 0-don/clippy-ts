@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-import { globalShortcut } from 'electron';
+import { globalShortcut, webContents } from 'electron';
 import { getWindow, ExtendedHotKey, HotkeyEvent } from '../utils/constants';
 import { PrismaClient } from '../prisma/client';
 import { displayWindowNearTray, hotkeyToAccelerator } from '../utils/util';
@@ -28,6 +28,12 @@ async function createGlobalShortcuts(allShortcuts = true) {
   // WINDOW DISPLAY TOGGLE
   createGlobalShortcut(hotkeys, 'windowDisplayToggle', () =>
     displayWindowNearTray(tray, mainWindow)
+  );
+
+  // TOGGLE DEVELOPER TOOLS
+  createGlobalShortcut(hotkeys, 'toggleDevTool', () =>
+    // mainWindow.webContents.toggleDevTools()
+    webContents.getAllWebContents().forEach((wc) => wc.toggleDevTools())
   );
 
   // IF ALL SHORTCUTS ENABLED && MAINWINDOW IS VISIBLE CREATE EVERYTHING

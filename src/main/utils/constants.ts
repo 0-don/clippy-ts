@@ -16,6 +16,7 @@ export type ENV = 'MAIN_WINDOW_ID' | 'ABOUT_WINDOW_ID' | 'SETTINGS_WINDOW_ID';
 export const hotKeyEvents = [
   // local
   'windowDisplayToggle',
+  'toggleDevTool',
 
   // external
   'recentClipboards',
@@ -42,7 +43,11 @@ export type OnEvent = typeof onEvents[number];
 export interface ExtendedHotKey extends Hotkey {
   event: HotkeyEvent;
   key: GlobalShortcutKeysType;
-  name: SidebarIconName | 'Clippy Display Toggle' | ViewMoreName;
+  name:
+    | SidebarIconName
+    | 'Clippy Display Toggle'
+    | ViewMoreName
+    | 'Toggle Dev Tools';
 }
 
 export type GetClipboards = {

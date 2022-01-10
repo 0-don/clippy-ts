@@ -6,6 +6,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import useAppStore from '../../store/AppStore';
 import { Clipboard } from '../../../main/prisma/client/index';
 import useSettingsStore from '../../store/SettingsStore';
+import noOrder from '../../../../assets/noOrder.png';
 
 dayjs.extend(relativeTime);
 
@@ -80,6 +81,18 @@ function Clipboards({ star, search }: ClipboardProps) {
       />
     </>
   );
+
+  if (clipboards.length === 0) {
+    return (
+      <div className="flex flex-col justify-center items-center h-screen w-full space-y-3 opacity-30">
+        <img src={noOrder} width="20%" alt="no Order" />
+
+        <h2 className="text-2xl font-medium opacity-50">
+          No Clipboards yet...
+        </h2>
+      </div>
+    );
+  }
 
   return (
     <div ref={myRef} onScroll={onScroll} className="overflow-auto h-full pb-5">

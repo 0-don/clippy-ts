@@ -121,6 +121,17 @@ const keys: ExtendedHotKey[] = [
     name: 'Exit',
     icon: JSON.stringify(['fas', 'sign-out-alt'] as IconProp),
   },
+  {
+    id: 10,
+    event: 'toggleDevTool',
+    ctrl: false,
+    alt: false,
+    shift: false,
+    key: 'F11',
+    status: true,
+    name: 'Toggle Dev Tools',
+    icon: JSON.stringify(['fas', 'tools'] as IconProp),
+  },
 ];
 
 async function seed() {
