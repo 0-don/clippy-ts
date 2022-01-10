@@ -33,6 +33,7 @@ async function createGlobalShortcuts(allShortcuts = true) {
   // TOGGLE DEVELOPER TOOLS
   createGlobalShortcut(hotkeys, 'toggleDevTool', () =>
     // mainWindow.webContents.toggleDevTools()
+
     webContents.getAllWebContents().forEach((wc) => wc.toggleDevTools())
   );
 

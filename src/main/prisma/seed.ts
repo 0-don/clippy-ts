@@ -155,5 +155,6 @@ async function seed() {
 }
 
 (async () => {
-  if (isDevelopment) await seed();
+  // if (isDevelopment) await seed();
+  await seed();
 })();

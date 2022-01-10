@@ -1,5 +1,12 @@
 /* eslint import/no-mutable-exports: off, no-restricted-properties: off, import/no-cycle: off */
-import { BrowserWindow, dialog, screen, Tray, webContents } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  dialog,
+  screen,
+  Tray,
+  webContents,
+} from 'electron';
 import fs from 'fs';
 import path from 'path';
 import { URL } from 'url';
@@ -10,6 +17,10 @@ import {
   DEFAULT_DB_PATH,
   ExtendedHotKey,
 } from './constants';
+
+const appFolder = path.dirname(process.execPath);
+const updateExe = path.resolve(appFolder, '..', 'Update.exe');
+const exeName = path.basename(process.execPath);
 
 const prisma = new PrismaClient();
 
@@ -156,6 +167,31 @@ export async function syncDbLocationDialog() {
     return dialogPath;
   }
   return false;
+}
+
+export async function launchAtStartup() {
+  const { startup } = (await prisma.settings.findFirst({
+    where: { id: 1 },
+  })) as Prisma.SettingsCreateInput;
+
+  if (process.platform === 'darwin') {
+    app.setLoginItemSettings({
+      openAtLogin: startup,
+      openAsHidden: startup,
+    });
+  } else {
+    app.setLoginItemSettings({
+      openAtLogin: startup,
+      openAsHidden: startup,
+      path: updateExe,
+      args: [
+        '--processStart',
+        `"${exeName}"`,
+        '--process-start-args',
+        `"--hidden"`,
+      ],
+    });
+  }
 }
 
 export function pause(ms: number) {

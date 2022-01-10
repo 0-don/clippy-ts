@@ -14,6 +14,7 @@ import { createTray } from './electron/tray';
 import { isDevelopment } from './utils/constants';
 import { dbBackupTask, loadSyncDb, saveSyncDb } from './utils/scheduler';
 import createWindow from './window';
+import { launchAtStartup } from './utils/util';
 
 export default class AppUpdater {
   constructor() {
@@ -104,6 +105,7 @@ app.on('window-all-closed', async () => {
 app
   .whenReady()
   .then(async () => {
+    await launchAtStartup();
     await createMainWindow();
 
     app.on('activate', async () => {
@@ -113,7 +115,7 @@ app
     });
     // Remove this if your app does not use auto updates
     // eslint-disable-next-line
-    // new AppUpdater();
+    new AppUpdater();
     return null;
   })
   .catch(console.log);
