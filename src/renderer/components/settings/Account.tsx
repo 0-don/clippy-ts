@@ -40,14 +40,15 @@ const Account: React.FC = () => {
               <FontAwesomeIcon icon={['far', 'clock']} />
               <h6 className="text-sm">Change backup time</h6>
             </div>
-            <div>
+            <div className="flex items-center">
+              <p className="text-sm">Minutes:&nbsp;</p>
               <Dropdown
-                items={[60, 600, 6000]}
-                value={settings.syncTime}
+                items={[1, 5, 10, 15, 30, 60]}
+                value={settings.syncTime / 60}
                 onChange={async (syncTime) => {
                   await updateSettings({
                     ...settings,
-                    syncTime: syncTime as number,
+                    syncTime: (syncTime as number) * 60,
                   });
                 }}
               />

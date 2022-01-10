@@ -28,7 +28,9 @@ function Clipboards({ star, search }: ClipboardProps) {
   useEffect(() => {
     const switchClipboard = window.electron.on(
       'clipboardSwitch',
-      (index: number) => window.electron.switchClipboard(clipboards[index - 1])
+      (index: number) =>
+        clipboards[index - 1] &&
+        window.electron.switchClipboard(clipboards[index - 1])
     );
     return () => {
       switchClipboard();

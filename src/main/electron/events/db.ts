@@ -41,10 +41,14 @@ ipcMain.handle('toggleSyncClipboardHistory', async () => {
   }
   await dbBackupTask();
 
+  const currentSettings = (await prisma.settings.findFirst({
+    where: { id: 1 },
+  })) as Prisma.SettingsCreateInput;
+
   webContents
     .getAllWebContents()
     .forEach((webContent) =>
-      webContent.send('refreshSettings', updateSettings)
+      webContent.send('refreshSettings', currentSettings)
     );
 });
 

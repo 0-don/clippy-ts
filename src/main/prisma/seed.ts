@@ -4,7 +4,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { log } from 'console';
-import { ExtendedHotKey } from '../utils/constants';
+import { ExtendedHotKey, isDevelopment } from '../utils/constants';
 import { PrismaClient, Prisma } from './client/index';
 import { pause } from '../utils/util';
 
@@ -155,5 +155,5 @@ async function seed() {
 }
 
 (async () => {
-  await seed();
+  if (isDevelopment) await seed();
 })();
