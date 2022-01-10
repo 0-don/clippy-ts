@@ -177,12 +177,12 @@ export async function launchAtStartup() {
   if (process.platform === 'darwin') {
     app.setLoginItemSettings({
       openAtLogin: startup,
-      openAsHidden: startup,
+      // openAsHidden: startup,
     });
   } else {
     app.setLoginItemSettings({
       openAtLogin: startup,
-      openAsHidden: startup,
+      // openAsHidden: startup,
       path: updateExe,
       args: [
         '--processStart',
