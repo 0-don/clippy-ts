@@ -12,11 +12,9 @@ const ViewMore: React.FC = () => {
   useEffect(() => {
     const syncClipboardHistory = window.electron.on(
       'syncClipboardHistory',
-      () =>
-        updateSettings({
-          ...settings,
-          synchronize: !settings.synchronize,
-        })
+      async () => {
+        await window.electron.toggleSyncClipboardHistory();
+      }
     );
 
     const preferences = window.electron.on('preferences', () =>
