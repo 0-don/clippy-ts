@@ -102,20 +102,34 @@ app.on('window-all-closed', async () => {
   clipboard.off('text-changed');
 });
 
-app
-  .whenReady()
-  .then(async () => {
-    await launchAtStartup();
-    await createMainWindow();
+const gotTheLock = app.requestSingleInstanceLock();
 
-    app.on('activate', async () => {
-      // On macOS it's common to re-create a window in the app when the
-      // dock icon is clicked and there are no other windows open.
-      if (mainWindow === null) await createMainWindow();
-    });
-    // Remove this if your app does not use auto updates
-    // eslint-disable-next-line
-    new AppUpdater();
-    return null;
-  })
-  .catch(console.log);
+if (!gotTheLock) {
+  app.quit();
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      mainWindow.focus();
+    }
+  });
+
+  app
+    .whenReady()
+    .then(async () => {
+      await launchAtStartup();
+      await createMainWindow();
+
+      app.on('activate', async () => {
+        // On macOS it's common to re-create a window in the app when the
+        // dock icon is clicked and there are no other windows open.
+        if (mainWindow === null) await createMainWindow();
+      });
+      // Remove this if your app does not use auto updates
+      // eslint-disable-next-line
+      new AppUpdater();
+      return null;
+    })
+    .catch(console.log);
+}
