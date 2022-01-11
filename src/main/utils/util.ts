@@ -16,9 +16,10 @@ import {
   DEFAULT_DB_CONFIG_PATH,
   DEFAULT_DB_PATH,
   ExtendedHotKey,
+  prismaClientConfig,
 } from './constants';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient(prismaClientConfig);
 
 export let resolveHtmlPath: (htmlFileName: string) => string;
 

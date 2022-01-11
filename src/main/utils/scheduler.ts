@@ -7,12 +7,16 @@ import { Notification } from 'electron';
 import fs from 'fs';
 import { AsyncTask, SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 import { Prisma, PrismaClient } from '../prisma/client';
-import { DEFAULT_DB_CONFIG_PATH, DEFAULT_DB_PATH } from './constants';
+import {
+  DEFAULT_DB_CONFIG_PATH,
+  DEFAULT_DB_PATH,
+  prismaClientConfig,
+} from './constants';
 import { localStorageHistory } from './util';
 
 dayjs.extend(customParseFormat);
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient(prismaClientConfig);
 const jobId = 'backupJob';
 
 const scheduler = new ToadScheduler();

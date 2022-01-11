@@ -80,3 +80,7 @@ export const DEFAULT_DB_CONFIG_PATH = app.isPackaged
 export const DEFAULT_DB_DIRECTORY = app.isPackaged
   ? path.join(process.resourcesPath, 'src/main/prisma/db/')
   : path.join(__dirname, '../prisma/db/');
+
+export const prismaClientConfig = {
+  datasources: { db: { url: `file:${DEFAULT_DB_PATH}` } },
+};

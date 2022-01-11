@@ -1,10 +1,14 @@
 import { ipcMain, webContents } from 'electron';
 import { dbBackupTask } from '../../utils/scheduler';
 import { Hotkey, Prisma, PrismaClient } from '../../prisma/client/index';
-import { ExtendedHotKey, HotkeyEvent } from '../../utils/constants';
+import {
+  ExtendedHotKey,
+  HotkeyEvent,
+  prismaClientConfig,
+} from '../../utils/constants';
 import toggleGlobalShortcutState from '../globalShortcut';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient(prismaClientConfig);
 
 // GET SETTINGS
 ipcMain.handle('getSettings', () =>

@@ -5,7 +5,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { log } from 'console';
-import { ExtendedHotKey } from '../utils/constants';
+import { ExtendedHotKey, prismaClientConfig } from '../utils/constants';
 import { PrismaClient, Prisma } from './client/index';
 import { pause } from '../utils/util';
 
@@ -14,7 +14,7 @@ app.on('second-instance', () => app.quit());
 
 dayjs.extend(customParseFormat);
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient(prismaClientConfig);
 
 const settingsData: Prisma.SettingsCreateInput = {
   id: 1,

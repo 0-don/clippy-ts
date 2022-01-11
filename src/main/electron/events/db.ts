@@ -1,11 +1,14 @@
 import { ipcMain, webContents } from 'electron';
 import fs from 'fs';
 import { Prisma, PrismaClient } from '../../prisma/client/index';
-import { DEFAULT_DB_CONFIG_PATH } from '../../utils/constants';
+import {
+  DEFAULT_DB_CONFIG_PATH,
+  prismaClientConfig,
+} from '../../utils/constants';
 import { dbBackupTask } from '../../utils/scheduler';
 import { localStorageHistory, syncDbLocationDialog } from '../../utils/util';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient(prismaClientConfig);
 
 // READ DATABASE URL
 ipcMain.handle(
