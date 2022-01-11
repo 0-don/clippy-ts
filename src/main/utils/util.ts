@@ -11,7 +11,7 @@ import fs from 'fs';
 import path from 'path';
 import { URL } from 'url';
 import toggleGlobalShortcutState from '../electron/globalShortcut';
-import { Prisma, PrismaClient } from '../prisma/client';
+import { Prisma, PrismaClient } from '../prisma/generated/output';
 import {
   DEFAULT_DB_CONFIG_PATH,
   DEFAULT_DB_PATH,

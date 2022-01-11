@@ -2,7 +2,7 @@
 /* eslint import/prefer-default-export: off */
 import { app, BrowserWindow, Tray } from 'electron';
 import path from 'path';
-import { Hotkey } from '../prisma/client';
+import { Hotkey } from '../prisma/generated/output';
 import {
   GlobalShortcutKeysType,
   SidebarIconName,

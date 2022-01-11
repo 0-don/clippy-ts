@@ -1,6 +1,6 @@
 import { ipcMain, webContents } from 'electron';
 import fs from 'fs';
-import { Prisma, PrismaClient } from '../../prisma/client/index';
+import { Prisma, PrismaClient } from '../../prisma/generated/output';
 import {
   DEFAULT_DB_CONFIG_PATH,
   prismaClientConfig,

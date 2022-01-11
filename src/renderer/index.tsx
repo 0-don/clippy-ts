@@ -5,7 +5,7 @@ import './index.css';
 import './utils/icons';
 import Routes from './Routes';
 import useSettingsStore from './store/SettingsStore';
-import { Prisma } from '../main/prisma/client';
+import { Prisma } from '../main/prisma/generated/output';
 import useAppStore from './store/AppStore';
 import { ExtendedHotKey } from '../main/utils/constants';
 

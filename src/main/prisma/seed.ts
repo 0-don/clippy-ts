@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { log } from 'console';
 import { ExtendedHotKey, prismaClientConfig } from '../utils/constants';
-import { PrismaClient, Prisma } from './client/index';
+import { PrismaClient, Prisma } from './generated/output';
 import { pause } from '../utils/util';
 
 app.requestSingleInstanceLock();

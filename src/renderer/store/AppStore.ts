@@ -1,6 +1,6 @@
 import create from 'zustand';
 import { immer } from '../utils/util';
-import { Clipboard } from '../../main/prisma/client/index';
+import { Clipboard } from '../../main/prisma/generated/output';
 import { SidebarIcon, SidebarIconName } from '../utils/contants';
 
 type App = {

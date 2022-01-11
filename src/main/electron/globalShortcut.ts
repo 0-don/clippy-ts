@@ -6,7 +6,7 @@ import {
   HotkeyEvent,
   prismaClientConfig,
 } from '../utils/constants';
-import { PrismaClient } from '../prisma/client';
+import { PrismaClient } from '../prisma/generated/output';
 import { displayWindowNearTray, hotkeyToAccelerator } from '../utils/util';
 import { tray } from './tray';
 

@@ -3,7 +3,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import clipboard from 'electron-clipboard-extended';
 import { ipcMain, nativeImage } from 'electron';
 import { log } from 'console';
-import { PrismaClient, Clipboard } from '../../prisma/client';
+import { PrismaClient, Clipboard } from '../../prisma/generated/output';
 import {
   GetClipboards,
   getWindow,

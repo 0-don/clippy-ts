@@ -2,7 +2,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { persist } from 'zustand/middleware';
 import create from 'zustand';
 import { immer } from '../utils/util';
-import { Prisma } from '../../main/prisma/client';
+import { Prisma } from '../../main/prisma/generated/output';
 import { ExtendedHotKey } from '../../main/utils/constants';
 
 type SettingsTabName = 'General' | 'Account' | 'History' | 'Hotkeys';
