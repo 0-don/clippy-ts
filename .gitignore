@@ -32,3 +32,4 @@ dev.db
 src/main/prisma/db
 src/main/prisma/client
 src/main/prisma/migrations
+src/main/prisma/generated
