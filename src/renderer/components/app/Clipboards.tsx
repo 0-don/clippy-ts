@@ -132,7 +132,8 @@ function Clipboards({ star, search }: ClipboardProps) {
                       src={URL.createObjectURL(
                         new Blob([new Uint8Array(blob)], { type: 'image/png' })
                       )}
-                      style={{ height: '200px' }}
+                      // style={{ height: '200px' }}
+                      className="w-full max-h-64 relative"
                       alt={`${width}x${height} ${size}`}
                       title={`${width}x${height} ${size}`}
                     />
@@ -152,7 +153,7 @@ function Clipboards({ star, search }: ClipboardProps) {
                   </div>
                 </div>
               </div>
-              <div className="pl-1 flex flex-col items-center justify-between">
+              <div className="pl-1 w-12 flex flex-col items-end justify-between">
                 {IconFunctions(clipboard)}
               </div>
             </div>
