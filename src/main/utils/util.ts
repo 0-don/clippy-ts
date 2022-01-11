@@ -186,7 +186,7 @@ export async function launchAtStartup() {
   app.setLoginItemSettings({
     openAtLogin: startup,
     openAsHidden: startup,
-    path: `"${app.getPath('exe')}"`,
+    path: `${app.getPath('exe')}`,
   });
 
   // if (process.platform === 'darwin') {
