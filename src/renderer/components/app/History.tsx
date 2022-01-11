@@ -3,10 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useAppStore from '../../store/AppStore';
 import Clipboards from './Clipboards';
 import SwitchField from '../../elements/SwitchField';
+import useSettingsStore from '../../store/SettingsStore';
 
 const History: React.FC = () => {
   const [search, setSearch] = useState('');
   const [showImages, setShowImages] = useState(false);
+  const { setGlobalHotkeyEvent } = useSettingsStore();
   const setClipboards = useAppStore((state) => state.setClipboards);
 
   useEffect(() => {
@@ -38,6 +40,10 @@ const History: React.FC = () => {
             placeholder="search"
             className="border-gray-300 w-full px-3 py-0.5 dark:bg-dark-light dark:border-dark-light dark:text-white border rounded-md focus:outline-none dark:focus:bg-dark-dark"
             type="text"
+            onFocus={async () => {
+              setGlobalHotkeyEvent(false);
+              await window.electron.disableHotkeys();
+            }}
             value={search}
             onChange={(e) => {
               setShowImages(false);

@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 /*  eslint global-require: off */
 import './utils/chdir';
-// import './prisma/seed';
 import 'core-js/stable';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import dayjs from 'dayjs';
@@ -13,14 +12,16 @@ import path from 'path';
 import 'regenerator-runtime/runtime';
 import './electron/events';
 import toggleGlobalShortcutState from './electron/globalShortcut';
-import { createTray } from './electron/tray';
+import { createTray, tray } from './electron/tray';
 import { isDevelopment } from './utils/constants';
 import { dbBackupTask, loadSyncDb, saveSyncDb } from './utils/scheduler';
 import createWindow from './window';
-import { launchAtStartup } from './utils/util';
+import { displayWindowNearTray, launchAtStartup } from './utils/util';
 
-app.requestSingleInstanceLock();
-app.on('second-instance', () => app.quit());
+const isSingleInstance = app.requestSingleInstanceLock();
+if (!isSingleInstance) {
+  app.quit();
+}
 
 dayjs.extend(customParseFormat);
 
@@ -51,23 +52,7 @@ if (isDevelopment) {
   require('electron-debug')();
 }
 
-// const installExtensions = async () => {
-//   const installer = require('electron-devtools-installer');
-//   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-//   const extensions = ['REACT_DEVELOPER_TOOLS'];
-
-//   return installer
-//     .default(
-//       extensions.map((name) => installer[name]),
-//       forceDownload
-//     )
-//     .catch(console.log);
-// };
-
 const createMainWindow = async () => {
-  // if (isDevelopment) {
-  //   await installExtensions();
-  // }
   await loadSyncDb();
   mainWindow = createWindow('MAIN_WINDOW_ID');
   await createTray();
@@ -100,6 +85,12 @@ app.on('quit', async () => {
   await saveSyncDb();
 });
 
+app.on('second-instance', async () => {
+  if (mainWindow && !mainWindow?.isVisible()) {
+    displayWindowNearTray(tray, mainWindow);
+  }
+});
+
 app.on('window-all-closed', async () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
@@ -110,33 +101,19 @@ app.on('window-all-closed', async () => {
   clipboard.off('text-changed');
 });
 
-const gotTheLock = app.requestSingleInstanceLock();
-
-if (!gotTheLock) {
-  app.quit();
-} else {
-  app.on('second-instance', () => {
-    // Someone tried to run a second instance, we should focus our window.
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) mainWindow.restore();
-      mainWindow.focus();
-    }
-  });
-
-  app
-    .whenReady()
-    .then(async () => {
-      await createMainWindow();
-      await launchAtStartup();
-      app.on('activate', async () => {
-        // On macOS it's common to re-create a window in the app when the
-        // dock icon is clicked and there are no other windows open.
-        if (mainWindow === null) await createMainWindow();
-      });
-      // Remove this if your app does not use auto updates
-      // eslint-disable-next-line
-      // new AppUpdater();
-      return null;
-    })
-    .catch(console.log);
-}
+app
+  .whenReady()
+  .then(async () => {
+    await createMainWindow();
+    await launchAtStartup();
+    app.on('activate', async () => {
+      // On macOS it's common to re-create a window in the app when the
+      // dock icon is clicked and there are no other windows open.
+      if (mainWindow === null) await createMainWindow();
+    });
+    // Remove this if your app does not use auto updates
+    // eslint-disable-next-line
+    // new AppUpdater();
+    return null;
+  })
+  .catch(console.log);

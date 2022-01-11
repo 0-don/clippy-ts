@@ -9,8 +9,6 @@ import {
   ViewMoreName,
 } from '../../renderer/utils/contants';
 
-export let tray: Tray;
-
 export type ENV = 'MAIN_WINDOW_ID' | 'ABOUT_WINDOW_ID' | 'SETTINGS_WINDOW_ID';
 
 export const hotKeyEvents = [
