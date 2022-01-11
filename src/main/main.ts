@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 /*  eslint global-require: off */
+import './utils/chdir';
 import './prisma/seed';
 import 'core-js/stable';
 import { app, BrowserWindow, ipcMain } from 'electron';

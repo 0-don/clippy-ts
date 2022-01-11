@@ -18,10 +18,6 @@ import {
   ExtendedHotKey,
 } from './constants';
 
-const appFolder = path.dirname(process.execPath);
-const updateExe = path.resolve(appFolder, '..', 'Update.exe');
-const exeName = path.basename(process.execPath);
-
 const prisma = new PrismaClient();
 
 export let resolveHtmlPath: (htmlFileName: string) => string;
