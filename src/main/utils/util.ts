@@ -170,40 +170,12 @@ export async function launchAtStartup() {
   const { startup } = (await prisma.settings.findFirst({
     where: { id: 1 },
   })) as Prisma.SettingsCreateInput;
-  // await dialog.showOpenDialog({
-  //   properties: ['openDirectory'],
-  //   title: `${startup ? 'true' : 'false'}`,
-  // });
-
-  // await dialog.showOpenDialog({
-  //   properties: ['openDirectory'],
-  //   title: `${appFolder} ${updateExe} ${exeName}`,
-  // });
 
   app.setLoginItemSettings({
     openAtLogin: startup,
     openAsHidden: startup,
     path: `${app.getPath('exe')}`,
   });
-
-  // if (process.platform === 'darwin') {
-  //   app.setLoginItemSettings({
-  //     openAtLogin: startup,
-  //     // openAsHidden: startup,
-  //   });
-  // } else {
-  //   app.setLoginItemSettings({
-  //     openAtLogin: startup,
-  //     openAsHidden: startup,
-  //     path: updateExe,
-  //     args: [
-  //       '--processStart',
-  //       `"${exeName}"`,
-  //       '--process-start-args',
-  //       `"--hidden"`,
-  //     ],
-  //   });
-  // }
 }
 
 export function pause(ms: number) {

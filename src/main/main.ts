@@ -1,9 +1,11 @@
 /* eslint-disable no-console */
 /*  eslint global-require: off */
 import './utils/chdir';
-import './prisma/seed';
+// import './prisma/seed';
 import 'core-js/stable';
 import { app, BrowserWindow, ipcMain } from 'electron';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import clipboard from 'electron-clipboard-extended';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
@@ -16,6 +18,11 @@ import { isDevelopment } from './utils/constants';
 import { dbBackupTask, loadSyncDb, saveSyncDb } from './utils/scheduler';
 import createWindow from './window';
 import { launchAtStartup } from './utils/util';
+
+app.requestSingleInstanceLock();
+app.on('second-instance', () => app.quit());
+
+dayjs.extend(customParseFormat);
 
 export default class AppUpdater {
   constructor() {

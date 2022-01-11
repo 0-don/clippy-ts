@@ -7,6 +7,7 @@ import {
   prismaClientConfig,
 } from '../../utils/constants';
 import toggleGlobalShortcutState from '../globalShortcut';
+import { launchAtStartup } from '../../utils/util';
 
 const prisma = new PrismaClient(prismaClientConfig);
 
@@ -29,6 +30,7 @@ ipcMain.handle(
       .forEach((webContent) => webContent.send('refreshSettings', setting));
 
     await dbBackupTask();
+    await launchAtStartup();
     return setting;
   }
 );

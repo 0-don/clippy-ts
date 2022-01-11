@@ -1,20 +1,18 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
-import { app } from 'electron';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { log } from 'console';
-import { ExtendedHotKey, prismaClientConfig } from '../utils/constants';
+import path from 'path';
 import { PrismaClient, Prisma } from './generated/output';
-import { pause } from '../utils/util';
 
-app.requestSingleInstanceLock();
-app.on('second-instance', () => app.quit());
+const prisma = new PrismaClient({
+  datasources: { db: { url: `file:${path.join(__dirname, '/db/clippy.db')}` } },
+});
 
-dayjs.extend(customParseFormat);
-
-const prisma = new PrismaClient(prismaClientConfig);
+function pause(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 const settingsData: Prisma.SettingsCreateInput = {
   id: 1,
@@ -25,7 +23,7 @@ const settingsData: Prisma.SettingsCreateInput = {
   syncTime: 600,
 };
 
-const keys: ExtendedHotKey[] = [
+const keys = [
   {
     id: 1,
     event: 'windowDisplayToggle',
@@ -147,7 +145,6 @@ async function seed() {
     update: settingsData,
   });
 
-  // prisma.hotkey.create({ data: keys });
   for (const key of keys) {
     await pause(50);
     await prisma.hotkey.upsert({
@@ -159,6 +156,5 @@ async function seed() {
 }
 
 (async () => {
-  // if (isDevelopment) await seed();
   await seed();
 })();
