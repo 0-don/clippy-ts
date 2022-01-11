@@ -27,14 +27,14 @@ const Account: React.FC = () => {
           </div>
           <div>
             <SwitchField
-              checked={settings.synchronize}
+              checked={settings?.synchronize}
               onChange={async () => {
                 await window.electron.toggleSyncClipboardHistory();
               }}
             />
           </div>
         </div>
-        {settings.synchronize && (
+        {settings?.synchronize && (
           <div className="px-5 flex items-center mb-2 space-x-2 pb-2.5 justify-between">
             <div className="flex items-center space-x-2 truncate">
               <FontAwesomeIcon icon={['far', 'clock']} />
@@ -57,7 +57,7 @@ const Account: React.FC = () => {
         )}
       </TextBlock>
 
-      {url && settings.synchronize && (
+      {url && settings?.synchronize && (
         <TextBlock
           icon="globe-europe"
           title="Database Location"

@@ -74,8 +74,8 @@ const App = () => {
             {sIcon?.name?.toLocaleUpperCase()}
           </p>
           <FontAwesomeIcon
-            icon={settings.synchronize ? ['fas', 'globe'] : ['far', 'hdd']}
-            title={settings.synchronize ? 'online' : 'offline'}
+            icon={settings?.synchronize ? ['fas', 'globe'] : ['far', 'hdd']}
+            title={settings?.synchronize ? 'online' : 'offline'}
             className="text-1xl mr-2"
           />
         </div>

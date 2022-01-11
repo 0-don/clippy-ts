@@ -10,7 +10,7 @@ const AppSidebar: React.FC = () => {
   return (
     <>
       {sidebarIcons.map((sIcon) => {
-        const currentHotkey = hotkeys.find((key) => key.name === sIcon.name);
+        const currentHotkey = hotkeys?.find((key) => key.name === sIcon.name);
         return (
           <div className="relative" key={sIcon.name}>
             <FontAwesomeIcon
