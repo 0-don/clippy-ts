@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { useEffect } from 'react';
 import './index.css';
 import './utils/icons';
-import Routes from './Routes';
+import Routes from './Routing';
 import useSettingsStore from './store/SettingsStore';
 import { Prisma } from '../main/prisma/generated/output';
 import useAppStore from './store/AppStore';
