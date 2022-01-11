@@ -2,28 +2,24 @@
 /*  eslint global-require: off */
 import './utils/chdir';
 import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import { app, BrowserWindow, ipcMain } from 'electron';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
 import clipboard from 'electron-clipboard-extended';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
-import 'regenerator-runtime/runtime';
-import './electron/events';
 import toggleGlobalShortcutState from './electron/globalShortcut';
 import { createTray, tray } from './electron/tray';
 import { isDevelopment } from './utils/constants';
 import { dbBackupTask, loadSyncDb, saveSyncDb } from './utils/scheduler';
 import createWindow from './window';
 import { displayWindowNearTray, launchAtStartup } from './utils/util';
+import './electron/events';
 
 const isSingleInstance = app.requestSingleInstanceLock();
 if (!isSingleInstance) {
   app.quit();
 }
-
-dayjs.extend(customParseFormat);
 
 export default class AppUpdater {
   constructor() {
