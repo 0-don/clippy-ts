@@ -27,3 +27,7 @@ npm-debug.log.*
 *.css.d.ts
 *.sass.d.ts
 *.scss.d.ts
+
+src/main/prisma/db
+src/main/prisma/generated
+src/main/prisma/migrations
