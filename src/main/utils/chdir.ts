@@ -1,13 +1,17 @@
 /* eslint-disable global-require */
+import path from 'path';
 import { error, log } from 'console';
 import { app } from 'electron';
 import process from 'process';
 import { isDevelopment } from './constants';
 
 if (!isDevelopment) {
+  const exeDir = path.dirname(app.getPath('exe'));
+  const resourcesDir = path.resolve(exeDir, '/resources');
+  console.log(exeDir, resourcesDir);
   try {
     // Change the directory
-    process.chdir(require('path').dirname(app.getPath('exe')));
+    process.chdir(exeDir);
     log('directory has successfully been changed');
   } catch (err) {
     // Printing error if occurs
