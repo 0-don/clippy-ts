@@ -42,7 +42,9 @@
     "files": [
       "dist",
       "node_modules",
-      "package.json"
+      "package.json",
+      "node_modules/.prisma/**/*",
+      "node_modules/@prisma/**/*"
     ],
     "afterSign": ".erb/scripts/notarize.js",
     "mac": {
@@ -92,8 +94,8 @@
     "extraResources": [
       "./assets/**",
       "node_modules/.prisma/**/*",
-      "node_modules/@prisma/client/**/*",
-      "./src/main/prisma/**"
+      "node_modules/@prisma/**/*",
+      "src/main/prisma/**/*"
     ],
     "publish": {
       "provider": "github",
