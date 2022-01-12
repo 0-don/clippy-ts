@@ -4,10 +4,11 @@ import { Prisma } from '@prisma/client';
 import { useEffect } from 'react';
 import './index.css';
 import './utils/icons';
-import Routes from './Routing';
+
 import useSettingsStore from './store/SettingsStore';
 import useAppStore from './store/AppStore';
 import { ExtendedHotKey } from '../main/utils/constants';
+import Routing from './Routing';
 
 const Index = () => {
   const initSettings = useSettingsStore((state) => state.initSettings);
@@ -38,7 +39,7 @@ const Index = () => {
 
   if (!settings) return null;
 
-  return <Routes />;
+  return <Routing />;
 };
 
 ReactDOM.render(<Index />, document.getElementById('root'));

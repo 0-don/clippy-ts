@@ -158,4 +158,5 @@ async function seed() {
 
 (async () => {
   await seed();
+  await prisma.$disconnect();
 })();

@@ -39,7 +39,9 @@ const createWindow = (
 
   process.env[env] = `${window.id}`;
 
-  window.loadURL(resolveHtmlPath(`index.html${urlPath ? `#${urlPath}` : ''}`));
+  window.loadURL(
+    resolveHtmlPath(`index.html${urlPath ? `/#/${urlPath}` : ''}`)
+  );
 
   window.on('ready-to-show', () => {
     if (!window) {
