@@ -15,7 +15,7 @@
     "test": "jest",
     "prepare": "husky install",
     "prisma": "rm -rf ./src/main/prisma/db && rm -rf ./src/main/prisma/migrations && npx prisma generate && npx prisma migrate dev --name init && ts-node ./src/main/prisma/seed.ts",
-    "allPackages": "npm i -D @fortawesome/fontawesome-svg-core @fortawesome/free-brands-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @prisma/client @types/electron-clipboard-extended autoprefixer postcss postcss-loader prisma tailwindcss && npm i @headlessui/react dayjs electron-clipboard-extended immer toad-scheduler zustand"
+    "allPackages": "npm i -D copy-webpack-plugin @fortawesome/fontawesome-svg-core @fortawesome/free-brands-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @prisma/client @types/electron-clipboard-extended autoprefixer postcss postcss-loader prisma tailwindcss && npm i @headlessui/react dayjs electron-clipboard-extended immer toad-scheduler zustand"
   },
   "prisma": {
     "schema": "src/main/prisma/schema.prisma"
@@ -94,7 +94,6 @@
     "extraResources": [
       "./assets/**",
       "node_modules/.prisma/**/*",
-      "node_modules/@prisma/**/*",
       "src/main/prisma/**/*"
     ],
     "publish": {
