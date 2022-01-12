@@ -1,5 +1,6 @@
 /* eslint-disable import/no-mutable-exports */
 /* eslint import/prefer-default-export: off */
+import { Hotkey } from '@prisma/client';
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
 import {
@@ -7,7 +8,6 @@ import {
   SidebarIconName,
   ViewMoreName,
 } from '../../renderer/utils/contants';
-import { Hotkey } from '../prisma/generated/output';
 
 export type ENV = 'MAIN_WINDOW_ID' | 'ABOUT_WINDOW_ID' | 'SETTINGS_WINDOW_ID';
 

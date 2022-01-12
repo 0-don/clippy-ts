@@ -1,4 +1,4 @@
-import { Clipboard, Prisma } from '../../main/prisma/generated/output';
+import { Prisma, Clipboard } from '@prisma/client';
 import {
   ExtendedHotKey,
   GetClipboards,

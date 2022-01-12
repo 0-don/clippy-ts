@@ -6,7 +6,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Notification } from 'electron';
 import fs from 'fs';
 import { AsyncTask, SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
-import { Prisma, PrismaClient } from '../prisma/generated/output';
+import { Prisma, PrismaClient } from '@prisma/client';
 import {
   DEFAULT_DB_CONFIG_PATH,
   DEFAULT_DB_PATH,

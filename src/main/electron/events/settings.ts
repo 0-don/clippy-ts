@@ -1,6 +1,6 @@
 import { ipcMain, webContents } from 'electron';
+import { Hotkey, Prisma, PrismaClient } from '@prisma/client';
 import { dbBackupTask } from '../../utils/scheduler';
-import { Hotkey, Prisma, PrismaClient } from '../../prisma/generated/output';
 import {
   ExtendedHotKey,
   HotkeyEvent,

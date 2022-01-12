@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { ipcMain, nativeImage } from 'electron';
 import { log } from 'console';
-import { PrismaClient, Clipboard } from '../../prisma/generated/output';
+import { PrismaClient, Clipboard } from '@prisma/client';
 import {
   GetClipboards,
   getWindow,

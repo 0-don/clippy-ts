@@ -1,10 +1,10 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
+import { Prisma, PrismaClient } from '@prisma/client';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import dayjs from 'dayjs';
 import { log } from 'console';
 import path from 'path';
-import { PrismaClient, Prisma } from './generated/output';
 
 const prisma = new PrismaClient({
   datasources: { db: { url: `file:${path.join(__dirname, '/db/clippy.db')}` } },

@@ -1,12 +1,12 @@
 /* eslint-disable import/no-cycle */
 import { globalShortcut, webContents } from 'electron';
+import { PrismaClient } from '@prisma/client';
 import {
   getWindow,
   ExtendedHotKey,
   HotkeyEvent,
   prismaClientConfig,
 } from '../utils/constants';
-import { PrismaClient } from '../prisma/generated/output';
 import { displayWindowNearTray, hotkeyToAccelerator } from '../utils/util';
 import { tray } from './tray';
 

@@ -14,7 +14,7 @@
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
     "test": "jest",
     "prepare": "husky install",
-    "prisma": "rm -rf ./src/main/prisma/client && rm -rf ./src/main/prisma/db && rm -rf ./src/main/prisma/migrations && npx prisma generate && npx prisma migrate dev --name init && ts-node ./src/main/prisma/seed.ts",
+    "prisma": "rm -rf ./src/main/prisma/generated && rm -rf ./src/main/prisma/db && rm -rf ./src/main/prisma/migrations && npx prisma generate && npx prisma migrate dev --name init && ts-node ./src/main/prisma/seed.ts",
     "allPackages": "npm i -D @fortawesome/fontawesome-svg-core @fortawesome/free-brands-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @prisma/client @types/electron-clipboard-extended autoprefixer postcss postcss-loader prisma tailwindcss && npm i @headlessui/react dayjs electron-clipboard-extended immer toad-scheduler zustand"
   },
   "prisma": {
@@ -91,7 +91,7 @@
     },
     "extraResources": [
       "./assets/**",
-      "./src/main/prisma/**"
+      "./node_modules/.prisma/client"
     ],
     "publish": {
       "provider": "github",
@@ -167,7 +167,6 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.4",
-    "@prisma/client": "^3.8.0",
     "@teamsupercell/typings-for-css-modules-loader": "^2.5.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
@@ -239,6 +238,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@prisma/client": "^3.8.0",
     "@headlessui/react": "^1.4.2",
     "dayjs": "^1.10.7",
     "electron-clipboard-extended": "^1.1.1",
