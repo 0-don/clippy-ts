@@ -63,7 +63,7 @@ const ViewMore: React.FC = () => {
             <SwitchField checked={settings.synchronize} onChange={undefined} />
           )}
         </div>
-        <hr className="text-zinc-600" />
+        <hr className="border-zinc-700" />
       </button>
     );
   };

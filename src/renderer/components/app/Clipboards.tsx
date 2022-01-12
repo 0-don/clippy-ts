@@ -157,7 +157,7 @@ function Clipboards({ star, search }: ClipboardProps) {
                 {IconFunctions(clipboard)}
               </div>
             </div>
-            <hr className="text-zinc-600" />
+            <hr className="border-zinc-700" />
           </button>
         );
       })}

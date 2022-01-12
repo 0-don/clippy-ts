@@ -15,7 +15,9 @@ const Hotkeys: React.FC = () => {
               <div className="flex items-center px-0.5 py-4">
                 <Shortcut hotkey={hotkey} />
               </div>
-              {hotkeys.length !== index + 1 && <hr className="text-zinc-700" />}
+              {hotkeys.length !== index + 1 && (
+                <hr className="border-zinc-700" />
+              )}
             </div>
           ))}
         </div>
