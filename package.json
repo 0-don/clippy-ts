@@ -91,7 +91,8 @@
     },
     "extraResources": [
       "./assets/**",
-      "./node_modules/.prisma/client"
+      "./node_modules/.prisma/client/**",
+      "./src/main/prisma/db/**"
     ],
     "publish": {
       "provider": "github",
