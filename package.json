@@ -14,8 +14,11 @@
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
     "test": "jest",
     "prepare": "husky install",
-    "prisma": "rm -rf ./node_modules/.prisma && rm -rf ./src/main/prisma/clippy.db && npx prisma generate && npx prisma migrate dev --name init && ts-node ./src/main/prisma/seed.ts && rm -rf ./src/main/prisma/migrations",
-    "allPackages": "npm i -D copy-webpack-plugin @fortawesome/fontawesome-svg-core @fortawesome/free-brands-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @prisma/client @types/electron-clipboard-extended autoprefixer postcss postcss-loader prisma tailwindcss && npm i @headlessui/react dayjs electron-clipboard-extended immer toad-scheduler zustand"
+    "prisma": "rm -rf ./node_modules/.prisma && rm -rf ./src/main/prisma/clippy.db && npx prisma generate && npx prisma migrate dev --name init && ts-node ./src/main/prisma/seed.ts && rm -rf ./src/main/prisma/migrations && npm run win32 && npm run darwin && npm run linux",
+    "allPackages": "npm i -D copy-webpack-plugin @fortawesome/fontawesome-svg-core @fortawesome/free-brands-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @prisma/client @types/electron-clipboard-extended autoprefixer postcss postcss-loader prisma tailwindcss && npm i @headlessui/react dayjs electron-clipboard-extended immer toad-scheduler zustand",
+    "win32": "cd ./node_modules/.prisma/client/ && mkdir win32 && cp query_engine-windows.dll.node win32 && cp schema.prisma win32",
+    "darwin": "cd ./node_modules/.prisma/client/ && mkdir darwin && cp libquery_engine-darwin.dylib.node darwin && cp schema.prisma darwin",
+    "linux": "cd ./node_modules/.prisma/client/ && mkdir linux && cp libquery_engine-debian-openssl-1.1.x.so.node linux && cp schema.prisma linux"
   },
   "prisma": {
     "schema": "src/main/prisma/schema.prisma"
@@ -96,7 +99,7 @@
         "to": ".prisma/clippy.db"
       },
       {
-        "from": "node_modules/.prisma/client",
+        "from": "node_modules/.prisma/client/${platform}/",
         "to": ".prisma/client",
         "filter": "?(*.prisma|*.node)"
       }
