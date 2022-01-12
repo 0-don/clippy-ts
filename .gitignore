@@ -27,9 +27,6 @@ npm-debug.log.*
 *.css.d.ts
 *.sass.d.ts
 *.scss.d.ts
-query_engine-windows.dll.node
-dev.db
-src/main/prisma/db
-src/main/prisma/client
-src/main/prisma/migrations
-src/main/prisma/generated
+
+clippy.db
+migrations

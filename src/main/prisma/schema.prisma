@@ -9,7 +9,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./db/clippy.db"
+  url      = "file:clippy.db"
 }
 
 model Clipboard {

@@ -8,7 +8,7 @@ import { log } from 'console';
 import path from 'path';
 
 const prisma = new PrismaClient({
-  datasources: { db: { url: `file:${path.join(__dirname, '/db/clippy.db')}` } },
+  datasources: { db: { url: `file:${path.join(__dirname, '/clippy.db')}` } },
 });
 
 function pause(ms: number) {
