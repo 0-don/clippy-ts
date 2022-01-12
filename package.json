@@ -96,7 +96,7 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "clippy",
+      "owner": "Don-Cryptus",
       "repo": "clippy"
     }
   },
