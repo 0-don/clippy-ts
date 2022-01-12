@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import clipboard from 'electron-clipboard-extended';
@@ -20,6 +21,7 @@ let addClipboard = true;
 
 clipboard
   // TEXT CHANGED
+  // @ts-ignore
   .on('text-changed', async () => {
     const mainWindow = getWindow('MAIN_WINDOW_ID');
     const content = clipboard.readText();
