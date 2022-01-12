@@ -8,6 +8,7 @@
     "jsx": "react-jsx",
     "strict": true,
     "pretty": true,
+    "types": ["electron"],
     "sourceMap": true,
     "baseUrl": "./src",
     "noUnusedLocals": true,
@@ -26,6 +27,7 @@
     "release/build",
     "release/app/dist",
     ".erb/dll",
-    "src/main/prisma/generated/*"
+    "src/main/prisma/generated/*",
+    "node_modules/@types/electron-clipboard-extended/node_modules/electron/*"
   ]
 }

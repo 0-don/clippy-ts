@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-ignore
+import clipboard from 'electron-clipboard-extended';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import clipboard from 'electron-clipboard-extended';
 import { ipcMain, nativeImage } from 'electron';
 import { log } from 'console';
 import { PrismaClient, Clipboard } from '../../prisma/generated/output';
@@ -21,7 +22,6 @@ let addClipboard = true;
 
 clipboard
   // TEXT CHANGED
-  // @ts-ignore
   .on('text-changed', async () => {
     const mainWindow = getWindow('MAIN_WINDOW_ID');
     const content = clipboard.readText();

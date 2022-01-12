@@ -4,7 +4,6 @@ import './utils/chdir';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { app, BrowserWindow, ipcMain } from 'electron';
-import clipboard from 'electron-clipboard-extended';
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
@@ -94,7 +93,6 @@ app.on('window-all-closed', async () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
-  clipboard.off('text-changed');
 });
 
 app
