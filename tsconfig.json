@@ -22,12 +22,5 @@
     "allowJs": true,
     "outDir": "release/app/dist"
   },
-  "exclude": [
-    "test",
-    "release/build",
-    "release/app/dist",
-    ".erb/dll",
-    "src/main/prisma/generated/*",
-    "node_modules/@types/electron-clipboard-extended/node_modules/electron/*"
-  ]
+  "exclude": ["test", "release/build", "release/app/dist", ".erb/dll"]
 }

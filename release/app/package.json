@@ -11,7 +11,13 @@
   "scripts": {
     "electron-rebuild": "node -r ts-node/register ../../.erb/scripts/electron-rebuild.js",
     "link-modules": "node -r ts-node/register ../../.erb/scripts/link-modules.ts",
-    "postinstall": "npm run electron-rebuild && npm run link-modules"
+    "postinstall": "npm run electron-rebuild && npm run link-modules && npx prisma generate"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "prisma": {
+    "schema": "../../src/main/prisma/schema.prisma"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.8.0"
+  }
 }
