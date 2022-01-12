@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 import { Prisma, PrismaClient } from '@prisma/client';
