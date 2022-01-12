@@ -91,7 +91,11 @@
     },
     "extraResources": [
       "./assets/**",
-      "src/main/prisma/**/*"
+      "src/main/prisma/**/*",
+      {
+        "from": "node_modules/.prisma",
+        "to": ".prisma"
+      }
     ],
     "publish": {
       "provider": "github",
