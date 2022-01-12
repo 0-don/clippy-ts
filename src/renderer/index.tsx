@@ -8,7 +8,7 @@ import './utils/icons';
 import useSettingsStore from './store/SettingsStore';
 import useAppStore from './store/AppStore';
 import { ExtendedHotKey } from '../main/utils/constants';
-import Routing from './Routing';
+import Routes from './Routes';
 
 const Index = () => {
   const initSettings = useSettingsStore((state) => state.initSettings);
@@ -39,7 +39,7 @@ const Index = () => {
 
   if (!settings) return null;
 
-  return <Routing />;
+  return <Routes />;
 };
 
 ReactDOM.render(<Index />, document.getElementById('root'));
