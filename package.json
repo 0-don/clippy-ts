@@ -37,7 +37,7 @@
   "build": {
     "productName": "Clippy",
     "appId": "don.clippy",
-    "asar": true,
+    "asar": false,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
       "dist",
