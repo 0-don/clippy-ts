@@ -1,18 +1,16 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 import About from './pages/About';
 import App from './pages/App';
 import Settings from './pages/Settings';
 
-const Routing = () => {
+const Routes = () => {
   return (
     <HashRouter>
-      <Routes>
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/" element={<App />} />
-      </Routes>
+      <Switch>
+        <Route exact path="/settings" component={Settings} />
+        <Route exact path="/about" component={About} />
+        <Route exact path="/" component={App} />
+      </Switch>
     </HashRouter>
   );
 };
-
-export default Routing;
