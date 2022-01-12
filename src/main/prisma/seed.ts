@@ -31,7 +31,7 @@ const keys = [
     ctrl: true,
     alt: false,
     shift: false,
-    key: 'D',
+    key: 'Y',
     status: true,
     name: 'Clippy Display Toggle',
     icon: JSON.stringify(['far', 'keyboard'] as IconProp),

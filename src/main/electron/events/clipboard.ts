@@ -92,6 +92,7 @@ ipcMain.handle(
 ipcMain.handle(
   'switchClipboard',
   async (_, { type, blob, content }: Clipboard) => {
+    const mainWindow = getWindow('MAIN_WINDOW_ID');
     log('Switch', dayjs().format('H:mm:ss'));
 
     addClipboard = false;
@@ -101,7 +102,7 @@ ipcMain.handle(
     } else if (content) {
       clipboard.writeText(content);
     }
-
+    if (mainWindow.isVisible()) mainWindow.hide();
     return true;
   }
 );
