@@ -36,7 +36,7 @@
   },
   "build": {
     "productName": "Clippy",
-    "appId": "clippy",
+    "appId": "don.clippy",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
@@ -91,8 +91,7 @@
     },
     "extraResources": [
       "./assets/**",
-      "./src/main/prisma/**",
-      "./src/main/clipboard-event/**"
+      "./src/main/prisma/**"
     ],
     "publish": {
       "provider": "github",
