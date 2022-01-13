@@ -17,6 +17,7 @@ import {
   DEFAULT_DB_CONFIG_PATH,
   DEFAULT_DB_PATH,
   ExtendedHotKey,
+  isDevelopment,
   prismaClientConfig,
 } from './constants';
 
@@ -172,11 +173,13 @@ export async function launchAtStartup() {
     where: { id: 1 },
   })) as Prisma.SettingsCreateInput;
 
-  app.setLoginItemSettings({
-    openAtLogin: startup,
-    openAsHidden: startup,
-    path: `${app.getPath('exe')}`,
-  });
+  if (!isDevelopment) {
+    app.setLoginItemSettings({
+      openAtLogin: startup,
+      openAsHidden: startup,
+      path: `${app.getPath('exe')}`,
+    });
+  }
 }
 
 export function pause(ms: number) {
