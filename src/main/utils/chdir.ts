@@ -7,8 +7,7 @@ import { isDevelopment } from './constants';
 
 if (!isDevelopment) {
   const exeDir = path.dirname(app.getPath('exe'));
-  const resourcesDir = path.resolve(exeDir, '/resources');
-  console.log(exeDir, resourcesDir);
+
   try {
     // Change the directory
     process.chdir(exeDir);

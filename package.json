@@ -38,6 +38,7 @@
     ]
   },
   "build": {
+    "beforePack": "./myBeforePackHook.js",
     "productName": "Clippy",
     "appId": "don.clippy",
     "asar": true,
