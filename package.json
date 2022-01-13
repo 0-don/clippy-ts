@@ -14,11 +14,11 @@
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
     "test": "jest",
     "prepare": "husky install",
-    "prisma": "rm -rf ./node_modules/.prisma && rm -rf ./src/main/prisma/clippy.db && npx prisma generate && npx prisma migrate dev --name init && ts-node ./src/main/prisma/seed.ts && rm -rf ./src/main/prisma/migrations && npm run win32 && npm run darwin && npm run linux",
+    "prisma": "rm -rf ./node_modules/.prisma && rm -rf ./src/main/prisma/clippy.db && npx prisma generate && npx prisma migrate dev --name init && ts-node ./src/main/prisma/seed.ts && rm -rf ./src/main/prisma/migrations && npm run darwin && npm run linux && npm run win32",
     "allPackages": "npm i -D copy-webpack-plugin @fortawesome/fontawesome-svg-core @fortawesome/free-brands-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @prisma/client @types/electron-clipboard-extended autoprefixer postcss postcss-loader prisma tailwindcss && npm i @headlessui/react dayjs electron-clipboard-extended immer toad-scheduler zustand",
-    "win32": "cd ./node_modules/.prisma/client/ && mkdir win32 && cp query_engine-windows.dll.node win32 && cp schema.prisma win32",
-    "darwin": "cd ./node_modules/.prisma/client/ && mkdir darwin && cp libquery_engine-darwin.dylib.node darwin && cp schema.prisma darwin",
-    "linux": "cd ./node_modules/.prisma/client/ && mkdir linux && cp libquery_engine-debian-openssl-1.1.x.so.node linux && cp schema.prisma linux"
+    "win32": "cp ./node_modules/.prisma/client/query_engine-windows.dll.node ./platforms/win32",
+    "darwin": "cp ./node_modules/.prisma/client/libquery_engine-darwin.dylib.node ./platforms/darwin",
+    "linux": "cp ./node_modules/.prisma/client/libquery_engine-debian-openssl-1.1.x.so.node ./platforms/linux"
   },
   "prisma": {
     "schema": "src/main/prisma/schema.prisma"
@@ -99,7 +99,7 @@
         "to": ".prisma/clippy.db"
       },
       {
-        "from": "node_modules/.prisma/client/${platform}",
+        "from": "platforms/${platform}",
         "to": ".prisma/client",
         "filter": "?(*.prisma|*.node)"
       }

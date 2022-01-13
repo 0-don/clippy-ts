@@ -41,8 +41,9 @@ jobs:
           # This is used for uploading release assets to github
           # npm exec electron-builder -- --publish always --win
           # npm exec electron-builder -- --publish always  --linux
+          # npm exec electron-builder -- --publish always  --mac
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           npm run postinstall
           npm run build
-          npm exec electron-builder -- --publish always --mac --win --linux
+          npm exec electron-builder -- --publish always --win
