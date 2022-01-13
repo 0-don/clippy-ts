@@ -106,8 +106,7 @@
       },
       {
         "from": "./node_modules/.prisma/client/${os}",
-        "to": ".prisma/client",
-        "filter": "*.node"
+        "to": ".prisma/client"
       }
     ],
     "publish": {
