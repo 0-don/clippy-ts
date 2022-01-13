@@ -31,3 +31,4 @@ npm-debug.log.*
 clippy.db
 migrations
 *.node
+db.journal

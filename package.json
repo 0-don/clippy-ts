@@ -7,18 +7,15 @@
     "build:renderer": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir release/app",
     "lint": "cross-env NODE_ENV=development eslint . --ext .js,.jsx,.ts,.tsx",
-    "package": "npm run prisma && ts-node ./src/main/prisma/seed.ts && ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never",
-    "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts && opencollective-postinstall && npx prisma generate && npx prisma migrate dev --name init && ts-node ./src/main/prisma/seed.ts",
+    "package": "npm run prisma && ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never",
+    "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts && opencollective-postinstall && npm run prisma",
     "start": "ts-node ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
     "start:main": "cross-env NODE_ENV=development electron -r ts-node/register/transpile-only ./src/main/main.ts",
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
     "test": "jest",
     "prepare": "husky install",
     "prisma": "rm -rf ./node_modules/.prisma && rm -rf ./src/main/prisma/clippy.db && npx prisma generate && npx prisma migrate dev --name init && ts-node ./src/main/prisma/seed.ts && rm -rf ./src/main/prisma/migrations",
-    "allPackages": "npm i -D copy-webpack-plugin @fortawesome/fontawesome-svg-core @fortawesome/free-brands-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @prisma/client @types/electron-clipboard-extended autoprefixer postcss postcss-loader prisma tailwindcss && npm i @headlessui/react dayjs electron-clipboard-extended immer toad-scheduler zustand",
-    "win32": "cp ./node_modules/.prisma/client/query_engine-windows.dll.node ./platforms/win32",
-    "darwin": "cp ./node_modules/.prisma/client/libquery_engine-darwin.dylib.node ./platforms/darwin",
-    "linux": "cp ./node_modules/.prisma/client/libquery_engine-debian-openssl-1.1.x.so.node ./platforms/linux"
+    "allPackages": "npm i -D copy-webpack-plugin @fortawesome/fontawesome-svg-core @fortawesome/free-brands-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @prisma/client @types/electron-clipboard-extended autoprefixer postcss postcss-loader prisma tailwindcss && npm i @headlessui/react dayjs electron-clipboard-extended immer toad-scheduler zustand"
   },
   "prisma": {
     "schema": "src/main/prisma/schema.prisma"
@@ -38,7 +35,7 @@
     ]
   },
   "build": {
-    "beforePack": "./myBeforePackHook.js",
+    "beforePack": "./beforePackHook.js",
     "productName": "Clippy",
     "appId": "don.clippy",
     "asar": true,
@@ -100,9 +97,13 @@
         "to": ".prisma/clippy.db"
       },
       {
-        "from": "platforms/${os}",
+        "from": "node_modules/.prisma/client/schema.prisma",
+        "to": ".prisma/client/schema.prisma"
+      },
+      {
+        "from": "./node_modules/.prisma/client/${os}",
         "to": ".prisma/client",
-        "filter": "?(*.prisma|*.node)"
+        "filter": "*.node"
       }
     ],
     "publish": {
