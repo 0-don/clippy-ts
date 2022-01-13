@@ -7,7 +7,7 @@
     <br />
     Clipboard Manager made with Electron, React & Prisma.
     <br />
-    <a href="https://github.com/Don-Cryptus/clippy/releases/tag/v1.0.0">Try it out</a>
+    <a href="https://github.com/Don-Cryptus/clippy/releases/latest">Try it out</a>
     ·
     <a href="https://github.com/Don-Cryptus/clippy/issues">Report Bug</a>
     ·
