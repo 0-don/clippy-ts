@@ -29,6 +29,6 @@ npm-debug.log.*
 *.scss.d.ts
 
 clippy.db
-migrations
+
 *.node
-db.journal
+clippy.db-journal
