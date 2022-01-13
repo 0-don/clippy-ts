@@ -4,7 +4,7 @@ import './utils/chdir';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { app, BrowserWindow, ipcMain } from 'electron';
-import log from 'electron-log';
+import { log } from 'console';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
 import toggleGlobalShortcutState from './electron/globalShortcut';
@@ -22,8 +22,9 @@ if (!isSingleInstance) {
 
 export default class AppUpdater {
   constructor() {
-    log.transports.file.level = 'info';
-    autoUpdater.logger = log;
+    const electronLog = require('electron-log');
+    electronLog.transports.file.level = 'info';
+    autoUpdater.logger = electronLog;
     autoUpdater.checkForUpdatesAndNotify();
   }
 }
@@ -110,4 +111,4 @@ app
     new AppUpdater();
     return null;
   })
-  .catch(console.log);
+  .catch(log);

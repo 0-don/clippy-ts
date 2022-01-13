@@ -1,6 +1,6 @@
 {
   "name": "clippy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Clipboard Manager",
   "main": "./dist/main/main.js",
   "author": {
