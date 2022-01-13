@@ -107,12 +107,8 @@ const toggleGlobalShortcutState = async (state: boolean) => {
   globalShortcut.unregisterAll();
   window.webContents.removeAllListeners('before-input-event');
 
-  if (state) {
-    window.webContents.send('enableHotkey', state);
-    await createGlobalShortcuts(state);
-  } else {
-    await createGlobalShortcuts(state);
-  }
+  if (state) window.webContents.send('enableHotkey', state);
+  await createGlobalShortcuts(state);
 };
 
 export default toggleGlobalShortcutState;

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import ReactDOM from 'react-dom';
 import { Prisma } from '@prisma/client';
 import { useEffect } from 'react';
