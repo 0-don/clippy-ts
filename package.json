@@ -14,7 +14,7 @@
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
     "test": "jest",
     "prepare": "husky install",
-    "prisma": "cross-env PRISMA_CLI_BINARY_TARGETS=darwin npx prisma migrate dev && cross-env PRISMA_CLI_BINARY_TARGETS=windows npx prisma migrate dev && cross-env PRISMA_CLI_BINARY_TARGETS=rhel-openssl-1.1.x npx prisma migrate dev && rm -rf ./node_modules/.prisma && rm -rf ./src/main/prisma/clippy.db && npx prisma generate && npx prisma migrate dev --name init && ts-node ./src/main/prisma/seed.ts",
+    "prisma": "rm -rf ./node_modules/.prisma && rm -rf ./src/main/prisma/clippy.db && npx prisma generate && cross-env PRISMA_CLI_BINARY_TARGETS=darwin,windows,rhel-openssl-1.1.x npx prisma migrate dev --name init && ts-node ./src/main/prisma/seed.ts",
     "allPackages": "npm i -D copy-webpack-plugin @fortawesome/fontawesome-svg-core @fortawesome/free-brands-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @prisma/client @types/electron-clipboard-extended autoprefixer postcss postcss-loader prisma tailwindcss && npm i @headlessui/react dayjs electron-clipboard-extended immer toad-scheduler zustand"
   },
   "prisma": {
@@ -105,8 +105,12 @@
         "to": ".prisma/client/schema.prisma"
       },
       {
-        "from": "./node_modules/.prisma/client/${os}",
+        "from": "node_modules/.prisma/client/${os}",
         "to": ".prisma/client"
+      },
+      {
+        "from": "node_modules/prisma/build",
+        "to": ".prisma/client/build"
       }
     ],
     "publish": {
