@@ -100,7 +100,7 @@
         "to": ".prisma/clippy.db"
       },
       {
-        "from": "platforms/${platform}",
+        "from": "platforms/${os}",
         "to": ".prisma/client",
         "filter": "?(*.prisma|*.node)"
       }
