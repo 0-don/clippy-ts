@@ -13,7 +13,7 @@ import {
   prismaClientConfig,
 } from './constants';
 import { localStorageHistory } from './util';
-import runPrismaCommand from './runPrismaCommand';
+// import runPrismaCommand from './runPrismaCommand';
 
 dayjs.extend(customParseFormat);
 
