@@ -11,7 +11,7 @@ const devWindowSize = {
 
 const createWindow = (
   env: ENV,
-  urlPath: 'about' | 'settings' | undefined = undefined,
+  urlPath: 'about' | 'settings' | 'home' = 'home',
   size: {
     height: number;
     width: number;
@@ -29,17 +29,18 @@ const createWindow = (
   let window: null | BrowserWindow = new BrowserWindow({
     ...widthHeight,
     show: false,
-    frame: !!urlPath,
+    frame: urlPath !== 'home',
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#1c1c1c' : '#ffffff',
     icon: getAssetPath('icon.png'),
     webPreferences: {
+      additionalArguments: [`PAGE=${urlPath}`],
       preload: path.join(__dirname, 'preload.js'),
     },
   });
 
   process.env[env] = `${window.id}`;
 
-  window.loadURL(resolveHtmlPath(`index.html${urlPath ? `#${urlPath}` : ''}`));
+  window.loadURL(resolveHtmlPath('index.html'));
 
   window.on('ready-to-show', () => {
     if (!window) {
@@ -52,6 +53,7 @@ const createWindow = (
         window.show();
       }
     }
+    window?.webContents.send('setPage', urlPath);
   });
 
   window.on('closed', () => {

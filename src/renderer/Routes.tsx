@@ -1,18 +1,22 @@
-import { HashRouter, Switch, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import About from './pages/About';
 import App from './pages/App';
 import Settings from './pages/Settings';
 
-const Routes = () => {
+const Routing = () => {
+  const [page, setPage] = useState<string>();
+
+  useEffect(() => {
+    setPage(window.electron.page);
+  }, [setPage]);
+
   return (
-    <HashRouter>
-      <Switch>
-        <Route exact path="/settings" component={Settings} />
-        <Route exact path="/about" component={About} />
-        <Route exact path="/" component={App} />
-      </Switch>
-    </HashRouter>
+    <>
+      {page === 'home' && <App />}
+      {page === 'about' && <About />}
+      {page === 'settings' && <Settings />}
+    </>
   );
 };
 
-export default Routes;
+export default Routing;

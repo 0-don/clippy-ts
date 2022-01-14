@@ -19,6 +19,7 @@ const validChannels = [
   'refreshSettings',
   'refreshHotkeys',
   'enableHotkey',
+  'setPage',
 ];
 
 contextBridge.exposeInMainWorld('electron', {
@@ -37,7 +38,7 @@ contextBridge.exposeInMainWorld('electron', {
       ipcRenderer.removeAllListeners(channel);
     }
   },
-
+  page: process.argv.find((arg) => arg.includes('PAGE=')).replace('PAGE=', ''),
   // UTIL
   exit: (arg) => ipcRenderer.invoke('exit', arg),
   disableHotkeys: (arg) => ipcRenderer.invoke('disableHotkeys', arg),

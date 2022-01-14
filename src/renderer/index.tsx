@@ -1,21 +1,17 @@
-import ReactDOM from 'react-dom';
 import { Prisma } from '@prisma/client';
 import { useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import { ExtendedHotKey } from '../main/utils/constants';
 import './index.css';
+import Routing from './Routes';
+import useAppStore from './store/AppStore';
+import useSettingsStore from './store/SettingsStore';
 import './utils/icons';
 
-import useSettingsStore from './store/SettingsStore';
-import useAppStore from './store/AppStore';
-import { ExtendedHotKey } from '../main/utils/constants';
-import Routes from './Routes';
-
 const Index = () => {
-  const initSettings = useSettingsStore((state) => state.initSettings);
-  const settings = useSettingsStore((state) => state.settings);
-  const updateSettings = useSettingsStore((state) => state.updateSettings);
-  const updateHotkey = useSettingsStore((state) => state.updateHotkey);
-
-  const setSidebarIcon = useAppStore((state) => state.setSidebarIcon);
+  const { initSettings, settings, updateSettings, updateHotkey } =
+    useSettingsStore();
+  const { setSidebarIcon } = useAppStore();
 
   useEffect(() => {
     initSettings();
@@ -38,7 +34,7 @@ const Index = () => {
 
   if (!settings) return null;
 
-  return <Routes />;
+  return <Routing />;
 };
 
 ReactDOM.render(<Index />, document.getElementById('root'));

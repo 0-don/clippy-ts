@@ -10,7 +10,7 @@ declare global {
   interface Window {
     electron: {
       on: (type: OnEvent, arg: unknown) => () => void;
-
+      page: string;
       // UTIL
       exit: () => Promise<boolean>;
       version: () => Promise<string>;
