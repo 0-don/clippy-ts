@@ -20,7 +20,7 @@ if (!isSingleInstance) {
   app.quit();
 }
 
-export default class AppUpdater {
+class AppUpdater {
   constructor() {
     const electronLog = require('electron-log');
     electronLog.transports.file.level = 'info';
