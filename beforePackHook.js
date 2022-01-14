@@ -9,14 +9,14 @@ function copyBinaries() {
       os: 'win',
     },
     {
-      migration: `migration-engine-darwin`,
-      query: `libquery_engine-darwin.dylib.node`,
-      os: 'mac',
-    },
-    {
       migration: `migration-engine-debian-openssl-1.1.x`,
       query: `libquery_engine-debian-openssl-1.1.x.so.node`,
       os: 'linux',
+    },
+    {
+      migration: `migration-engine-darwin`,
+      query: `libquery_engine-darwin.dylib.node`,
+      os: 'mac',
     },
   ];
 

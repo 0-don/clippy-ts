@@ -13,6 +13,7 @@ import {
   prismaClientConfig,
 } from './constants';
 import { localStorageHistory } from './util';
+import runPrismaCommand from './runPrismaCommand';
 
 dayjs.extend(customParseFormat);
 
@@ -81,6 +82,11 @@ export const loadSyncDb = async () => {
   const { synchronize } = (await prisma.settings.findFirst({
     where: { id: 1 },
   })) as Prisma.SettingsCreateInput;
+
+  // await runPrismaCommand({
+  //   command: ['prisma migrate deploy'],
+  //   dbUrl: `file:${DEFAULT_DB_PATH}`,
+  // });
 
   if (synchronize && fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
     const dbLocation = fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8');
