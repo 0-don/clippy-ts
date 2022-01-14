@@ -9,7 +9,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:clippy.db"
+  url      = env("DATABASE_URL")
 }
 
 model Clipboard {
@@ -43,5 +43,5 @@ model Hotkey {
   status Boolean // @default(true)
   name   String
   icon   String
-  test   Int     @default(1)
+
 }

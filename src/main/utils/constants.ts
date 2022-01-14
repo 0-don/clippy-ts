@@ -70,17 +70,17 @@ export const RESOURCES_PATH =
 
 export const DATABASE_URL =
   process.env.NODE_ENV === 'production'
-    ? path.join(app.getPath('userData'), 'clippy.db')
+    ? path.join(app.getPath('userData'), 'clippy.dbx')
     : path.join(__dirname, '../prisma/clippy.db');
 
 export const DEFAULT_DATABASE_URL =
   process.env.NODE_ENV === 'production'
-    ? path.join(process.resourcesPath, '.prisma/client/clippy.db') // PROD
+    ? path.join(process.resourcesPath, '.prisma/clippy.db') // PROD
     : path.join(__dirname, '../prisma/clippy.db'); // DEV
 
 export const DEFAULT_DB_CONFIG_PATH =
   process.env.NODE_ENV === 'production'
-    ? path.join(process.resourcesPath, '.prisma/client/db.config') // PROD
+    ? path.join(app.getPath('userData'), 'db.config') // PROD
     : path.join(__dirname, '../prisma/db.config'); // DEV
 
 export const DEFAULT_PRISMA_SCHEMA =

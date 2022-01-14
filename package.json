@@ -94,7 +94,7 @@
       "./assets/**",
       {
         "from": "src/main/prisma/clippy.db",
-        "to": ".prisma/client/clippy.db"
+        "to": ".prisma/clippy.db"
       },
       {
         "from": "src/main/prisma/migrations",
@@ -115,6 +115,14 @@
       {
         "from": "node_modules/prisma/package.json",
         "to": ".prisma/client/package.json"
+      },
+      {
+        "from": "node_modules/@prisma/engines/dist/index.js",
+        "to": ".prisma/client/node_modules/@prisma/engines/dist/index.js"
+      },
+      {
+        "from": "node_modules/@prisma/engines/package.json",
+        "to": ".prisma/client/node_modules/@prisma/engines/package.json"
       }
     ],
     "publish": {
