@@ -14,7 +14,7 @@
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
     "test": "jest",
     "prepare": "husky install",
-    "prisma": "rm -rf ./node_modules/.prisma && rm -rf ./src/main/prisma/clippy.db && cross-env PRISMA_CLI_BINARY_TARGETS=darwin,windows,debian-openssl-1.1.x npx prisma generate && cross-env PRISMA_CLI_BINARY_TARGETS=darwin,windows,debian-openssl-1.1.x npx prisma migrate dev --name init && ts-node ./src/main/prisma/seed.ts",
+    "prisma": "rm -rf ./node_modules/.prisma && rm -rf ./src/main/prisma/clippy.db && cross-env PRISMA_CLI_BINARY_TARGETS=darwin,windows,debian-openssl-1.1.x npx prisma generate && cross-env PRISMA_CLI_BINARY_TARGETS=darwin,windows,debian-openssl-1.1.x npx prisma migrate dev --name init && ts-node ./src/main/prisma/seed.ts && node beforePackHook.js",
     "allPackages": "npm i -D copy-webpack-plugin @fortawesome/fontawesome-svg-core @fortawesome/free-brands-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @prisma/client @types/electron-clipboard-extended autoprefixer postcss postcss-loader prisma tailwindcss && npm i @headlessui/react dayjs electron-clipboard-extended immer toad-scheduler zustand",
     "ptest": "cross-env NODE_ENV=development ts-node ./src/main/utils/runPrismaCommand.ts"
   },
@@ -36,7 +36,6 @@
     ]
   },
   "build": {
-    "beforePack": "./beforePackHook.js",
     "productName": "Clippy",
     "appId": "don.clippy",
     "asar": true,
@@ -110,8 +109,12 @@
         "to": ".prisma/client"
       },
       {
-        "from": "node_modules/prisma/build",
-        "to": ".prisma/client/build"
+        "from": "node_modules/prisma/build/index.js",
+        "to": ".prisma/client/build/index.js"
+      },
+      {
+        "from": "node_modules/prisma/package.json",
+        "to": ".prisma/client/package.json"
       }
     ],
     "publish": {
@@ -189,7 +192,7 @@
     "@fortawesome/react-fontawesome": "^0.1.16",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.4",
     "@types/history": "4.7.9",
-    "@prisma/client": "^3.8.0",
+    "@prisma/client": "^3.8.1",
     "@teamsupercell/typings-for-css-modules-loader": "^2.5.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",

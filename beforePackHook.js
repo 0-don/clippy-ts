@@ -32,5 +32,4 @@ function copyBinaries() {
   });
 }
 
-// (context) => void
-exports.default = () => copyBinaries();
+copyBinaries();

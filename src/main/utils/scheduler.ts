@@ -9,7 +9,7 @@ import { AsyncTask, SimpleIntervalJob, ToadScheduler } from 'toad-scheduler';
 import { Prisma, PrismaClient } from '@prisma/client';
 import {
   DEFAULT_DB_CONFIG_PATH,
-  DEFAULT_DB_PATH,
+  DATABASE_URL,
   prismaClientConfig,
 } from './constants';
 import { localStorageHistory } from './util';
@@ -37,7 +37,7 @@ const asyncDbBackupTask = async () => {
     }).show();
   }
 
-  fs.copyFileSync(DEFAULT_DB_PATH, backupLocation);
+  fs.copyFileSync(DATABASE_URL, backupLocation);
 
   log('Sync Backup', dayjs().format('H:mm:ss'));
 };
@@ -85,7 +85,7 @@ export const loadSyncDb = async () => {
 
   // await runPrismaCommand({
   //   command: [' migrate deploy'],
-  //   dbUrl: `file:${DEFAULT_DB_PATH}`,
+  //   dbUrl: `file:${DATABASE_URL}`,
   // });
 
   if (synchronize && fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
@@ -93,7 +93,7 @@ export const loadSyncDb = async () => {
     const dbExists = fs.existsSync(dbLocation);
     if (dbExists) {
       await prisma.$disconnect();
-      fs.copyFileSync(dbLocation, DEFAULT_DB_PATH);
+      fs.copyFileSync(dbLocation, DATABASE_URL);
     }
     return true;
   }
@@ -114,6 +114,6 @@ export const saveSyncDb = async () => {
   if (synchronize && fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
     const dbLocation = fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8');
     await prisma.$disconnect();
-    fs.copyFileSync(DEFAULT_DB_PATH, dbLocation);
+    fs.copyFileSync(DATABASE_URL, dbLocation);
   }
 };

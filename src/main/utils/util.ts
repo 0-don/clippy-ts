@@ -15,7 +15,7 @@ import toggleGlobalShortcutState from '../electron/globalShortcut';
 
 import {
   DEFAULT_DB_CONFIG_PATH,
-  DEFAULT_DB_PATH,
+  DATABASE_URL,
   ExtendedHotKey,
   isDevelopment,
   prismaClientConfig,
@@ -75,7 +75,7 @@ export async function displayWindowNearTray(tray: Tray, window: BrowserWindow) {
 }
 
 export async function localStorageHistory() {
-  const { size } = fs.statSync(DEFAULT_DB_PATH);
+  const { size } = fs.statSync(DATABASE_URL);
   const count = await prisma.clipboard.count();
 
   return `${count} local items (${formatBytes(
@@ -154,14 +154,14 @@ export async function syncDbLocationDialog() {
     // LOAD
     if (response === 0) {
       // DELETE OLD DB
-      fs.unlinkSync(DEFAULT_DB_PATH);
+      fs.unlinkSync(DATABASE_URL);
       // COPY DB FROM SELECTED LOCATION TO APP
-      fs.copyFileSync(dialogPath, DEFAULT_DB_PATH);
+      fs.copyFileSync(dialogPath, DATABASE_URL);
       return dialogPath;
     }
 
     // COPY APP DB TO SELECTED LOCATION
-    fs.copyFileSync(DEFAULT_DB_PATH, dialogPath);
+    fs.copyFileSync(DATABASE_URL, dialogPath);
 
     return dialogPath;
   }

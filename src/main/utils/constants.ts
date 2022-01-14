@@ -63,18 +63,33 @@ export const getWindow = (env: ENV) => {
 export const isDevelopment =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
-export const RESOURCES_PATH = app.isPackaged
-  ? path.join(process.resourcesPath, 'assets') // PROD
-  : path.join(__dirname, '../../../assets'); // DEV
+export const RESOURCES_PATH =
+  process.env.NODE_ENV === 'production'
+    ? path.join(process.resourcesPath, 'assets') // PROD
+    : path.join(__dirname, '../../../assets'); // DEV
 
-export const DEFAULT_DB_PATH = app.isPackaged
-  ? path.join(process.resourcesPath, '.prisma/client/clippy.db') // PROD
-  : path.join(__dirname, '../prisma/clippy.db'); // DEV
+export const DATABASE_URL = path.join(app.getPath('userData'), 'clippy.db');
 
-export const DEFAULT_DB_CONFIG_PATH = app.isPackaged
-  ? path.join(process.resourcesPath, '.prisma/client/db.config') // PROD
-  : path.join(__dirname, '../prisma/db.config'); // DEV
+export const DEFAULT_DATABASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? path.join(process.resourcesPath, '.prisma/client/clippy.db') // PROD
+    : path.join(__dirname, '../prisma/clippy.db'); // DEV
+
+export const DEFAULT_DB_CONFIG_PATH =
+  process.env.NODE_ENV === 'production'
+    ? path.join(process.resourcesPath, '.prisma/client/db.config') // PROD
+    : path.join(__dirname, '../prisma/db.config'); // DEV
+
+export const DEFAULT_PRISMA_SCHEMA =
+  process.env.NODE_ENV === 'production'
+    ? path.join(process.resourcesPath, '.prisma/client/schema.prisma') // PROD
+    : path.join(__dirname, '../prisma/schema.prisma'); // DEV
+
+export const DEFAULT_PRISMA_CLI =
+  process.env.NODE_ENV === 'production'
+    ? path.join(process.resourcesPath, '.prisma/client/build/index.js') // PROD
+    : path.join(__dirname, '../../../node_modules/prisma/build/index.js'); // DEV;
 
 export const prismaClientConfig = {
-  datasources: { db: { url: `file:${DEFAULT_DB_PATH}` } },
+  datasources: { db: { url: `file:${DATABASE_URL}` } },
 };
