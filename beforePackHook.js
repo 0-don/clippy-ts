@@ -1,10 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-// (context) => void
-exports.default = () => {
-  const binariesLocation = './node_modules/@prisma/engines/';
-
+function copyBinaries() {
   const binaries = [
     {
       migration: `migration-engine-windows.exe`,
@@ -23,14 +20,18 @@ exports.default = () => {
     },
   ];
 
+  const source = './node_modules/@prisma/engines/';
+
   binaries.forEach(({ migration, os, query }) => {
     const dest = path.join('./node_modules/.prisma/client/', os);
-    const queryDest = path.join(binariesLocation, query);
-    const migrationDest = path.join(binariesLocation, migration);
 
     if (!fs.existsSync(dest)) fs.mkdirSync(dest);
 
-    fs.copyFileSync(query, queryDest);
-    fs.copyFileSync(migration, migrationDest);
+    fs.copyFileSync(path.join(source, query), path.join(dest, query));
+    fs.copyFileSync(path.join(source, migration), path.join(dest, migration));
   });
-};
+}
+copyBinaries();
+
+// (context) => void
+exports.default = () => copyBinaries();
