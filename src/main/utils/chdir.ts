@@ -19,7 +19,7 @@ if (!isDevelopment) {
 }
 
 (async () => {
-  if (!fs.existsSync(DATABASE_URL) && app.isPackaged) {
+  if (!fs.existsSync(DATABASE_URL)) {
     fs.copyFileSync(DEFAULT_DATABASE_URL, DATABASE_URL);
   }
   await runPrismaCommand({ command: ['migrate', 'deploy'] });

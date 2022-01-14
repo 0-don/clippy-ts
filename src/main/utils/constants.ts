@@ -68,7 +68,10 @@ export const RESOURCES_PATH =
     ? path.join(process.resourcesPath, 'assets') // PROD
     : path.join(__dirname, '../../../assets'); // DEV
 
-export const DATABASE_URL = path.join(app.getPath('userData'), 'clippy.db');
+export const DATABASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? path.join(app.getPath('userData'), 'clippy.db')
+    : path.join(__dirname, '../prisma/clippy.db');
 
 export const DEFAULT_DATABASE_URL =
   process.env.NODE_ENV === 'production'
