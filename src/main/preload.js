@@ -19,7 +19,6 @@ const validChannels = [
   'refreshSettings',
   'refreshHotkeys',
   'enableHotkey',
-  'setPage',
 ];
 
 contextBridge.exposeInMainWorld('electron', {

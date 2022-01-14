@@ -34,7 +34,6 @@ export const onEvents = [
   'refreshSettings',
   'refreshHotkeys',
   'enableHotkey',
-  'setPage',
   ...hotKeyEvents,
 ] as const;
 export type OnEvent = typeof onEvents[number];

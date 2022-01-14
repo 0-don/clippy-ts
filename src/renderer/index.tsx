@@ -18,7 +18,10 @@ const Index = () => {
 
     const refreshSettings = window.electron.on(
       'refreshSettings',
-      (setting: Prisma.SettingsCreateInput) => updateSettings(setting, false)
+      (setting: Prisma.SettingsCreateInput) => {
+        updateSettings(setting, false);
+        initSettings();
+      }
     );
 
     const refreshHotkeys = window.electron.on(

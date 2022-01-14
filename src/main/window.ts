@@ -53,7 +53,6 @@ const createWindow = (
         window.show();
       }
     }
-    window?.webContents.send('setPage', urlPath);
   });
 
   window.on('closed', () => {
