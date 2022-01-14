@@ -10,7 +10,7 @@ import path from 'path';
 import toggleGlobalShortcutState from './electron/globalShortcut';
 import { createTray, tray } from './electron/tray';
 import { isDevelopment } from './utils/constants';
-import { dbBackupTask, loadSyncDb, saveSyncDb } from './utils/scheduler';
+import { dbBackupTask, saveSyncDb } from './utils/scheduler';
 import createWindow from './window';
 import { displayWindowNearTray, launchAtStartup } from './utils/util';
 import './electron/events';
@@ -49,7 +49,6 @@ if (isDevelopment) {
 }
 
 const createMainWindow = async () => {
-  await loadSyncDb();
   mainWindow = createWindow('MAIN_WINDOW_ID');
   await createTray();
   await toggleGlobalShortcutState(false);

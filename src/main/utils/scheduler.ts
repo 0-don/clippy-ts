@@ -79,31 +79,14 @@ export const dbBackupTask = async () => {
 };
 
 export const loadSyncDb = async () => {
-  const { synchronize } = (await prisma.settings.findFirst({
-    where: { id: 1 },
-  })) as Prisma.SettingsCreateInput;
-
-  // await runPrismaCommand({
-  //   command: [' migrate deploy'],
-  //   dbUrl: `file:${DATABASE_URL}`,
-  // });
-
-  if (synchronize && fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
+  if (fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
     const dbLocation = fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8');
     const dbExists = fs.existsSync(dbLocation);
     if (dbExists) {
       await prisma.$disconnect();
       fs.copyFileSync(dbLocation, DATABASE_URL);
     }
-    return true;
   }
-  if (synchronize && !fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
-    await prisma.settings.update({
-      where: { id: 1 },
-      data: { synchronize: false },
-    });
-  }
-  return false;
 };
 
 export const saveSyncDb = async () => {

@@ -6,6 +6,7 @@ import { app } from 'electron';
 import process from 'process';
 import { DATABASE_URL, DEFAULT_DATABASE_URL, isDevelopment } from './constants';
 import runPrismaCommand from './runPrismaCommand';
+import { loadSyncDb } from './scheduler';
 
 if (!isDevelopment) {
   try {
@@ -19,8 +20,11 @@ if (!isDevelopment) {
 }
 
 (async () => {
+  await loadSyncDb();
+
   if (!fs.existsSync(DATABASE_URL)) {
     fs.copyFileSync(DEFAULT_DATABASE_URL, DATABASE_URL);
   }
+
   await runPrismaCommand({ command: ['migrate', 'deploy'] });
 })();
