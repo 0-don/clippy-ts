@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 import { Prisma, PrismaClient } from '@prisma/client';
@@ -11,16 +10,12 @@ const prisma = new PrismaClient({
   datasources: { db: { url: `file:${path.join(__dirname, '/clippy.db')}` } },
 });
 
-function pause(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 const settingsData: Prisma.SettingsCreateInput = {
   id: 1,
   darkmode: true,
   notification: true,
   startup: true,
-  synchronize: true,
+  synchronize: false,
   syncTime: 600,
 };
 
@@ -147,7 +142,6 @@ async function seed() {
   });
 
   for (const key of keys) {
-    await pause(50);
     await prisma.hotkey.upsert({
       where: { id: key.id },
       create: key,
