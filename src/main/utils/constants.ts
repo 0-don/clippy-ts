@@ -69,11 +69,11 @@ export const RESOURCES_PATH = app.isPackaged
 
 export const DEFAULT_DB_PATH = app.isPackaged
   ? path.join(process.resourcesPath, '.prisma/clippy.db')
-  : path.join(__dirname, '../prisma/clippy.db');
+  : path.join(__dirname, '../prisma/client/clippy.db');
 
 export const DEFAULT_DB_CONFIG_PATH = app.isPackaged
   ? path.join(process.resourcesPath, '.prisma/db.config')
-  : path.join(__dirname, '../prisma/db.config');
+  : path.join(__dirname, '../prisma/client/db.config');
 
 export const prismaClientConfig = {
   datasources: { db: { url: `file:${DEFAULT_DB_PATH}` } },

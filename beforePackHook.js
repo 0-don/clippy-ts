@@ -31,7 +31,6 @@ function copyBinaries() {
     fs.copyFileSync(path.join(source, migration), path.join(dest, migration));
   });
 }
-copyBinaries();
 
 // (context) => void
 exports.default = () => copyBinaries();
