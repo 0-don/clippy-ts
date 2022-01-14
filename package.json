@@ -15,10 +15,8 @@
     "test": "jest",
     "prepare": "husky install",
     "prisma": "rm -rf ./node_modules/.prisma && rm -rf ./src/main/prisma/clippy.db && cross-env PRISMA_CLI_BINARY_TARGETS=darwin,windows,debian-openssl-1.1.x npx prisma generate && cross-env PRISMA_CLI_BINARY_TARGETS=darwin,windows,debian-openssl-1.1.x npx prisma migrate dev --name init && ts-node ./src/main/prisma/seed.ts",
-    "allPackages": "npm i -D copy-webpack-plugin @fortawesome/fontawesome-svg-core @fortawesome/free-brands-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @prisma/client @types/electron-clipboard-extended autoprefixer postcss postcss-loader prisma tailwindcss && npm i @headlessui/react dayjs electron-clipboard-extended immer toad-scheduler zustand"
-  },
-  "prisma": {
-    "schema": "src/main/prisma/schema.prisma"
+    "allPackages": "npm i -D copy-webpack-plugin @fortawesome/fontawesome-svg-core @fortawesome/free-brands-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @prisma/client @types/electron-clipboard-extended autoprefixer postcss postcss-loader prisma tailwindcss && npm i @headlessui/react dayjs electron-clipboard-extended immer toad-scheduler zustand",
+    "ptest": "cross-env NODE_ENV=development ts-node ./src/main/utils/runPrismaCommand.ts"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

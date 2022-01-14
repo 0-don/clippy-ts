@@ -13,7 +13,7 @@ import {
   prismaClientConfig,
 } from './constants';
 import { localStorageHistory } from './util';
-// import runPrismaCommand from './runPrismaCommand';
+import runPrismaCommand from './runPrismaCommand';
 
 dayjs.extend(customParseFormat);
 
@@ -84,7 +84,7 @@ export const loadSyncDb = async () => {
   })) as Prisma.SettingsCreateInput;
 
   // await runPrismaCommand({
-  //   command: ['prisma migrate deploy'],
+  //   command: [' migrate deploy'],
   //   dbUrl: `file:${DEFAULT_DB_PATH}`,
   // });
 

@@ -6,11 +6,9 @@ import process from 'process';
 import { isDevelopment } from './constants';
 
 if (!isDevelopment) {
-  const exeDir = path.dirname(app.getPath('exe'));
-
   try {
     // Change the directory
-    process.chdir(exeDir);
+    process.chdir(path.dirname(app.getPath('exe')));
     log('directory has successfully been changed');
   } catch (err) {
     // Printing error if occurs
