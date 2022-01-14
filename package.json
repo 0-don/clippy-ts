@@ -94,7 +94,7 @@
       "./assets/**",
       {
         "from": "src/main/prisma/clippy.db",
-        "to": ".prisma/clippy.db"
+        "to": ".prisma/client/clippy.db"
       },
       {
         "from": "src/main/prisma/migrations",
