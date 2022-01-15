@@ -11,7 +11,7 @@ const devWindowSize = {
 
 const createWindow = (
   env: ENV,
-  urlPath: 'about' | 'settings' | 'home' = 'home',
+  page: 'about' | 'settings' | 'home' = 'home',
   size: {
     height: number;
     width: number;
@@ -29,11 +29,11 @@ const createWindow = (
   let window: null | BrowserWindow = new BrowserWindow({
     ...widthHeight,
     show: false,
-    frame: urlPath !== 'home',
+    frame: page !== 'home',
     backgroundColor: nativeTheme.shouldUseDarkColors ? '#1c1c1c' : '#ffffff',
     icon: getAssetPath('icon.png'),
     webPreferences: {
-      additionalArguments: [`PAGE=${urlPath}`],
+      additionalArguments: [`PAGE=${page}`],
       preload: path.join(__dirname, 'preload.js'),
     },
   });
@@ -46,7 +46,7 @@ const createWindow = (
     if (!window) {
       throw new Error('"mainWindow" is not defined');
     }
-    if (urlPath) {
+    if (page !== 'home') {
       if (process.env.START_MINIMIZED) {
         window.minimize();
       } else {
