@@ -15,7 +15,7 @@
     "test": "jest",
     "prepare": "husky install",
     "prisma": "rm -rf ./node_modules/.prisma && rm -rf ./src/main/prisma/clippy.db && cross-env PRISMA_CLI_BINARY_TARGETS=darwin,windows,debian-openssl-1.1.x npx prisma generate && cross-env PRISMA_CLI_BINARY_TARGETS=darwin,windows,debian-openssl-1.1.x npx prisma migrate dev --name init && ts-node ./src/main/prisma/seed.ts && node beforePackHook.js",
-    "allPackages": "npm i -D copy-webpack-plugin @fortawesome/fontawesome-svg-core @fortawesome/free-brands-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @prisma/client @types/electron-clipboard-extended autoprefixer postcss postcss-loader prisma tailwindcss && npm i @headlessui/react dayjs electron-clipboard-extended immer toad-scheduler zustand",
+    "allPackages": "npm i -D copy-webpack-plugin @fortawesome/fontawesome-svg-core @fortawesome/free-brands-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome @prisma/client autoprefixer postcss postcss-loader prisma tailwindcss && npm i @headlessui/react dayjs electron-clipboard-extended immer toad-scheduler zustand",
     "ptest": "cross-env NODE_ENV=development ts-node ./src/main/utils/runPrismaCommand.ts"
   },
   "prisma": {
@@ -203,7 +203,6 @@
     "@teamsupercell/typings-for-css-modules-loader": "^2.5.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
-    "@types/electron-clipboard-extended": "^1.0.1",
     "@types/jest": "^27.0.3",
     "@types/node": "17.0.5",
     "@types/react": "^17.0.38",
