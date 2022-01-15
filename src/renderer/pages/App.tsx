@@ -37,8 +37,12 @@ const App = () => {
       (sidebarIconName: SidebarIconName) => setSidebarIcon(sidebarIconName)
     );
 
-    const enableHotkey = window.electron.on('enableHotkey', (status: boolean) =>
-      setGlobalHotkeyEvent(status)
+    const enableHotkey = window.electron.on(
+      'enableHotkey',
+      (status: boolean) => {
+        setSidebarIcon('Recent Clipboards');
+        setGlobalHotkeyEvent(status);
+      }
     );
 
     return () => {
