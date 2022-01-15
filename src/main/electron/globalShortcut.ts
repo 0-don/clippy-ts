@@ -90,13 +90,12 @@ async function createGlobalShortcuts(allShortcuts = true) {
     globalShortcut.registerAll(
       ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
       () =>
-        mainWindow.webContents.on(
-          'before-input-event',
-          (_, input) =>
-            Number(input.key) > 0 &&
-            Number(input.key) < 10 &&
-            mainWindow.webContents.send('clipboardSwitch', Number(input.key))
-        )
+        mainWindow.webContents.on('before-input-event', (_, input) => {
+          if (Number(input.key) > 0 && Number(input.key) < 10) {
+            mainWindow.webContents.send('clipboardSwitch', Number(input.key));
+            mainWindow.webContents.removeAllListeners('before-input-event');
+          }
+        })
     );
   }
 }
