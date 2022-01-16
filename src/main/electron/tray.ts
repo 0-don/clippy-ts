@@ -6,7 +6,7 @@ import { getWindow, RESOURCES_PATH } from '../utils/constants';
 import { displayWindowNearTray } from '../utils/util';
 import toggleGlobalShortcutState from './globalShortcut';
 
-export let tray: Tray;
+export let tray: Tray | null;
 
 export const createTray = () => {
   const window = getWindow('MAIN_WINDOW_ID') as BrowserWindow;
@@ -24,28 +24,33 @@ export const createTray = () => {
     window?.setSkipTaskbar(true);
   }
 
-  tray.on('click', async () => displayWindowNearTray(tray, window));
+  tray.on('click', async () => displayWindowNearTray(window));
 
   tray.on('right-click', () => {
     const menuConfig = Menu.buildFromTemplate([
       { label: 'Quit', click: () => app.quit() },
     ]);
 
-    tray.popUpContextMenu(menuConfig);
+    tray?.popUpContextMenu(menuConfig);
   });
 
   window.on('blur', async () => {
     const mousePos = screen.getCursorScreenPoint();
-    const trayBounds = tray.getBounds();
-    const mouseOnTrayIcon =
-      mousePos.x > trayBounds.x &&
-      mousePos.x < trayBounds.x + trayBounds.width &&
-      mousePos.y > trayBounds.y &&
-      mousePos.y < trayBounds.y + trayBounds.height;
+    const trayBounds = tray?.getBounds();
 
-    if (!mouseOnTrayIcon) {
+    if (trayBounds) {
+      const mouseOnTrayIcon =
+        mousePos.x > trayBounds?.x &&
+        mousePos.x < trayBounds?.x + trayBounds?.width &&
+        mousePos.y > trayBounds?.y &&
+        mousePos.y < trayBounds?.y + trayBounds?.height;
+      if (!mouseOnTrayIcon) {
+        window.hide();
+      }
+    } else {
       window.hide();
     }
+
     await toggleGlobalShortcutState(false);
   });
 

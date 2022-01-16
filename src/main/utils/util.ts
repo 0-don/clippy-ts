@@ -1,18 +1,11 @@
 /* eslint import/no-mutable-exports: off, no-restricted-properties: off, import/no-cycle: off */
-import {
-  app,
-  BrowserWindow,
-  dialog,
-  screen,
-  Tray,
-  webContents,
-} from 'electron';
+import { app, BrowserWindow, dialog, screen, webContents } from 'electron';
 import { Prisma, PrismaClient } from '@prisma/client';
 import fs from 'fs';
 import path from 'path';
 import { URL } from 'url';
 import toggleGlobalShortcutState from '../electron/globalShortcut';
-
+import { tray } from '../electron/tray';
 import {
   DEFAULT_DB_CONFIG_PATH,
   DATABASE_URL,
@@ -50,21 +43,28 @@ export function formatBytes(bytes: number, decimals = 2) {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 }
 
-export async function displayWindowNearTray(tray: Tray, window: BrowserWindow) {
-  const { x, y } = tray.getBounds();
+export async function displayWindowNearTray(window: BrowserWindow) {
+  const trayBounds = tray?.getBounds();
   const { height, width } = window.getBounds();
   const mousePos = screen.getCursorScreenPoint();
 
   if (window.isVisible()) {
     window.hide();
   } else {
-    const yPositionTray = process.platform === 'darwin' ? y : y - height;
     const yPositionMouse =
       process.platform !== 'darwin' ? mousePos.y : mousePos.y - height;
 
     window.setBounds({
-      x: x ? Math.floor(x - width / 2) : Math.floor(mousePos.x - width / 2),
-      y: y ? Math.floor(yPositionTray + 8) : Math.floor(yPositionMouse + 8),
+      x: trayBounds?.x
+        ? Math.floor(trayBounds.x - width / 2)
+        : Math.floor(mousePos.x - width / 2),
+      y: trayBounds?.y
+        ? Math.floor(
+            process.platform === 'darwin'
+              ? trayBounds.y
+              : trayBounds.y - height + 8
+          )
+        : Math.floor(yPositionMouse + 8),
       height,
       width,
     });

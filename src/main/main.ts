@@ -8,7 +8,7 @@ import { log } from 'console';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
 import toggleGlobalShortcutState from './electron/globalShortcut';
-import { createTray, tray } from './electron/tray';
+import { createTray } from './electron/tray';
 import { isDevelopment } from './utils/constants';
 import { dbBackupTask, saveSyncDb } from './utils/scheduler';
 import createWindow from './window';
@@ -81,7 +81,7 @@ app.on('quit', async () => {
 
 app.on('second-instance', async () => {
   if (mainWindow && !mainWindow?.isVisible()) {
-    displayWindowNearTray(tray, mainWindow);
+    displayWindowNearTray(mainWindow);
   }
 });
 

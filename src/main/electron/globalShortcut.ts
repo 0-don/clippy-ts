@@ -1,14 +1,13 @@
 /* eslint-disable import/no-cycle */
-import { globalShortcut, webContents } from 'electron';
 import { PrismaClient } from '@prisma/client';
+import { globalShortcut, webContents } from 'electron';
 import {
-  getWindow,
   ExtendedHotKey,
+  getWindow,
   HotkeyEvent,
   prismaClientConfig,
 } from '../utils/constants';
 import { displayWindowNearTray, hotkeyToAccelerator } from '../utils/util';
-import { tray } from './tray';
 
 const prisma = new PrismaClient(prismaClientConfig);
 
@@ -32,7 +31,7 @@ async function createGlobalShortcuts(allShortcuts = true) {
   // MAIN HOTKEY
   // WINDOW DISPLAY TOGGLE
   createGlobalShortcut(hotkeys, 'windowDisplayToggle', () =>
-    displayWindowNearTray(tray, mainWindow)
+    displayWindowNearTray(mainWindow)
   );
 
   // TOGGLE DEVELOPER TOOLS
