@@ -17,6 +17,7 @@ export const createTray = () => {
   );
 
   tray.setToolTip('Clippy');
+  tray.setContextMenu(null);
   if (process.platform === 'darwin') {
     app.dock.hide();
   } else {
