@@ -13,7 +13,6 @@ import { isDevelopment } from './utils/constants';
 import { dbBackupTask, saveSyncDb } from './utils/scheduler';
 import createWindow from './window';
 import { displayWindowNearTray, launchAtStartup } from './utils/util';
-import './electron/events';
 
 const isSingleInstance = app.requestSingleInstanceLock();
 if (!isSingleInstance) {
@@ -98,6 +97,8 @@ app.on('window-all-closed', async () => {
 app
   .whenReady()
   .then(async () => {
+    require('./electron/events');
+
     await createMainWindow();
     await launchAtStartup();
     app.on('activate', async () => {
