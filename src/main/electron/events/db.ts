@@ -39,7 +39,7 @@ ipcMain.handle('toggleSyncClipboardHistory', async () => {
     data: { synchronize: !synchronize },
   });
 
-  if (updateSettings && !fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
+  if (updateSettings.synchronize && !fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
     await syncDbLocationDialog();
   }
   await dbBackupTask();

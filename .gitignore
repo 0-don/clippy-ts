@@ -32,3 +32,4 @@ clippy.db
 
 *.node
 clippy.db-journal
+db.config

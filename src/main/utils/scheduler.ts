@@ -23,23 +23,22 @@ const jobId = 'backupJob';
 const scheduler = new ToadScheduler();
 
 const asyncDbBackupTask = async () => {
-  const { notification } = (await prisma.settings.findFirst({
-    where: { id: 1 },
-  })) as Prisma.SettingsCreateInput;
+  return prisma.settings
+    .findFirst({
+      where: { id: 1 },
+    })
+    .then((settings) => {
+      const backupLocation = fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8');
 
-  const backupLocation = fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf-8');
-
-  await prisma.$disconnect();
-  if (notification) {
-    new Notification({
-      title: 'Clippy Backup',
-      body: `${await localStorageHistory()} and got backed up.`,
-    }).show();
-  }
-
-  fs.copyFileSync(DATABASE_URL, backupLocation);
-
-  log('Sync Backup', dayjs().format('H:mm:ss'));
+      if (settings?.notification) {
+        new Notification({
+          title: 'Clippy Backup',
+          body: `Backing up...`,
+        }).show();
+      }
+      fs.copyFileSync(DATABASE_URL, backupLocation);
+      log('Sync Backup', dayjs().format('H:mm:ss'));
+    });
 };
 
 const removeDbBackupTask = async () => {
