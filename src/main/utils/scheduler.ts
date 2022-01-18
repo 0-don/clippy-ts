@@ -1,5 +1,3 @@
-/* eslint-disable no-empty */
-/* eslint-disable promise/always-return */
 import { log } from 'console';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -12,8 +10,6 @@ import {
   DATABASE_URL,
   prismaClientConfig,
 } from './constants';
-import { localStorageHistory } from './util';
-// import runPrismaCommand from './runPrismaCommand';
 
 dayjs.extend(customParseFormat);
 
@@ -38,6 +34,8 @@ const asyncDbBackupTask = async () => {
       }
       fs.copyFileSync(DATABASE_URL, backupLocation);
       log('Sync Backup', dayjs().format('H:mm:ss'));
+
+      return null;
     });
 };
 
@@ -65,8 +63,10 @@ export const dbBackupTask = async () => {
   })) as Prisma.SettingsCreateInput;
 
   if (synchronize && fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
-    const task = new AsyncTask('backupTask', asyncDbBackupTask, (err) =>
-      log(err)
+    const task = new AsyncTask(
+      'backupTask',
+      asyncDbBackupTask as unknown as () => Promise<void>,
+      (err) => log(err)
     );
     const job = new SimpleIntervalJob(
       { seconds: syncTime, runImmediately: true },
