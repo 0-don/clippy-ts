@@ -63,21 +63,25 @@ export const getWindow = (env: ENV) => {
 export const isDevelopment =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
+// images and stuff
 export const RESOURCES_PATH =
   process.env.NODE_ENV === 'production'
     ? path.join(process.resourcesPath, 'assets') // PROD
     : path.join(__dirname, '../../../assets'); // DEV
 
+// Database in userData folder saved from uninstall
 export const DATABASE_URL =
   process.env.NODE_ENV === 'production'
     ? path.join(app.getPath('userData'), 'clippy.db')
     : path.join(__dirname, '../prisma/clippy.db');
 
+// Database in the app folder
 export const DEFAULT_DATABASE_URL =
   process.env.NODE_ENV === 'production'
     ? path.join(process.resourcesPath, '.prisma/client/clippy.db') // PROD
     : path.join(__dirname, '../prisma/clippy.db'); // DEV
 
+// Sync Clipboard History Database Location file
 export const DEFAULT_DB_CONFIG_PATH =
   process.env.NODE_ENV === 'production'
     ? path.join(app.getPath('userData'), 'db.config') // PROD
