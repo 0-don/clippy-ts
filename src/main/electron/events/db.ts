@@ -2,6 +2,7 @@ import { ipcMain, webContents } from 'electron';
 import fs from 'fs';
 import { Prisma, PrismaClient } from '@prisma/client';
 import {
+  DATABASE_URL,
   DEFAULT_DB_CONFIG_PATH,
   prismaClientConfig,
 } from '../../utils/constants';
@@ -24,7 +25,7 @@ ipcMain.handle('getDatabaseInfo', async () => localStorageHistory());
 // CLEAR DATABASE
 ipcMain.handle('clearDatabase', async () => {
   await prisma.clipboard.deleteMany({ where: { star: false } });
-  await prisma.$disconnect();
+
   return localStorageHistory();
 });
 
@@ -53,6 +54,12 @@ ipcMain.handle('toggleSyncClipboardHistory', async () => {
     .forEach((webContent) =>
       webContent.send('refreshSettings', currentSettings)
     );
+
+  // copy last changes to sync location
+  if (fs.existsSync(DEFAULT_DB_CONFIG_PATH)) {
+    const syncLocation = fs.readFileSync(DEFAULT_DB_CONFIG_PATH, 'utf8');
+    fs.copyFileSync(DATABASE_URL, syncLocation);
+  }
 });
 
 // SAVE, LOAD OR OVERWRITE DB IN SPECIFIC PATH
