@@ -36,7 +36,10 @@ clipboard
       const clip = await prisma?.clipboard.create({
         data: { content, type },
       });
-      mainWindow.webContents.send('addClipboard', clip);
+      mainWindow.webContents.send('addClipboard', {
+        ...clip,
+        content: clip.content?.slice(0, 100),
+      });
     }
     addClipboard = true;
   })
@@ -84,28 +87,35 @@ ipcMain.handle(
       orderBy: cursor ? undefined : [{ id: 'desc' }],
     });
 
-    return cursor ? clipboards?.sort((a, b) => b.id - a.id) : clipboards;
+    const filteredClipboards = cursor
+      ? clipboards?.sort((a, b) => b.id - a.id)
+      : clipboards;
+
+    return filteredClipboards.map((c) =>
+      c.type === 'file' ? { ...c, content: c.content?.slice(0, 100) } : c
+    );
   }
 );
 
 // SWITCH CLIPBOARD
-ipcMain.handle(
-  'switchClipboard',
-  async (_, { type, blob, content }: Clipboard) => {
-    const mainWindow = getWindow('MAIN_WINDOW_ID');
-    log('Switch', dayjs().format('H:mm:ss'));
+ipcMain.handle('switchClipboard', async (_, { id }: Clipboard) => {
+  const mainWindow = getWindow('MAIN_WINDOW_ID');
+  log('Switch', dayjs().format('H:mm:ss'));
 
-    addClipboard = false;
-    if (type === 'file-image' && blob) {
-      const img = nativeImage.createFromBuffer(blob);
-      clipboard.writeImage(img);
-    } else if (content) {
-      clipboard.writeText(content);
-    }
-    if (mainWindow.isVisible()) mainWindow.hide();
-    return true;
+  const clip = await prisma.clipboard.findFirst({
+    where: { id },
+  });
+
+  addClipboard = false;
+  if (clip?.type === 'file-image' && clip?.blob) {
+    const img = nativeImage.createFromBuffer(clip.blob);
+    clipboard.writeImage(img);
+  } else if (clip?.content) {
+    clipboard.writeText(clip.content);
   }
-);
+  if (mainWindow.isVisible()) mainWindow.hide();
+  return true;
+});
 
 // DELETE CLIPBOARD
 ipcMain.handle('deleteClipboard', async (_, id: number) => {
