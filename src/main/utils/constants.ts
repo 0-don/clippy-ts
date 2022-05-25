@@ -17,6 +17,8 @@ export const hotKeyEvents = [
   'toggleDevTool',
 
   // external
+  'scrollToTop',
+
   'recentClipboards',
   'starredClipboards',
   'history',

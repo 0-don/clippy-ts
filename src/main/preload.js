@@ -3,6 +3,8 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 const validChannels = [
   // HotkeyEvent
+  'scrollToTop',
+
   'windowDisplayToggle',
   'recentClipboards',
   'starredClipboards',

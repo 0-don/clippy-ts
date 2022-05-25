@@ -130,23 +130,53 @@ const keys = [
     name: 'Toggle Dev Tools',
     icon: JSON.stringify(['fas', 'tools'] as IconProp),
   },
+  {
+    id: 11,
+    event: 'scrollToTop',
+    ctrl: false,
+    alt: false,
+    shift: false,
+    key: 'E',
+    status: true,
+    name: 'Scroll to Top',
+    icon: JSON.stringify(['fas', 'arrow-up'] as IconProp),
+  },
 ];
+
+// async function seed() {
+//   log('Start seeding ...', dayjs().format('H:mm:ss'));
+
+//   await prisma.settings.upsert({
+//     where: { id: settingsData.id },
+//     create: settingsData,
+//     update: settingsData,
+//   });
+
+//   for (const key of keys) {
+//     await prisma.hotkey.upsert({
+//       where: { id: key.id },
+//       create: key,
+//       update: key,
+//     });
+//   }
+// }
 
 async function seed() {
   log('Start seeding ...', dayjs().format('H:mm:ss'));
 
-  await prisma.settings.upsert({
+  const settings = await prisma.settings.findFirst({
     where: { id: settingsData.id },
-    create: settingsData,
-    update: settingsData,
   });
 
+  if (!settings) {
+    await prisma.settings.create({ data: settingsData });
+  }
+
   for (const key of keys) {
-    await prisma.hotkey.upsert({
-      where: { id: key.id },
-      create: key,
-      update: key,
-    });
+    const hotkey = await prisma.hotkey.findFirst({ where: { id: key.id } });
+    if (!hotkey) {
+      await prisma.hotkey.create({ data: key });
+    }
   }
 }
 

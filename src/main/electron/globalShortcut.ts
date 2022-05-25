@@ -44,6 +44,11 @@ async function createGlobalShortcuts(allShortcuts = true) {
   // IF ALL SHORTCUTS ENABLED && MAINWINDOW IS VISIBLE CREATE EVERYTHING
   if (allShortcuts && mainWindow.isVisible()) {
     // RECENT CLIPBOARDS
+    createGlobalShortcut(hotkeys, 'scrollToTop', (key) =>
+      mainWindow.webContents.send(key.event, key.name)
+    );
+
+    // RECENT CLIPBOARDS
     createGlobalShortcut(hotkeys, 'recentClipboards', (key) =>
       mainWindow.webContents.send(key.event, key.name)
     );

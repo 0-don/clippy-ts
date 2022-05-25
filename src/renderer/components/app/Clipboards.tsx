@@ -24,7 +24,7 @@ function Clipboards({ star, search }: ClipboardProps) {
   const [scrollToTop, setScrollToTop] = useState(false);
   const myRef = useRef<HTMLDivElement>(null);
   const { clipboards, setClipboards } = useAppStore();
-  const { globalHotkeyEvent } = useSettingsStore();
+  const { globalHotkeyEvent, hotkeys } = useSettingsStore();
 
   useEffect(() => {
     const switchClipboard = window.electron.on(
@@ -33,8 +33,14 @@ function Clipboards({ star, search }: ClipboardProps) {
         clipboards[index - 1] &&
         window.electron.switchClipboard(clipboards[index - 1])
     );
+
+    const scrollTop = window.electron.on('scrollToTop', () =>
+      myRef.current?.scrollTo(0, 0)
+    );
+
     return () => {
       switchClipboard();
+      scrollTop();
     };
   }, [clipboards]);
 
@@ -111,10 +117,17 @@ function Clipboards({ star, search }: ClipboardProps) {
           className="absolute right-4 bottom-5 bg-neutral-700 px-2 py-1 rounded-full hover:bg-gray-500"
           onClick={() => myRef.current?.scrollTo(0, 0)}
         >
-          <FontAwesomeIcon
-            className="dark:text-white text-white text-xl"
-            icon={['fas', 'arrow-up']}
-          />
+          <div className="relative">
+            <FontAwesomeIcon
+              className="dark:text-white text-white text-xl"
+              icon={['fas', 'arrow-up']}
+            />
+            {globalHotkeyEvent && (
+              <div className="absolute top-0 left-0 bg-zinc-600 px-1 text-[12px] rounded-sm -mt-3 -ml-3 font-semibold">
+                {hotkeys.find((key) => key.event === 'scrollToTop')?.key}
+              </div>
+            )}
+          </div>
         </button>
       )}
 

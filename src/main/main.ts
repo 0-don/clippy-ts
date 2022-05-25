@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 /*  eslint global-require: off */
+import './prisma/seed';
 import './utils/chdir';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
