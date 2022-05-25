@@ -4,10 +4,10 @@ import { Prisma, PrismaClient } from '@prisma/client';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import dayjs from 'dayjs';
 import { log } from 'console';
-import path from 'path';
+import { DATABASE_URL } from '../utils/constants';
 
 const prisma = new PrismaClient({
-  datasources: { db: { url: `file:${path.join(__dirname, '/clippy.db')}` } },
+  datasources: { db: { url: `file:${DATABASE_URL}` } },
 });
 
 const settingsData: Prisma.SettingsCreateInput = {
