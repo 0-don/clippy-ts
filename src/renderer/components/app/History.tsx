@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useAppStore from '../../store/AppStore';
 import Clipboards from './Clipboards';
@@ -10,6 +10,8 @@ const History: React.FC = () => {
   const [showImages, setShowImages] = useState(false);
   const { setGlobalHotkeyEvent } = useSettingsStore();
   const setClipboards = useAppStore((state) => state.setClipboards);
+
+  const autoFocus = useCallback((el) => (el ? el.focus() : null), []);
 
   useEffect(() => {
     const getClipboards = async () =>
@@ -45,6 +47,7 @@ const History: React.FC = () => {
               await window.electron.disableHotkeys();
             }}
             value={search}
+            ref={autoFocus}
             onChange={(e) => {
               setShowImages(false);
               setSearch(e.target.value);

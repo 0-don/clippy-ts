@@ -122,7 +122,7 @@ const keys = [
   {
     id: 10,
     event: 'toggleDevTool',
-    ctrl: false,
+    ctrl: true,
     alt: false,
     shift: false,
     key: 'F11',

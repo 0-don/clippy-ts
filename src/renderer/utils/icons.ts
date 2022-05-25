@@ -25,6 +25,7 @@ import {
   faCut,
   faKey,
   faTools,
+  faArrowUp,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faClock,
@@ -35,6 +36,7 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 
 library.add(
+  faArrowUp,
   faTools,
   faKey,
   faMoon,

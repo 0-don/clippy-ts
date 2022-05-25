@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Clipboard } from '@prisma/client';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,6 +21,7 @@ const defaultProps = {
 };
 
 function Clipboards({ star, search }: ClipboardProps) {
+  const [scrollToTop, setScrollToTop] = useState(false);
   const myRef = useRef<HTMLDivElement>(null);
   const { clipboards, setClipboards } = useAppStore();
   const { globalHotkeyEvent } = useSettingsStore();
@@ -42,6 +43,12 @@ function Clipboards({ star, search }: ClipboardProps) {
       myRef.current &&
       myRef.current.scrollHeight - myRef.current.scrollTop ===
         myRef.current.clientHeight;
+
+    if (myRef.current?.scrollTop !== 0) {
+      setScrollToTop(true);
+    } else {
+      setScrollToTop(false);
+    }
 
     if (bottom) {
       const cursor = clipboards[clipboards.length - 1].id;
@@ -98,6 +105,19 @@ function Clipboards({ star, search }: ClipboardProps) {
 
   return (
     <div ref={myRef} onScroll={onScroll} className="overflow-auto h-full pb-5">
+      {scrollToTop && (
+        <button
+          type="button"
+          className="absolute right-4 bottom-5 bg-neutral-700 px-2 py-1 rounded-full hover:bg-gray-500"
+          onClick={() => myRef.current?.scrollTo(0, 0)}
+        >
+          <FontAwesomeIcon
+            className="dark:text-white text-white text-xl"
+            icon={['fas', 'arrow-up']}
+          />
+        </button>
+      )}
+
       {clipboards?.map((clipboard, index) => {
         const { content, type, id, createdDate, blob, width, height, size } =
           clipboard;
