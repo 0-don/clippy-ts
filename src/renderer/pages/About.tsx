@@ -5,7 +5,8 @@ const About = () => {
   const [version, setVersion] = useState<string | number>();
 
   useEffect(() => {
-    const getVersion = async () => setVersion(await window.electron.version());
+    const getVersion = async () =>
+      setVersion(await window.electron.ipcRenderer.version());
     getVersion();
   }, [setVersion]);
 

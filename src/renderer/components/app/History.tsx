@@ -11,11 +11,14 @@ const History: React.FC = () => {
   const { setGlobalHotkeyEvent } = useSettingsStore();
   const setClipboards = useAppStore((state) => state.setClipboards);
 
-  const autoFocus = useCallback((el) => (el ? el.focus() : null), []);
+  const autoFocus = useCallback(
+    (el: HTMLInputElement) => (el ? el.focus() : null),
+    []
+  );
 
   useEffect(() => {
     const getClipboards = async () =>
-      setClipboards(await window.electron.getClipboards({}));
+      setClipboards(await window.electron.ipcRenderer.getClipboards({}));
     getClipboards();
   }, [setClipboards]);
 
@@ -23,7 +26,7 @@ const History: React.FC = () => {
     const delayDebounceFn = setTimeout(
       async () =>
         setClipboards(
-          await window.electron.getClipboards({
+          await window.electron.ipcRenderer.getClipboards({
             search: showImages ? undefined : search,
             showImages,
           })
@@ -44,7 +47,7 @@ const History: React.FC = () => {
             type="text"
             onFocus={async () => {
               setGlobalHotkeyEvent(false);
-              await window.electron.disableHotkeys();
+              await window.electron.ipcRenderer.disableHotkeys();
             }}
             value={search}
             ref={autoFocus}

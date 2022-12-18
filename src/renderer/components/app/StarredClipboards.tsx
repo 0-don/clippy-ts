@@ -7,7 +7,9 @@ const StarredClipboards: React.FC = () => {
 
   useEffect(() => {
     const getClipboards = async () =>
-      setClipboards(await window.electron.getClipboards({ star: true }));
+      setClipboards(
+        await window.electron.ipcRenderer.getClipboards({ star: true })
+      );
     getClipboards();
   }, [setClipboards]);
 

@@ -16,22 +16,22 @@ const Index = () => {
   useEffect(() => {
     initSettings();
 
-    const refreshSettings = window.electron.on(
+    const refreshSettings = window.electron.ipcRenderer.on(
       'refreshSettings',
-      (setting: Prisma.SettingsCreateInput) => {
-        updateSettings(setting, false);
+      (setting) => {
+        updateSettings(setting as Prisma.SettingsCreateInput, false);
         initSettings();
       }
     );
 
-    const refreshHotkeys = window.electron.on(
+    const refreshHotkeys = window.electron.ipcRenderer.on(
       'refreshHotkeys',
-      (hotkey: ExtendedHotKey) => updateHotkey(hotkey, false)
+      (hotkey) => updateHotkey(hotkey as ExtendedHotKey, false)
     );
 
     return () => {
-      refreshSettings();
-      refreshHotkeys();
+      if (refreshSettings) refreshSettings();
+      if (refreshHotkeys) refreshHotkeys();
     };
   }, [updateSettings, updateHotkey, setSidebarIcon, initSettings]);
 

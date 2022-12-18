@@ -74,7 +74,8 @@ const useSettingsStore = create<Settings>(
 
         // UPDATE SETTINGS
         updateSettings: async (settings, upload = true) => {
-          if (upload) await window.electron.updateSettings(settings);
+          if (upload)
+            await window.electron.ipcRenderer.updateSettings(settings);
           set((state) => {
             state.settings = settings;
           });
@@ -82,7 +83,7 @@ const useSettingsStore = create<Settings>(
 
         // UPDATE HOTKEYS
         updateHotkey: async (hotkey, upload = true) => {
-          if (upload) await window.electron.updateHotkey(hotkey);
+          if (upload) await window.electron.ipcRenderer.updateHotkey(hotkey);
           set((state) => {
             state.hotkeys = state.hotkeys.map((key) =>
               key.id === hotkey.id ? hotkey : key
@@ -92,8 +93,8 @@ const useSettingsStore = create<Settings>(
 
         // INIT SETTINGS
         initSettings: async () => {
-          const settings = await window.electron.getSettings();
-          const hotkeys = await window.electron.getHotkeys();
+          const settings = await window.electron.ipcRenderer.getSettings();
+          const hotkeys = await window.electron.ipcRenderer.getHotkeys();
 
           set((state) => {
             state.settings = settings;

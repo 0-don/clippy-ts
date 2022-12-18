@@ -6,7 +6,7 @@ const History: React.FC = () => {
 
   useEffect(() => {
     const getDatabaseInfo = async () =>
-      setText(await window.electron.getDatabaseInfo());
+      setText(await window.electron.ipcRenderer.getDatabaseInfo());
     getDatabaseInfo();
   }, [text]);
 
@@ -17,7 +17,7 @@ const History: React.FC = () => {
           <FontAwesomeIcon
             icon={['far', 'hdd']}
             onClick={async () =>
-              setText(await window.electron.getDatabaseInfo())
+              setText(await window.electron.ipcRenderer.getDatabaseInfo())
             }
           />
           <h2 className="font-semibold">Local Storage</h2>
@@ -31,7 +31,9 @@ const History: React.FC = () => {
       <div className="pt-5 flex w-full justify-end">
         <button
           type="button"
-          onClick={async () => setText(await window.electron.clearDatabase())}
+          onClick={async () =>
+            setText(await window.electron.ipcRenderer.clearDatabase())
+          }
           className="bg-zinc-600 hover:bg-zinc-700 text-white font-bold py-2 px-4 rounded inline-flex items-center space-x-2 text-sm"
         >
           <FontAwesomeIcon icon={['fas', 'trash-alt']} />

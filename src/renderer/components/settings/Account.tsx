@@ -11,7 +11,7 @@ const Account: React.FC = () => {
 
   useEffect(() => {
     const getUrl = async () => {
-      const res = await window.electron.getDatbasePath();
+      const res = await window.electron.ipcRenderer.getDatbasePath();
       if (res) setUrl(res);
     };
     getUrl();
@@ -29,7 +29,7 @@ const Account: React.FC = () => {
             <SwitchField
               checked={settings?.synchronize}
               onChange={async () => {
-                await window.electron.toggleSyncClipboardHistory();
+                await window.electron.ipcRenderer.toggleSyncClipboardHistory();
               }}
             />
           </div>
@@ -68,8 +68,8 @@ const Account: React.FC = () => {
               type="button"
               className="relative w-full group cursor-pointer"
               onClick={async () => {
-                const res = await window.electron.selectDatabasePath();
-                if (res) setUrl(res);
+                const res = await window.electron.ipcRenderer.getDatbasePath();
+                if (res) setUrl(res as string);
               }}
             >
               <div

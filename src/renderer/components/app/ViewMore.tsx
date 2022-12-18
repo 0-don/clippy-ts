@@ -10,28 +10,30 @@ const ViewMore: React.FC = () => {
     useSettingsStore();
 
   useEffect(() => {
-    const syncClipboardHistory = window.electron.on(
+    const syncClipboardHistory = window.electron.ipcRenderer.on(
       'syncClipboardHistory',
       async () => {
-        await window.electron.toggleSyncClipboardHistory();
+        await window.electron.ipcRenderer.toggleSyncClipboardHistory();
       }
     );
 
-    const preferences = window.electron.on('preferences', () =>
-      window.electron.createSettingsWindow()
+    const preferences = window.electron.ipcRenderer.on('preferences', () =>
+      window.electron.ipcRenderer.createSettingsWindow()
     );
 
-    const about = window.electron.on('about', () =>
-      window.electron.createAboutWindow()
+    const about = window.electron.ipcRenderer.on('about', () =>
+      window.electron.ipcRenderer.createAboutWindow()
     );
 
-    const exit = window.electron.on('exit', () => window.electron.exit());
+    const exit = window.electron.ipcRenderer.on('exit', () =>
+      window.electron.ipcRenderer.exit()
+    );
 
     return () => {
-      syncClipboardHistory();
-      preferences();
-      about();
-      exit();
+      if (syncClipboardHistory) syncClipboardHistory();
+      if (preferences) preferences();
+      if (about) about();
+      if (exit) exit();
     };
   }, [updateSettings, settings]);
 
@@ -72,19 +74,21 @@ const ViewMore: React.FC = () => {
     <>
       {/* Sync Clipboard History  */}
       {createButton('Sync Clipboard History', async () => {
-        await window.electron.toggleSyncClipboardHistory();
+        await window.electron.ipcRenderer.toggleSyncClipboardHistory();
       })}
 
       {/* Preferences */}
       {createButton('Preferences', () =>
-        window.electron.createSettingsWindow()
+        window.electron.ipcRenderer.createSettingsWindow()
       )}
 
       {/* About */}
-      {createButton('About', () => window.electron.createAboutWindow())}
+      {createButton('About', () =>
+        window.electron.ipcRenderer.createAboutWindow()
+      )}
 
       {/* Exit */}
-      {createButton('Exit', () => window.electron.exit())}
+      {createButton('Exit', () => window.electron.ipcRenderer.exit())}
     </>
   );
 };

@@ -17,40 +17,40 @@ const App = () => {
   const sIcon = sidebarIcons.find((icon) => icon.current);
 
   useEffect(() => {
-    const setRecentClipboards = window.electron.on(
+    const setRecentClipboards = window.electron.ipcRenderer.on(
       'recentClipboards',
-      (sidebarIconName: SidebarIconName) => setSidebarIcon(sidebarIconName)
+      (sidebarIconName) => setSidebarIcon(sidebarIconName as SidebarIconName)
     );
 
-    const setStarredClipboards = window.electron.on(
+    const setStarredClipboards = window.electron.ipcRenderer.on(
       'starredClipboards',
-      (sidebarIconName: SidebarIconName) => setSidebarIcon(sidebarIconName)
+      (sidebarIconName) => setSidebarIcon(sidebarIconName as SidebarIconName)
     );
 
-    const setHistory = window.electron.on(
+    const setHistory = window.electron.ipcRenderer.on(
       'history',
-      (sidebarIconName: SidebarIconName) => setSidebarIcon(sidebarIconName)
+      (sidebarIconName) => setSidebarIcon(sidebarIconName as SidebarIconName)
     );
 
-    const setViewMore = window.electron.on(
+    const setViewMore = window.electron.ipcRenderer.on(
       'viewMore',
-      (sidebarIconName: SidebarIconName) => setSidebarIcon(sidebarIconName)
+      (sidebarIconName) => setSidebarIcon(sidebarIconName as SidebarIconName)
     );
 
-    const enableHotkey = window.electron.on(
+    const enableHotkey = window.electron.ipcRenderer.on(
       'enableHotkey',
-      (status: boolean) => {
+      (status) => {
         setSidebarIcon('Recent Clipboards');
-        setGlobalHotkeyEvent(status);
+        setGlobalHotkeyEvent(status as boolean);
       }
     );
 
     return () => {
-      setRecentClipboards();
-      setStarredClipboards();
-      setHistory();
-      setViewMore();
-      enableHotkey();
+      if (setRecentClipboards) setRecentClipboards();
+      if (setStarredClipboards) setStarredClipboards();
+      if (setHistory) setHistory();
+      if (setViewMore) setViewMore();
+      if (enableHotkey) enableHotkey();
     };
   }, [setSidebarIcon, setGlobalHotkeyEvent]);
 
@@ -59,7 +59,7 @@ const App = () => {
       globalHotkeyEvent &&
       setTimeout(async () => {
         setGlobalHotkeyEvent(false);
-        await window.electron.disableHotkeys();
+        await window.electron.ipcRenderer.disableHotkeys();
       }, 5000);
 
     return () => {

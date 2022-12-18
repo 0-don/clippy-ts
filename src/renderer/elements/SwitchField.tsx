@@ -19,7 +19,7 @@ const SwitchField: React.FC<SwitchProps> = ({ checked, onChange }) => {
     <Switch
       checked={checked ?? false}
       as="div"
-      onChange={(check) => onChange && onChange(check)}
+      onChange={(check: boolean) => onChange && onChange(check)}
       className="mx-1 flex-shrink-0 group relative rounded-full inline-flex items-center justify-center h-3 w-9 cursor-pointer z-10"
     >
       {checked && (

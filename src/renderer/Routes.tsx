@@ -7,7 +7,7 @@ const Routing = () => {
   const [page, setPage] = useState<string>();
 
   useEffect(() => {
-    setPage(window.electron.page);
+    setPage(window.electron.ipcRenderer.page);
   }, [setPage]);
 
   return (

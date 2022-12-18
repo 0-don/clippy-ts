@@ -9,17 +9,17 @@ const RecentClipboards = () => {
 
   useEffect(() => {
     const getClipboards = async () =>
-      setClipboards(await window.electron.getClipboards({}));
+      setClipboards(await window.electron.ipcRenderer.getClipboards({}));
     getClipboards();
   }, [setClipboards]);
 
   useEffect(() => {
-    const addClipboard = window.electron.on(
+    const addClipboard = window.electron.ipcRenderer.on(
       'addClipboard',
-      (clipboard: Clipboard) => setClipboards([clipboard, ...clipboards])
+      (clipboard) => setClipboards([clipboard as Clipboard, ...clipboards])
     );
     return () => {
-      addClipboard();
+      if (addClipboard) addClipboard();
     };
   }, [clipboards, setClipboards]);
 

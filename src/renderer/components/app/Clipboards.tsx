@@ -27,20 +27,22 @@ function Clipboards({ star, search }: ClipboardProps) {
   const { globalHotkeyEvent, hotkeys } = useSettingsStore();
 
   useEffect(() => {
-    const switchClipboard = window.electron.on(
+    const switchClipboard = window.electron.ipcRenderer.on(
       'clipboardSwitch',
-      (index: number) =>
-        clipboards[index - 1] &&
-        window.electron.switchClipboard(clipboards[index - 1])
+      (index) =>
+        clipboards[(index as number) - 1] &&
+        window.electron.ipcRenderer.switchClipboard(
+          clipboards[(index as number) - 1]
+        )
     );
 
-    const scrollTop = window.electron.on('scrollToTop', () =>
+    const scrollTop = window.electron.ipcRenderer.on('scrollToTop', () =>
       myRef.current?.scrollTo(0, 0)
     );
 
     return () => {
-      switchClipboard();
-      scrollTop();
+      if (switchClipboard) switchClipboard();
+      if (scrollTop) scrollTop();
     };
   }, [clipboards]);
 
@@ -58,7 +60,7 @@ function Clipboards({ star, search }: ClipboardProps) {
 
     if (bottom) {
       const cursor = clipboards[clipboards.length - 1].id;
-      const newClipboards = await window.electron.getClipboards({
+      const newClipboards = await window.electron.ipcRenderer.getClipboards({
         cursor,
         star,
         search,
@@ -72,9 +74,11 @@ function Clipboards({ star, search }: ClipboardProps) {
       <FontAwesomeIcon
         onClick={async (e) => {
           e.stopPropagation();
-          const starState = await window.electron.starClipboard(id);
+          const starState = await window.electron.ipcRenderer.starClipboard(id);
           setClipboards(
-            clipboards.map((o) => (o.id === id ? { ...o, star: starState } : o))
+            clipboards.map((o) =>
+              o.id === id ? { ...o, star: starState as boolean } : o
+            )
           );
         }}
         className={`${
@@ -87,7 +91,7 @@ function Clipboards({ star, search }: ClipboardProps) {
       <FontAwesomeIcon
         onClick={async (e) => {
           e.stopPropagation();
-          if (await window.electron.deleteClipboard(id)) {
+          if (await window.electron.ipcRenderer.deleteClipboard(id)) {
             setClipboards(clipboards.filter((o) => o.id !== id));
           }
         }}
@@ -141,7 +145,7 @@ function Clipboards({ star, search }: ClipboardProps) {
             className="px-3 group hover:bg-neutral-700 cursor-pointer w-full"
             onClick={(e) => {
               e.stopPropagation();
-              window.electron.switchClipboard(clipboard);
+              window.electron.ipcRenderer.switchClipboard(clipboard);
             }}
           >
             <div className="flex py-3 justify-between" key={id}>

@@ -2,8 +2,6 @@
 /*  eslint global-require: off */
 import './prisma/seed';
 import './utils/chdir';
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { log } from 'console';
 import { autoUpdater } from 'electron-updater';
