@@ -9,7 +9,6 @@ jobs:
   publish:
     # To enable auto publishing to github, update your electron publisher
     # config in package.json > "build" and remove the conditional below
-    # if: ${{ github.repository_owner == 'electron-react-boilerplate' }}
 
     runs-on: ${{ matrix.os }}
 
@@ -25,7 +24,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
-          cache: 'npm'
+          cache: npm
 
       - name: Install dependencies
         run: |
@@ -34,16 +33,13 @@ jobs:
       - name: Publish releases
         env:
           # These values are used for auto updates signing
-          # APPLE_ID: ${{ secrets.APPLE_ID }}
-          # APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
-          # CSC_LINK: ${{ secrets.CSC_LINK }}
-          # CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
+          CSC_LINK: ${{ secrets.CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
           # This is used for uploading release assets to github
-          # npm exec electron-builder -- --publish always --win
-          # npm exec electron-builder -- --publish always  --linux
-          # npm exec electron-builder -- --publish always  --mac
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npm run postinstall
           npm run build
-          npm exec electron-builder -- --publish always --mac --linux --win
+          npm exec electron-builder -- --publish always --win --mac --linux

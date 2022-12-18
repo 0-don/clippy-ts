@@ -7,7 +7,7 @@ import webpackPaths from './webpack.paths';
 import { dependencies as externals } from '../../release/app/package.json';
 
 const configuration: webpack.Configuration = {
-  externals: [...Object.keys(externals || {}), '_http_common', 'encoding', ],
+  externals: [...Object.keys(externals || {}), '_http_common', 'encoding'],
   target: 'electron',
   stats: 'errors-only',
 
