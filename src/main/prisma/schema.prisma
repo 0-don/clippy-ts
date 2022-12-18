@@ -3,7 +3,7 @@
 
 generator client {
   provider      = "prisma-client-js"
-  engineType    = "library"
+  engineType    = "binary"
   binaryTargets = ["darwin", "windows", "debian-openssl-1.1.x"]
 }
 
