@@ -24,7 +24,7 @@ const validChannels = [
 
 export type Channel = typeof validChannels[number];
 
-contextBridge.exposeInMainWorld('electron', {
+const electronHandler = {
   ipcRenderer: {
     on(channel: Channel, func: (...args: unknown[]) => void) {
       if (validChannels.includes(channel)) {
@@ -80,4 +80,8 @@ contextBridge.exposeInMainWorld('electron', {
     toggleSyncClipboardHistory: (arg: unknown) =>
       ipcRenderer.invoke('toggleSyncClipboardHistory', arg),
   },
-});
+};
+
+contextBridge.exposeInMainWorld('electron', electronHandler);
+
+export type ElectronHandler = typeof electronHandler;
