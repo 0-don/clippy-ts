@@ -59,7 +59,7 @@ const App = () => {
       globalHotkeyEvent &&
       setTimeout(async () => {
         setGlobalHotkeyEvent(false);
-        await window.electron.ipcRenderer.disableHotkeys(undefined);
+        await window.electron.ipcRenderer.disableHotkeys();
       }, 5000);
 
     return () => {

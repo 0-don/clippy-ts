@@ -45,9 +45,9 @@ const electronHandler = {
       .find((arg) => arg.includes('PAGE='))
       ?.replace('PAGE=', ''),
     // UTIL
-    exit: (arg: unknown) => ipcRenderer.invoke('exit', arg),
-    disableHotkeys: (arg: unknown) => ipcRenderer.invoke('disableHotkeys', arg),
-    version: (arg: unknown) => ipcRenderer.invoke('version', arg),
+    exit: () => ipcRenderer.invoke('exit'),
+    disableHotkeys: () => ipcRenderer.invoke('disableHotkeys'),
+    version: () => ipcRenderer.invoke('version'),
 
     // CLIPBOARD
     getClipboards: (arg: unknown) => ipcRenderer.invoke('getClipboards', arg),
@@ -58,27 +58,24 @@ const electronHandler = {
       ipcRenderer.invoke('switchClipboard', arg),
 
     // WINDOW
-    createAboutWindow: (arg: unknown) =>
-      ipcRenderer.invoke('createAboutWindow', arg),
-    createSettingsWindow: (arg: unknown) =>
-      ipcRenderer.invoke('createSettingsWindow', arg),
+    createAboutWindow: () => ipcRenderer.invoke('createAboutWindow'),
+    createSettingsWindow: () => ipcRenderer.invoke('createSettingsWindow'),
 
     // SETTINGS
-    getSettings: (arg: unknown) => ipcRenderer.invoke('getSettings', arg),
+    getSettings: () => ipcRenderer.invoke('getSettings'),
     updateSettings: (arg: unknown) => ipcRenderer.invoke('updateSettings', arg),
     getHotkey: (arg: unknown) => ipcRenderer.invoke('getHotkey', arg),
-    getHotkeys: (arg: unknown) => ipcRenderer.invoke('getHotkeys', arg),
+    getHotkeys: () => ipcRenderer.invoke('getHotkeys'),
     updateHotkey: (arg: unknown) => ipcRenderer.invoke('updateHotkey', arg),
 
     // DATABASE
-    getDatbasePath: (arg: unknown) => ipcRenderer.invoke('getDatbasePath', arg),
+    getDatbasePath: () => ipcRenderer.invoke('getDatbasePath'),
     selectDatabasePath: (arg: unknown) =>
       ipcRenderer.invoke('selectDatabasePath', arg),
-    getDatabaseInfo: (arg: unknown) =>
-      ipcRenderer.invoke('getDatabaseInfo', arg),
-    clearDatabase: (arg: unknown) => ipcRenderer.invoke('clearDatabase', arg),
-    toggleSyncClipboardHistory: (arg: unknown) =>
-      ipcRenderer.invoke('toggleSyncClipboardHistory', arg),
+    getDatabaseInfo: () => ipcRenderer.invoke('getDatabaseInfo'),
+    clearDatabase: () => ipcRenderer.invoke('clearDatabase'),
+    toggleSyncClipboardHistory: () =>
+      ipcRenderer.invoke('toggleSyncClipboardHistory'),
   },
 };
 
