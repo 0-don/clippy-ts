@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Prisma } from '@prisma/client';
 import { useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { ExtendedHotKey } from '../main/utils/constants';
 import './index.css';
 import Routing from './Routes';
@@ -40,6 +41,8 @@ const Index = () => {
   return <Routing />;
 };
 
-ReactDOM.render(<Index />, document.getElementById('root'));
+const container = document.getElementById('root')!;
+const root = createRoot(container);
+root.render(<Index />);
 
 export default Index;
