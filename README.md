@@ -1,7 +1,8 @@
-
+  <h1 align="center"> <a href="https://github.com/Don-Cryptus/clippy">New Version HERE</a></h1>
 
 <p align="center">
-  <h1> <a href="https://github.com/Don-Cryptus/clippy">New Version HERE</a></h1>
+
+
   <a href="https://github.com/Don-Cryptus/clippy-ts">
     <img src="assets/clippy.png" alt="Logo" width=400 />
   </a>
