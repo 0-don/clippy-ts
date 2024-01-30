@@ -1,9 +1,9 @@
-  <h1 align="center"> <a href="https://github.com/Don-Cryptus/clippy">New Version HERE</a></h1>
+  <h1 align="center"> <a href="https://github.com/0-don/clippy">New Version HERE</a></h1>
 
 <p align="center">
 
 
-  <a href="https://github.com/Don-Cryptus/clippy-ts">
+  <a href="https://github.com/0-don/clippy-ts">
     <img src="assets/clippy.png" alt="Logo" width=400 />
   </a>
 
@@ -11,11 +11,11 @@
     <br />
     Clipboard Manager made with Electron, React & Prisma......
     <br />
-    <a href="https://github.com/Don-Cryptus/clippy/releases/latest">Try it out</a>
+    <a href="https://github.com/0-don/clippy/releases/latest">Try it out</a>
     ·
-    <a href="https://github.com/Don-Cryptus/clippy/issues">Report Bug</a>
+    <a href="https://github.com/0-don/clippy/issues">Report Bug</a>
     ·
-    <a href="https://github.com/Don-Cryptus/clippy/issues">Request Feature</a>
+    <a href="https://github.com/0-don/clippy/issues">Request Feature</a>
     <br />
   </p>
   <p align="center">

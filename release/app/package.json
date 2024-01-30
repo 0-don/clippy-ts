@@ -5,7 +5,7 @@
   "author": {
     "name": "Don Crypus",
     "email": "don.cryptus@gmail.com",
-    "url": "https://github.com/Don-Cryptus/clippy"
+    "url": "https://github.com/0-don/clippy"
   },
   "main": "./dist/main/main.js",
   "scripts": {

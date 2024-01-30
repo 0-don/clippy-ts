@@ -1,25 +1,25 @@
 {
   "name": "clippy",
   "description": "Clipboard Manager",
-  "homepage": "https://github.com/Don-Cryptus/clippy",
+  "homepage": "https://github.com/0-don/clippy",
   "bugs": {
-    "url": "https://github.com/Don-Cryptus/clippy/issues"
+    "url": "https://github.com/0-don/clippy/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com:Don-Cryptus/clippy.git"
+    "url": "git+https://github.com:0-don/clippy.git"
   },
   "license": "MIT",
   "author": {
     "name": "Clippy",
     "email": "don.cryptus@gmail.com",
-    "url": "https://github.com/Don-Cryptus/clippy"
+    "url": "https://github.com/0-don/clippy"
   },
   "contributors": [
     {
       "name": "Don Cryptus",
       "email": "don.cryptus@gmail.com",
-      "url": "https://github.com/Don-Cryptus/clippy"
+      "url": "https://github.com/0-don/clippy"
     }
   ],
   "main": "./src/main/main.ts",
@@ -288,7 +288,7 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "Don-Cryptus",
+      "owner": "0-don",
       "repo": "clippy"
     }
   },
